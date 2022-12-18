@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateFragment2">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/numRepsTitle"
+                style="@style/workoutSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Number of Reps"
+                android:textColor="@color/AppBlue"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/createRepsTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minWidth="60dp"
+                android:text="10"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="50sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/addRepsBtn"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/removeRepsBtn"
+                app:layout_constraintTop_toBottomOf="@+id/numRepsTitle" />
+
+            <ImageButton
+                android:id="@+id/addRepsBtn"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:backgroundTint="@color/transparent"
+                android:contentDescription="Add Sets"
+                android:padding="7dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_addbtn"
+                app:layout_constraintBottom_toBottomOf="@+id/createRepsTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/createRepsTxt"
+                app:layout_constraintTop_toTopOf="@+id/createRepsTxt"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <ImageButton
+                android:id="@+id/removeRepsBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/transparent"
+                android:contentDescription="Remove Sets"
+                android:padding="7dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_removebtn"
+                app:layout_constraintBottom_toBottomOf="@+id/createRepsTxt"
+                app:layout_constraintEnd_toStartOf="@+id/createRepsTxt"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/createRepsTxt"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <TextView
+                android:id="@+id/repsIntervalTitle"
+                style="@style/workoutSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Reps Interval"
+                android:textColor="@color/AppBlue"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/createRepsTxt"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/createIntervalTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minWidth="75dp"
+                android:text="1.5"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="50sp"
+                app:layout_constraintEnd_toStartOf="@+id/addIntervalBtn"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/removeIntervalBtn"
+                app:layout_constraintTop_toBottomOf="@+id/repsIntervalTitle" />
+
+            <ImageButton
+                android:id="@+id/addIntervalBtn"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/transparent"
+                android:contentDescription="Add Sets"
+                android:padding="7dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_addbtn"
+                app:layout_constraintBottom_toBottomOf="@+id/createIntervalTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/createIntervalTxt"
+                app:layout_constraintTop_toTopOf="@+id/createIntervalTxt"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <ImageButton
+                android:id="@+id/removeIntervalBtn"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/transparent"
+                android:contentDescription="Remove Sets"
+                android:padding="7dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_removebtn"
+                app:layout_constraintBottom_toBottomOf="@+id/createIntervalTxt"
+                app:layout_constraintEnd_toStartOf="@+id/createIntervalTxt"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/createIntervalTxt" />
+
+            <TextView
+                android:id="@+id/secondsIntervalTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seconds"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/createIntervalTxt" />
+
+            <TextView
+                android:id="@+id/workTimeTitle"
+                style="@style/workoutSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Work Time"
+                android:textColor="@color/AppBlue"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/secondsIntervalTxt"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <NumberPicker
+                android:id="@+id/workMinutesCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@+id/dotsWorkTime"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/workTimeTitle" />
+
+            <TextView
+                android:id="@+id/dotsWorkTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text=":"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/workMinutesCreate"
+                app:layout_constraintEnd_toStartOf="@+id/workSecondsCreate"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/workMinutesCreate"
+                app:layout_constraintTop_toTopOf="@+id/workMinutesCreate" />
+
+            <NumberPicker
+                android:id="@+id/workSecondsCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/workMinutesCreate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/dotsWorkTime"
+                app:layout_constraintTop_toTopOf="@+id/workMinutesCreate" />
+
+            <TextView
+                android:id="@+id/restTimeTitle"
+                style="@style/workoutSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Rest Time"
+                android:textColor="@color/AppBlue"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/workMinutesCreate"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <NumberPicker
+                android:id="@+id/restMinutesCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                app:layout_constraintEnd_toStartOf="@+id/textView21"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/restTimeTitle" />
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text=":"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toBottomOf="@+id/restMinutesCreate"
+                app:layout_constraintEnd_toStartOf="@+id/restSecondsCreate"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/restMinutesCreate"
+                app:layout_constraintTop_toTopOf="@+id/restMinutesCreate" />
+
+            <NumberPicker
+                android:id="@+id/restSecondsCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView21"
+                app:layout_constraintTop_toBottomOf="@+id/restTimeTitle" />
+
+            <Button
+                android:id="@+id/createNext2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/AppBlue"
+                android:text="NEXT"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/restMinutesCreate" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</FrameLayout>

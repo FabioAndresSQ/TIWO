@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1945" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/drawable/header.xml" value="0.176" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/drawable/ic_addbtn.xml" value="0.176" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/drawable/ic_header_line.xml" value="0.176" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1945" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/drawable/rounded_corner.xml" value="0.1945" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/drawable/splash_screen.xml" value="0.176" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/layout/activity_create.xml" value="0.1503623188405797" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/layout/activity_info.xml" value="0.1503623188405797" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/layout/activity_main.xml" value="0.20675105485232068" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/layout/activity_quick.xml" value="0.1503623188405797" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/layout/activity_timer.xml" value="0.1503623188405797" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/layout/app_action_bar.xml" value="0.1503623188405797" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/layout/create_app_bar.xml" value="0.16621376811594202" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/layout/fragment_ads.xml" value="0.1503623188405797" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/layout/fragment_create1.xml" value="0.18" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/layout/fragment_create2.xml" value="0.16621376811594202" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/layout/fragment_create3.xml" value="0.16621376811594202" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/layout/item_view.xml" value="0.1503623188405797" />
+        <entry key="..\:/Users/Fabio Andres/AndroidStudioProjects/TIWO/app/src/main/res/layout/quick_action_bar.xml" value="0.2384428223844282" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

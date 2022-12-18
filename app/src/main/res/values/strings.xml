@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">TIWO</string>
+
+    <!-- Strings Used on Home Screen -->
+    <string name="createBtnDescription">Create new timers</string>
+    <string name="backToExitApp">Press Back Again to Exit</string>
+
+    <!-- Strings Used on Details Screen -->
+    <string name="workingReps">Reps  </string>
+    //Also used on Timer
+    <string name="workingTime">Work  </string>
+    <string name="infoWorkTimeTittle">Work Time</string>
+    <string name="infoWorkRepsTittle">Reps Interval</string>
+
+    <!-- Strings Used on Timer Screen -->
+    <string name="starting">Starting in…</string>
+    <string name="backToExitTimer">Press Back Again to Exit</string>
+    <string name="doubleTapPause">Double Tap Pause/UnPause</string>
+    <string name="setsTimer">SETS LEFT</string>
+    <string name="restTimer">Rest:</string>
+    <string name="workTimer">Work:</string>
+    <string name="workingTimeTimer">WORK TIME</string>
+    <string name="workingRepsTimer">REPS</string>
+    <string name="restingTimeTimer">REST TIME</string>
+    <string name="end">End</string>
+</resources>

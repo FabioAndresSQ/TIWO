@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/create_nav"
+    app:startDestination="@id/createFragment1">
+
+    <fragment
+        android:id="@+id/createFragment1"
+        android:name="com.faesfa.tiwo.CreateFragment1"
+        android:label="fragment_create1"
+        tools:layout="@layout/fragment_create1" >
+        <action
+            android:id="@+id/action_createFragment1_to_createFragment2"
+            app:destination="@id/createFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/createFragment2"
+        android:name="com.faesfa.tiwo.CreateFragment2"
+        android:label="fragment_create2"
+        tools:layout="@layout/fragment_create2" >
+        <action
+            android:id="@+id/action_createFragment2_to_createFragment1"
+            app:destination="@id/createFragment1" />
+        <action
+            android:id="@+id/action_createFragment2_to_createFragment3"
+            app:destination="@id/createFragment3" />
+    </fragment>
+    <fragment
+        android:id="@+id/createFragment3"
+        android:name="com.faesfa.tiwo.CreateFragment3"
+        android:label="fragment_create3"
+        tools:layout="@layout/fragment_create3" >
+        <action
+            android:id="@+id/action_createFragment3_to_createFragment2"
+            app:destination="@id/createFragment2" />
+    </fragment>
+</navigation>

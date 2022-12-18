@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context=".QuickActivity">
+
+    <include
+        android:id="@+id/includeQuickBar"
+        layout="@layout/quick_action_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_header_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/includeQuickBar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/includeQuickBar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/quickAddIntervalBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/transparent"
+                android:contentDescription="Add Sets"
+                android:padding="7dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_addbtn"
+                app:layout_constraintBottom_toBottomOf="@+id/quickIntervalTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/quickIntervalTxt"
+                app:layout_constraintTop_toTopOf="@+id/quickIntervalTxt" />
+
+            <ImageButton
+                android:id="@+id/quickRemoveIntervalBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/transparent"
+                android:contentDescription="Remove Sets"
+                android:padding="7dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_removebtn"
+                app:layout_constraintBottom_toBottomOf="@+id/quickIntervalTxt"
+                app:layout_constraintEnd_toStartOf="@+id/quickIntervalTxt"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/quickIntervalTxt" />
+
+            <TextView
+                android:id="@+id/quickRepsIntervalTitle"
+                style="@style/workoutSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Reps Interval"
+                android:textColor="@color/AppBlue"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/quickRepsTxt" />
+
+            <TextView
+                android:id="@+id/quickRepsTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="60dp"
+                android:text="10"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="50sp"
+                app:layout_constraintEnd_toStartOf="@+id/quickAddRepsBtn"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/quickRemoveRepsBtn"
+                app:layout_constraintTop_toBottomOf="@+id/quickNumRepsTitle" />
+
+            <ImageButton
+                android:id="@+id/quickRemoveRepsBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/transparent"
+                android:contentDescription="Remove Sets"
+                android:padding="7dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_removebtn"
+                app:layout_constraintBottom_toBottomOf="@+id/quickRepsTxt"
+                app:layout_constraintEnd_toStartOf="@+id/quickRepsTxt"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/quickNumRepsTitle" />
+
+            <TextView
+                android:id="@+id/quickSetsTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="60dp"
+                android:text="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="50sp"
+                app:layout_constraintEnd_toStartOf="@+id/quickAddSetsBtn"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/quickRemoveSetsBtn"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+            <TextView
+                android:id="@+id/quickNumRepsTitle"
+                style="@style/workoutSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Number of Reps"
+                android:textColor="@color/AppBlue"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/quickSetsTxt" />
+
+            <ImageButton
+                android:id="@+id/quickAddRepsBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:background="@color/transparent"
+                android:contentDescription="Add Sets"
+                android:padding="7dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_addbtn"
+                app:layout_constraintBottom_toBottomOf="@+id/quickRepsTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/quickRepsTxt"
+                app:layout_constraintTop_toTopOf="@+id/quickRepsTxt" />
+
+            <Switch
+                android:id="@+id/quickWorking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:text=" Time "
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/textView5"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <TextView
+                android:id="@+id/quickIntervalTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="75dp"
+                android:text="1.5"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="50sp"
+                app:layout_constraintEnd_toStartOf="@+id/quickAddIntervalBtn"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/quickRemoveIntervalBtn"
+                app:layout_constraintTop_toBottomOf="@+id/quickRepsIntervalTitle" />
+
+            <ImageButton
+                android:id="@+id/quickRemoveSetsBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/transparent"
+                android:contentDescription="Remove Sets"
+                android:padding="7dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_removebtn"
+                app:layout_constraintBottom_toBottomOf="@+id/quickSetsTxt"
+                app:layout_constraintEnd_toStartOf="@+id/quickSetsTxt"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/quickSetsTxt" />
+
+            <ImageButton
+                android:id="@+id/quickAddSetsBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:background="@color/transparent"
+                android:contentDescription="Add Sets"
+                android:padding="7dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_addbtn"
+                app:layout_constraintBottom_toBottomOf="@+id/quickSetsTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/quickSetsTxt"
+                app:layout_constraintTop_toTopOf="@+id/quickSetsTxt" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Working with?"
+                android:textColor="@color/AppBlue"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="Reps"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/quickWorking"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/quickWorking"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <TextView
+                android:id="@+id/quickSecondsIntervalTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seconds"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/quickIntervalTxt" />
+
+            <TextView
+                android:id="@+id/textView7"
+                style="@style/workoutSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Sets"
+                android:textColor="@color/AppBlue"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/quickWorking" />
+
+            <NumberPicker
+                android:id="@+id/restMinutesQuick"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/textView17"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/quickRestTimeTitle" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toBottomOf="@+id/restMinutesQuick"
+                app:layout_constraintEnd_toStartOf="@+id/restSecondsQuick"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/restMinutesQuick"
+                app:layout_constraintTop_toTopOf="@+id/restMinutesQuick"
+                app:layout_constraintVertical_bias="0.485" />
+
+            <NumberPicker
+                android:id="@+id/restSecondsQuick"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView17"
+                app:layout_constraintTop_toBottomOf="@+id/quickRestTimeTitle" />
+
+            <TextView
+                android:id="@+id/quickRestTimeTitle"
+                style="@style/workoutSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Rest Time"
+                android:textColor="@color/AppBlue"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/workSecondsQuick" />
+
+            <TextView
+                android:id="@+id/quickWorkTimeTitle"
+                style="@style/workoutSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Work Time"
+                android:textColor="@color/AppBlue"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/quickSecondsIntervalTxt"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <NumberPicker
+                android:id="@+id/workMinutesQuick"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@+id/dotsWorkTimeQuick"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/quickWorkTimeTitle" />
+
+            <TextView
+                android:id="@+id/dotsWorkTimeQuick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/workMinutesQuick"
+                app:layout_constraintEnd_toStartOf="@+id/workSecondsQuick"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/workMinutesQuick"
+                app:layout_constraintTop_toTopOf="@+id/workMinutesQuick" />
+
+            <NumberPicker
+                android:id="@+id/workSecondsQuick"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:layout_marginStart="8dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/workMinutesCreate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/dotsWorkTimeQuick"
+                app:layout_constraintTop_toBottomOf="@+id/quickWorkTimeTitle" />
+
+            <Button
+                android:id="@+id/quickStartBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:backgroundTint="@color/AppBlue"
+                android:text="START"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/restSecondsQuick" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
