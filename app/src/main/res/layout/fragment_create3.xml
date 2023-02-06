@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    tools:context=".CreateFragments.CreateFragment3">
+    tools:context=".CreateFragment3">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -357,10 +357,11 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginTop="16dp"
+                    android:padding="7dp"
                     android:clickable="true"
                     android:contentDescription="Chest Muscles"
                     android:scaleType="fitXY"
-                    android:src="@android:drawable/ic_menu_gallery"
+                    android:src="@drawable/ic_front_side"
                     app:layout_constraintEnd_toStartOf="@+id/category2"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="spread"

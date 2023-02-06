@@ -1,6 +1,7 @@
 package com.faesfa.tiwo
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
@@ -20,6 +21,7 @@ class TimerActivity : AppCompatActivity() {
     private lateinit var timerNext : TextView
     private lateinit var timerLayout : ConstraintLayout
     private lateinit var startingLayout : ConstraintLayout
+    private lateinit var pausedLayout : ConstraintLayout
     private lateinit var secsToStart : TextView
     private lateinit var workout : WorkoutsModelClass
     private var numSets = 0
@@ -42,6 +44,7 @@ class TimerActivity : AppCompatActivity() {
     private var countDownInPause: Long = 0
     private var restFormat: String = ""
     private var workFormat: String = ""
+    private var mediaPlayer: MediaPlayer = MediaPlayer()
     private lateinit var toolBar : Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +66,7 @@ class TimerActivity : AppCompatActivity() {
         timerSets = findViewById(R.id.timerSetsTxt)
         timerNext = findViewById(R.id.timerNextTxt)
         startingLayout = findViewById(R.id.startingLayout)
+        pausedLayout = findViewById(R.id.pausedLayout)
         secsToStart = findViewById(R.id.secsToStart)
         timerLayout = findViewById(R.id.timerLayout)
         reps = workout.num_reps
@@ -209,16 +213,28 @@ class TimerActivity : AppCompatActivity() {
     }
 
     private fun actionOnInterval(txt1 :String , txt2 :String){ //actions to do during workout
+
         showedFirst = if (!showedFirst){
             //Toast.makeText(this, txt1, Toast.LENGTH_SHORT).show()
-            timerLayout.setBackgroundColor(resources.getColor(R.color.teal_200))
+            val resID = resources.getIdentifier("tick", "raw", packageName)
+            mediaPlayer.reset()
+            mediaPlayer = MediaPlayer.create(this, resID)
+            mediaPlayer.start()
             true
         } else {
             //Toast.makeText(this, txt2, Toast.LENGTH_SHORT).show()
-            timerLayout.setBackgroundColor(resources.getColor(R.color.white))
+            val resID = resources.getIdentifier("tick", "raw", packageName)
+            mediaPlayer.reset()
+            mediaPlayer = MediaPlayer.create(this, resID)
+            mediaPlayer.start()
             false
         }
 
+    }
+
+    override fun onPause() {
+        pauseTimer()
+        super.onPause()
     }
 
     override fun onBackPressed() { //Handle back pressed
@@ -238,12 +254,14 @@ class TimerActivity : AppCompatActivity() {
     }
 
     private fun pauseTimer(){
+        pausedLayout.visibility =View.VISIBLE
         countDownTimer.cancel()
         if (started){timerInterval.cancel()}
         isPaused = true
     }
 
     private fun resumeTimer(){
+        pausedLayout.visibility =View.GONE
         if (resting) {
             startRestTimer(countDownInPause)
         } else {

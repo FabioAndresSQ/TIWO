@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:keepScreenOn="true"
     android:clickable="false"
     android:elevation="0dp"
     tools:context=".TimerActivity">
@@ -181,12 +182,13 @@
 
         <TextView
             android:id="@+id/textView12"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="6dp"
             android:text="@string/starting"
+            android:textAlignment="center"
             android:textColor="#D6D6D6"
-            android:textSize="50dp"
+            android:textSize="50sp"
             android:textStyle="italic"
             app:layout_constraintBottom_toTopOf="@+id/secsToStart"
             app:layout_constraintEnd_toEndOf="parent"
@@ -196,12 +198,13 @@
 
         <TextView
             android:id="@+id/secsToStart"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:elevation="6dp"
             android:text="3"
             android:textAllCaps="false"
-            android:textColor="#D2D3D1D1"
+            android:textColor="@color/white"
             android:textSize="250sp"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -212,5 +215,58 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/pausedLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#E8201E1E"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/adsFragment3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:elevation="6dp"
+            android:text="@string/paused"
+            android:textColor="#D6D6D6"
+            android:textSize="50sp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toTopOf="@+id/pausedImg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <ImageView
+            android:id="@+id/pausedImg"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_play"
+            android:layout_marginTop="50dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView20"
+            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Double Tap to Continue"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pausedImg" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
