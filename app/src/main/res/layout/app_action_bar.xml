@@ -9,9 +9,11 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_tiwo_title"
+        android:layout_width="100dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/tiwo_logo"
+        android:scaleType="centerCrop"
         android:layout_gravity="center"/>
 
 </androidx.appcompat.widget.Toolbar>

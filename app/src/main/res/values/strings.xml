@@ -5,12 +5,12 @@
     <string name="createBtnDescription">Create new timers</string>
     <string name="backToExitApp">Press Back Again to Exit</string>
 
-    <!-- Strings Used on Details Screen -->
-    <string name="workingReps">Reps  </string>
+    <!-- Strings Used on Home Screen -->
+    <string name="workingReps">Reps:</string>
     //Also used on Timer
-    <string name="workingTime">Work  </string>
-    <string name="infoWorkTimeTittle">Work Time</string>
-    <string name="infoWorkRepsTittle">Reps Interval</string>
+    <string name="workingTime">Work:</string>
+    <string name="infoWorkTimeTittle">WORK TIME</string>
+    <string name="infoWorkRepsTittle">REPS INTERVAL</string>
 
     <!-- Strings Used on Timer Screen -->
     <string name="starting">Starting in…</string>

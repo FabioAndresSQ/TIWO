@@ -13,5 +13,6 @@ data class WorkoutsModelClass(
     var num_reps: Int,
     var reps_time: Double,
     var work_time: Int,
-    var rest_time: Int
+    var rest_time: Int,
+    var category: String
 ): Serializable

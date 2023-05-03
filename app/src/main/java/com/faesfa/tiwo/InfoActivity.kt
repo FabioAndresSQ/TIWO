@@ -1,6 +1,7 @@
 package com.faesfa.tiwo
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,16 +9,18 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import de.hdodenhof.circleimageview.CircleImageView
 import java.io.*
 
 class InfoActivity : AppCompatActivity() {
     //Initialize everything
     private lateinit var workouts: Workouts
     private lateinit var dataManager: DataManager
-    private lateinit var infoImage:ImageView
+    private lateinit var infoImage:CircleImageView
     private lateinit var infoNameTxt:TextView
     private lateinit var infoSetsTxt:TextView
     private lateinit var infoRepsTitle:TextView
@@ -52,8 +55,20 @@ class InfoActivity : AppCompatActivity() {
         infoStartBtn = findViewById(R.id.infoStartBtn)
         infoDeleteBtn = findViewById(R.id.infoDeleteBtn)
 
-        //infoImage.setImageResource()
-        infoNameTxt.text = workout.name
+
+        when (workout.category){
+            "Chest" -> {infoImage.setImageResource(R.drawable.chest_ic)}
+            "Back" -> {infoImage.setImageResource(R.drawable.back_ic)}
+            "Shoulder" -> {infoImage.setImageResource(R.drawable.shoulder_ic)}
+            "Arms" -> {infoImage.setImageResource(R.drawable.arm_ic)}
+            "Legs" -> {infoImage.setImageResource(R.drawable.legs_ic)}
+            "Abs" -> {infoImage.setImageResource(R.drawable.abs_ic)}
+        }
+        @RequiresApi(Build.VERSION_CODES.M)
+        infoImage.borderColor = this.getColor(R.color.AppBlue)
+        infoImage.borderWidth = 10
+
+        infoNameTxt.text = workout.name.uppercase()
         infoSetsTxt.text = workout.sets.toString()
         if (workout.reps){ //Working with reps, set visibility
             infoRepsTitle.visibility = View.VISIBLE

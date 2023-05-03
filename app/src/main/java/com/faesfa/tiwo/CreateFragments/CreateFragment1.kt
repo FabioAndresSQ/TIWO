@@ -27,7 +27,7 @@ class CreateFragment1 : Fragment() {
         val workingWithTxt = view.findViewById<Switch>(R.id.createWorking)
         val nextBtn = view.findViewById<Button>(R.id.createNext1)
         //Create the workout obj with default values
-        workout = WorkoutsModelClass("default", 0, false,0,0.0,0,0)
+        workout = WorkoutsModelClass("default", 0, false,0,0.0,0,0, "")
 
 
         //Set listener to sets add or remove

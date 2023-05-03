@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import de.hdodenhof.circleimageview.CircleImageView
 import java.io.*
 
 class CreateFragment3 : Fragment() {
@@ -26,13 +27,13 @@ class CreateFragment3 : Fragment() {
     private lateinit var workTitleLast : TextView
     private lateinit var workLastCreate : TextView
     private lateinit var restLastCreate : TextView
-    private lateinit var chestCategory : ImageView
-    private lateinit var backCategory : ImageView
-    private lateinit var shoulderCategory : ImageView
-    private lateinit var armsCategory : ImageView
-    private lateinit var legsCategory : ImageView
-    private lateinit var calvesCategory : ImageView
-    private lateinit var imagesList: ArrayList<ImageView>
+    private lateinit var chestCategory : CircleImageView
+    private lateinit var backCategory : CircleImageView
+    private lateinit var shoulderCategory : CircleImageView
+    private lateinit var armsCategory : CircleImageView
+    private lateinit var legsCategory : CircleImageView
+    private lateinit var absCategory : CircleImageView
+    private lateinit var imagesList: ArrayList<CircleImageView>
     private lateinit var saveNewBtn: Button
     private lateinit var saveStartNewBtn: Button
     private lateinit var dataManager : DataManager
@@ -68,14 +69,14 @@ class CreateFragment3 : Fragment() {
         shoulderCategory = view.findViewById(R.id.category3)
         armsCategory = view.findViewById(R.id.category4)
         legsCategory = view.findViewById(R.id.category5)
-        calvesCategory = view.findViewById(R.id.category6)
+        absCategory = view.findViewById(R.id.category6)
         imagesList = ArrayList() //List to save images to
         imagesList.add(chestCategory)
         imagesList.add(backCategory)
         imagesList.add(shoulderCategory)
         imagesList.add(armsCategory)
         imagesList.add(legsCategory)
-        imagesList.add(calvesCategory)
+        imagesList.add(absCategory)
 
         //Check if working with Reps or Time
         if (workout.reps) { //working With Reps -> Set visibility of Time fields to gone
@@ -107,24 +108,29 @@ class CreateFragment3 : Fragment() {
         for (i in imagesList){
             i.setOnClickListener{
                 for (j in imagesList){
-                    j.setBackgroundColor(resources.getColor(R.color.transparent))
+                    j.circleBackgroundColor = resources.getColor(R.color.transparent)
                 }
-                it.setBackgroundColor(resources.getColor(R.color.AppBlue))
                 when (it.id) {
                     chestCategory.id -> {
-                        Toast.makeText(this.context, "Chest Category", Toast.LENGTH_SHORT).show()}
+                        image = "Chest"
+                        chestCategory.circleBackgroundColor = resources.getColor(R.color.AppBlue) }
                     backCategory.id -> {
-                        Toast.makeText(this.context, "Back Category", Toast.LENGTH_SHORT).show()}
+                        image = "Back"
+                        backCategory.circleBackgroundColor = resources.getColor(R.color.AppBlue)}
                     shoulderCategory.id -> {
-                        Toast.makeText(this.context, "Shoulder Category", Toast.LENGTH_SHORT).show()}
+                        image = "Shoulder"
+                        shoulderCategory.circleBackgroundColor = resources.getColor(R.color.AppBlue)}
                     armsCategory.id -> {
-                        Toast.makeText(this.context, "Arms Category", Toast.LENGTH_SHORT).show()}
+                        image = "Arms"
+                        armsCategory.circleBackgroundColor = resources.getColor(R.color.AppBlue)}
                     legsCategory.id -> {
-                        Toast.makeText(this.context, "Legs Category", Toast.LENGTH_SHORT).show()}
-                    calvesCategory.id -> {
-                        Toast.makeText(this.context, "Calf Category", Toast.LENGTH_SHORT).show()}
+                        image = "Legs"
+                        legsCategory.circleBackgroundColor = resources.getColor(R.color.AppBlue)}
+                    absCategory.id -> {
+                        image = "Abs"
+                        absCategory.circleBackgroundColor = resources.getColor(R.color.AppBlue)}
                     else -> {
-                        Toast.makeText(this.context, "Pick An Image", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this.context, "Pick a category", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -132,23 +138,36 @@ class CreateFragment3 : Fragment() {
 
         saveNewBtn.setOnClickListener {
             /**Save Workout Data In Json file**/
-            saveWorkout()
-            val launchHome = Intent(this.context, MainActivity::class.java)
-            startActivity(launchHome)
+            if (checkIfImageSelected()){
+                saveWorkout()
+                val launchHome = Intent(this.context, MainActivity::class.java)
+                startActivity(launchHome)
+            } else {
+                Toast.makeText(this.context, "Pick An Image", Toast.LENGTH_SHORT).show()
+            }
         }
 
         saveStartNewBtn.setOnClickListener {
             /**Save Workout Data In Json file
              * And Start Timer Activity passing the workout**/
-            saveWorkout()
-            val launchTimer = Intent(this.context, TimerActivity::class.java)
-            launchTimer.putExtra("selected_workout" , workout as Serializable)
-            startActivity(launchTimer)
+            if (checkIfImageSelected()){
+                saveWorkout()
+                val launchTimer = Intent(this.context, TimerActivity::class.java)
+                launchTimer.putExtra("selected_workout" , workout as Serializable)
+                startActivity(launchTimer)
+            } else {
+                Toast.makeText(this.context, "Pick An Image", Toast.LENGTH_SHORT).show()
+            }
         }
         return view //Return the Inflated view
     }
 
+    private fun checkIfImageSelected(): Boolean{
+        return image != ""
+    }
+
     private fun saveWorkout(){
+        workout.category = image
         val jsonString = dataManager.getJsonFromFile(this.context)!! //Get String from File
         val workouts = Gson().fromJson(jsonString, Workouts::class.java) //Turn String into Model Obj with Gson
         workouts.workouts.add(workout) //Add Workout to save
