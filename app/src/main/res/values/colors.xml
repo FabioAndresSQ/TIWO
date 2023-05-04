@@ -10,4 +10,7 @@
     <color name="AppBlue">#2FC8CD</color>
     <color name="AppBlueLight">#416CFF</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="redDelete">#912626</color>
+    <color name="greenStart">#44C865</color>
+    <color name="blueSave">#38C59D</color>
 </resources>

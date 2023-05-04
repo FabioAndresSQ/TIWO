@@ -1,12 +1,17 @@
 package com.faesfa.tiwo
 
+import android.R.color
+import android.graphics.Paint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import java.lang.reflect.Field
+
 
 class CreateFragment2 : Fragment() {
     //Initialize all views on Screen
@@ -28,7 +33,8 @@ class CreateFragment2 : Fragment() {
     private lateinit var restSecondsCreate: NumberPicker
     private lateinit var workout : WorkoutsModelClass
 
-    private lateinit var nextBtn : Button
+    private lateinit var nextBtn : LinearLayout
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -141,7 +147,7 @@ class CreateFragment2 : Fragment() {
                             bundle.putSerializable("workout", workout)
                             view.findNavController().navigate(R.id.createFragment3, bundle)
                         } else {
-                            Toast.makeText(this.context, "Rest Can't be 0", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this.context, "Rest Can't be 0:0", Toast.LENGTH_SHORT).show()
                         }
                     }else {
                         Toast.makeText(this.context, "Interval Can't be 0", Toast.LENGTH_SHORT).show()
@@ -162,10 +168,10 @@ class CreateFragment2 : Fragment() {
                         bundle.putSerializable("workout", workout)
                         view.findNavController().navigate(R.id.createFragment3, bundle)
                     } else{
-                        Toast.makeText(this.context, "Rest Time Can't be 0", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this.context, "Rest Time Can't be 0:0", Toast.LENGTH_SHORT).show()
                     }
                 } else{
-                    Toast.makeText(this.context, "Work Time Can't be 0", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this.context, "Work Time Can't be 0:0", Toast.LENGTH_SHORT).show()
                 }
             }
         }

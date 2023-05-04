@@ -29,7 +29,7 @@ class QuickActivity : AppCompatActivity() {
     private lateinit var dotsWorkTimeQuick : TextView
     private lateinit var restMinutesQuick : NumberPicker
     private lateinit var restSecondsQuick : NumberPicker
-    private lateinit var quickStartBtn : Button
+    private lateinit var quickStartBtn : LinearLayout
     private lateinit var workout : WorkoutsModelClass
     private var sets = 3 //Default sets 3
     private var reps = 10

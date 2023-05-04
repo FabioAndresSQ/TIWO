@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -28,8 +29,8 @@ class InfoActivity : AppCompatActivity() {
     private lateinit var infoWorkTitle:TextView
     private lateinit var infoWorkTxt:TextView
     private lateinit var infoRestTxt:TextView
-    private lateinit var infoStartBtn:Button
-    private lateinit var infoDeleteBtn:Button
+    private lateinit var infoStartBtn:LinearLayout
+    private lateinit var infoDeleteBtn:LinearLayout
     private lateinit var toolBar : Toolbar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

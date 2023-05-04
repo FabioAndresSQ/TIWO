@@ -11,14 +11,14 @@
         android:strokeWidth="229.167"
         android:fillColor="#00000000"
         android:fillType="evenOdd"
-        android:strokeColor="#143ABF"/>
+        android:strokeColor="#2FC8CD"/>
     <path
         android:pathData="M966,652C966,583 1022,527 1091,527L1091,527C1160,527 1216,583 1216,652L1216,1529C1216,1598 1160,1654 1091,1654L1091,1654C1022,1654 966,1598 966,1529Z"
-        android:fillColor="#143ABF"
+        android:fillColor="#2FC8CD"
         android:fillType="evenOdd"/>
     <path
         android:pathData="M1530.5,966C1599.3,966 1655,1021.7 1655,1090.5L1655,1090.5C1655,1159.2 1599.3,1215 1530.5,1215L651.5,1215C582.7,1215 527,1159.2 527,1090.5L527,1090.5C527,1021.7 582.7,966 651.5,966Z"
-        android:fillColor="#143ABF"
+        android:fillColor="#2FC8CD"
         android:fillType="evenOdd"/>
   </group>
 </vector>

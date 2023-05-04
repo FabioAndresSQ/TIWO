@@ -407,29 +407,75 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <Button
+            <LinearLayout
                 android:id="@+id/saveNewBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginTop="40dp"
-                android:text="SAVE"
-                android:textSize="16sp"
+                android:elevation="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/save_btn_shape"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/saveStartNewBtn"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-            <Button
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/baseline_save_24" />
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5dp"
+                    android:text="GUARDAR"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/saveStartNewBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Save &amp; Start"
-                android:textSize="16sp"
+                android:layout_height="40dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:elevation="10dp"
+                android:background="@drawable/save_btn_shape"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/saveNewBtn"
-                app:layout_constraintTop_toTopOf="@+id/saveNewBtn" />
+                app:layout_constraintTop_toTopOf="@+id/saveNewBtn">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/baseline_play_arrow_24" />
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5dp"
+                    android:text="INICIAR &amp; GUARDAR"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -32,4 +32,10 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="AppTheme.Picker" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="android:textStyle">bold</item>
+        <item name="colorControlNormal">@color/AppBlue</item>
+
+    </style>
 </resources>

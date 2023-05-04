@@ -25,7 +25,7 @@ class CreateFragment1 : Fragment() {
         val addBtn = view.findViewById<ImageButton>(R.id.addSetsBtn)
         val removeBtn = view.findViewById<ImageButton>(R.id.removeSetsBtn)
         val workingWithTxt = view.findViewById<Switch>(R.id.createWorking)
-        val nextBtn = view.findViewById<Button>(R.id.createNext1)
+        val nextBtn = view.findViewById<LinearLayout>(R.id.createNext1)
         //Create the workout obj with default values
         workout = WorkoutsModelClass("default", 0, false,0,0.0,0,0, "")
 

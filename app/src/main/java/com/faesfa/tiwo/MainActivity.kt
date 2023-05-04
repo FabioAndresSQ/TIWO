@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
@@ -19,9 +20,9 @@ import java.io.*
 class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
     //Initialize everything
     private var backPressedOnce = false
-    private lateinit var plusBtn : FloatingActionButton
-    private lateinit var quickBtn : FloatingActionButton
-    private lateinit var createBtn : FloatingActionButton
+    private lateinit var plusBtn : LinearLayout
+    private lateinit var quickBtn : LinearLayout
+    private lateinit var createBtn : LinearLayout
     private lateinit var quickTxtHome: TextView
     private lateinit var createTxtHome: TextView
     private lateinit var workouts : Workouts
@@ -46,8 +47,6 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
         plusBtn = findViewById(R.id.mainBtn)
         quickBtn = findViewById(R.id.quickBtn)
         createBtn = findViewById(R.id.createBtn)
-        quickTxtHome = findViewById(R.id.quickTxtHome)
-        createTxtHome = findViewById(R.id.createTxtHome)
         checkIfBtnAreShowing()
 
         plusBtn.setOnClickListener {
@@ -101,15 +100,11 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
         if (!showingOpts) {
             quickBtn.visibility = View.VISIBLE
             createBtn.visibility = View.VISIBLE
-            quickTxtHome.visibility = View.VISIBLE
-            createTxtHome.visibility = View.VISIBLE
             plusBtn.rotation = 45F
             showingOpts = true
         } else{
             quickBtn.visibility = View.GONE
             createBtn.visibility = View.GONE
-            quickTxtHome.visibility = View.GONE
-            createTxtHome.visibility = View.GONE
             plusBtn.rotation = 0F
             showingOpts = false
         }

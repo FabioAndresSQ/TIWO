@@ -43,100 +43,129 @@
         android:layout_height="70dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <LinearLayout
         android:id="@+id/mainBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/floating_btn_shape"
         android:clickable="true"
         android:contentDescription="@string/createBtnDescription"
         android:elevation="10dp"
-        android:fadingEdgeLength="10dp"
-        android:scaleType="fitXY"
-        android:tint="@color/white"
-        app:elevation="10dp"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/rvWorkouts"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:focusable="true" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/baseline_add_24"
+            android:padding="10dp"/>
+    </LinearLayout>
+
+
+    <LinearLayout
         android:id="@+id/createBtn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:contentDescription="@string/createBtnDescription"
         android:elevation="10dp"
         android:fadingEdgeLength="100dp"
-        android:scaleType="fitXY"
-        app:elevation="10dp"
-        app:fabCustomSize="50dp"
-        app:fabSize="auto"
+        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/mainBtn"
         app:layout_constraintEnd_toEndOf="@+id/mainBtn"
-        app:layout_constraintStart_toStartOf="@+id/mainBtn"
         app:srcCompat="@android:drawable/ic_input_add"
-        tools:visibility="gone" />
+        tools:visibility="visible">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NEW WORKOUT"
+            android:textColor="@color/black"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="#FFFFFF"
+            android:elevation="6dp"
+            android:paddingEnd="15dp"
+            android:paddingStart="10dp"
+            android:fadingEdgeLength="100dp"
+            android:layout_marginEnd="-12dp"/>
+
+        <LinearLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/floating_btn_shape"
+            android:gravity="center"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:elevation="10dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:elevation="10dp"
+                android:focusable="true"
+                android:gravity="center"
+                android:padding="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/baseline_save_as_24" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/quickBtn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:contentDescription="@string/createBtnDescription"
         android:elevation="10dp"
         android:fadingEdgeLength="100dp"
-        android:scaleType="fitXY"
-        app:elevation="10dp"
-        app:fabCustomSize="50dp"
-        app:fabSize="auto"
+        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/createBtn"
         app:layout_constraintEnd_toEndOf="@+id/mainBtn"
-        app:layout_constraintStart_toStartOf="@+id/mainBtn"
         app:srcCompat="@android:drawable/ic_input_add"
-        tools:visibility="gone" />
+        tools:visibility="visible">
 
-    <TextView
-        android:id="@+id/quickTxtHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="-3dp"
-        android:background="@drawable/rounded_corner"
-        android:backgroundTint="#FFFFFF"
-        android:clickable="false"
-        android:elevation="6dp"
-        android:minWidth="100dp"
-        android:text="Quick Timer"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/quickBtn"
-        app:layout_constraintEnd_toStartOf="@+id/quickBtn"
-        app:layout_constraintTop_toTopOf="@+id/quickBtn"
-        tools:visibility="gone" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="-12dp"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="#FFFFFF"
+            android:elevation="6dp"
+            android:fadingEdgeLength="100dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="15dp"
+            android:text="QUICK WORKOUT"
+            android:textColor="@color/black" />
 
-    <TextView
-        android:id="@+id/createTxtHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="-3dp"
-        android:background="@drawable/rounded_corner"
-        android:backgroundTint="#FFFFFF"
-        android:clickable="false"
-        android:elevation="6dp"
-        android:minWidth="125dp"
-        android:text="Create Workout"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/createBtn"
-        app:layout_constraintEnd_toStartOf="@+id/quickBtn"
-        app:layout_constraintTop_toTopOf="@+id/createBtn"
-        tools:visibility="gone" />
+        <LinearLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/floating_btn_shape"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:scaleX="0.8"
+            android:scaleY="0.8">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:elevation="10dp"
+                android:focusable="true"
+                android:gravity="center"
+                android:padding="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/baseline_bolt_24" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

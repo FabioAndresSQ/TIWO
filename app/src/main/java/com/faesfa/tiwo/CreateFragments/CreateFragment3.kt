@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -34,8 +35,8 @@ class CreateFragment3 : Fragment() {
     private lateinit var legsCategory : CircleImageView
     private lateinit var absCategory : CircleImageView
     private lateinit var imagesList: ArrayList<CircleImageView>
-    private lateinit var saveNewBtn: Button
-    private lateinit var saveStartNewBtn: Button
+    private lateinit var saveNewBtn: LinearLayout
+    private lateinit var saveStartNewBtn: LinearLayout
     private lateinit var dataManager : DataManager
 
     private lateinit var workout : WorkoutsModelClass
@@ -143,7 +144,7 @@ class CreateFragment3 : Fragment() {
                 val launchHome = Intent(this.context, MainActivity::class.java)
                 startActivity(launchHome)
             } else {
-                Toast.makeText(this.context, "Pick An Image", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Pick a category", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -156,7 +157,7 @@ class CreateFragment3 : Fragment() {
                 launchTimer.putExtra("selected_workout" , workout as Serializable)
                 startActivity(launchTimer)
             } else {
-                Toast.makeText(this.context, "Pick An Image", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Pick a category", Toast.LENGTH_SHORT).show()
             }
         }
         return view //Return the Inflated view

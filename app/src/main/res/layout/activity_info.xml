@@ -172,29 +172,76 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <Button
+    <LinearLayout
         android:id="@+id/infoStartBtn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="START"
-        android:textSize="20dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/start_btn_shape"
+        android:clickable="true"
+        android:elevation="10dp"
+        android:focusable="true"
         app:layout_constraintBottom_toTopOf="@+id/adsFragment2"
         app:layout_constraintEnd_toStartOf="@+id/infoDeleteBtn"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView3">
 
-    <Button
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/baseline_play_arrow_24" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="5dp"
+            android:text="INICIAR"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/infoDeleteBtn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="DELETE"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/adsFragment2"
+        android:layout_height="40dp"
+        android:background="@drawable/delete_btn_shape"
+        android:clickable="true"
+        android:elevation="10dp"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/infoStartBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/infoStartBtn" />
+        app:layout_constraintStart_toEndOf="@+id/infoStartBtn"
+        app:layout_constraintTop_toTopOf="@+id/infoStartBtn">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/baseline_delete_24" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="5dp"
+            android:text="ELIMINAR"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <fragment
         android:id="@+id/adsFragment2"
