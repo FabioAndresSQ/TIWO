@@ -97,7 +97,7 @@ class CreateFragment3 : Fragment() {
         //Assign text to each field
         nameLastCreate.text = workout.name
         setsLastCreate.text = workout.sets.toString()
-        workingLastCreate.text = if (workout.reps) {"Repetitions"} else {"Time"}
+        workingLastCreate.text = if (workout.reps) {getString(R.string.infoWorkingWithReps)} else {getString(R.string.infoWorkingWithTime)}
         repsLastCreate.text = workout.num_reps.toString()
         intervalLastCreate.text = workout.reps_time.toString()
         workLastCreate.text = dataManager.convertTime(workout.work_time)

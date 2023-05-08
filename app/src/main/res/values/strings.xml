@@ -6,10 +6,10 @@
     <string name="startBtnDescription">Start Workout Button</string>
 
     <!-- Strings Used on Home Screen -->
-    <string name="newBtnDescription">New timers</string>
-    <string name="createBtnDescription">Create new timer</string>
+    <string name="newBtnDescription">New workouts</string>
+    <string name="createBtnDescription">Create new workout</string>
     <string name="createBtnTxt">NEW WORKOUT</string>
-    <string name="quickBtnDescription">Start Quick timer</string>
+    <string name="quickBtnDescription">Start Quick workout</string>
     <string name="quickBtnTxt">QUICK WORKOUT</string>
     <string name="mainActivityTitle">Workouts</string>
     <string name="backToExitApp">Press Back Again to Exit</string>
@@ -29,6 +29,8 @@
     <string name="infoNumValueDefault">0</string>
     <string name="infoNumSetsTitle">Sets</string>
     <string name="infoNumRepsTitle">Reps</string>
+    <string name="infoWorkingWithReps">Repetitions</string>
+    <string name="infoWorkingWithTime">Time</string>
     <string name="infoNumRepsIntervalTitle">Repetition intervals</string>
     <string name="infoIntervalSecs">Seconds</string>
     <string name="infoWorkTimeTitle">Work Time</string>
@@ -119,4 +121,6 @@
     <string name="paused">PAUSED</string>
     <string name="timerPausedBtnDescription">Timer paused button to resume</string>
     <string name="timerPausedBtnTxt">Double Tap to Resume</string>
+    <string name="timerWorkTxt">WORK</string>
+    <string name="timerRestTxt">REST</string>
 </resources>

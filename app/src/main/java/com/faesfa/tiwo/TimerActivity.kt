@@ -29,6 +29,7 @@ class TimerActivity : AppCompatActivity() {
     private lateinit var secondsTimerLbl : TextView
     private lateinit var repsTimerLbl : TextView
     private lateinit var timerImage : ImageView
+    private lateinit var timerCurrentState : TextView
     private lateinit var workout : WorkoutsModelClass
     private var numSets = 0
     private var currentSet = 1
@@ -80,6 +81,7 @@ class TimerActivity : AppCompatActivity() {
         minutesTimerLbl = findViewById(R.id.minutesTimerLbl)
         secondsTimerLbl = findViewById(R.id.secondsTimerLbl)
         repsTimerLbl = findViewById(R.id.repsTimerLbl)
+        timerCurrentState = findViewById(R.id.timerCurrentState)
         reps = workout.num_reps
         work = workout.work_time
         rest = workout.rest_time
@@ -164,6 +166,7 @@ class TimerActivity : AppCompatActivity() {
     private fun startWorkTimer(time : Long){ //Workout Timer
         timerNext.text = restFormat
         timerSets.text = (currentSet).toString()
+        timerCurrentState.text = getString(R.string.timerWorkTxt)
         if (workout.reps){ //Working with Reps, Set Visibility
             countDownInterval = (workout.reps_time * 1000).toLong()
             timerMinutes.visibility = View.GONE
@@ -217,6 +220,7 @@ class TimerActivity : AppCompatActivity() {
 
     private fun startRestTimer(time : Long){ //Rest Timer
         resting = true
+        timerCurrentState.text = getString(R.string.timerRestTxt)
         if (numSets > 0) {
             timerNext.text = workFormat
         } else{

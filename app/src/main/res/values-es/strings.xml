@@ -1,0 +1,126 @@
+<resources>
+    <string name="app_name">TIWO</string>
+
+    <!-- Strings usadas en General -->
+    <string name="startBtnTxt">INICIAR</string>
+    <string name="startBtnDescription">Boton de iniciar ejercicio</string>
+
+    <!-- Strings usadas en el Home Screen -->
+    <string name="newBtnDescription">Nuevos ejercicios</string>
+    <string name="createBtnDescription">Crear ejercicio nuevo</string>
+    <string name="createBtnTxt">NUEVO EJERCICIO</string>
+    <string name="quickBtnDescription">Iniciar ejercicio rápido</string>
+    <string name="quickBtnTxt">EJERCICIO RAPIDO</string>
+    <string name="mainActivityTitle">Ejercicios</string>
+    <string name="backToExitApp">Presiona atras nuevamente para salir</string>
+
+    <!-- Strings Used on Item View -->
+    <string name="itemNameField">NOMBRE EJERCICIO</string>
+    <string name="itemSetsTxt">Series:</string>
+    <string name="itemRepsTxt">Reps:</string>
+    <string name="itemWorkTxt">Trabajo:</string>
+    <string name="itemValueZero">0</string>
+    <string name="itemDurationTxt">Duración</string>
+    <string name="itemDurValue">00:00</string>
+    <string name="itemClockImgDescription">Imagen de reloj de duración</string>
+
+    <!-- Strings Used on Details/Info Screen -->
+    <string name="infoWorkoutNameTitle">NOMBRE EJERCICIO</string>
+    <string name="infoNumValueDefault">0</string>
+    <string name="infoNumSetsTitle">Series</string>
+    <string name="infoNumRepsTitle">Reps</string>
+    <string name="infoWorkingWithReps">Repeticiones</string>
+    <string name="infoWorkingWithTime">Tiempo</string>
+    <string name="infoNumRepsIntervalTitle">Intervalo repetición</string>
+    <string name="infoIntervalSecs">Segundos</string>
+    <string name="infoWorkTimeTitle">Tiempo trabajo</string>
+    <string name="infoRestTimeTitle">Tiempo descanso</string>
+    <string name="infoDeleteBtnTxt">ELIMINAR</string>
+    <string name="infoDeleteBtnDescription">Boton de eliminar ejercicio</string>
+
+
+    <!-- Strings Used in Quick and Create workout -->
+    <string name="workoutMode">Modo trabajo</string>
+    <string name="workoutModeTime">Tiempo</string>
+    <string name="workoutModeReps">Reps</string>
+    <string name="workoutNumSets">Número series</string>
+    <string name="workoutNumSetsValueDefault">3</string>
+    <string name="workoutNumReps">Número Reps</string>
+    <string name="workoutNumRepsValueDefault">10</string>
+    <string name="workoutRepsInterval">Intervalo reps</string>
+    <string name="workoutIntervalValueDefault">1.5</string>
+    <string name="workoutIntervalSecs">Segundos</string>
+    <string name="workoutRestTime">Tiempo descanso</string>
+    <string name="workoutWorkTime">Tiempo trabajo</string>
+    <string name="workoutDotsDivider">:</string>
+    <string name="addSetsBtnDescription">Añadir series</string>
+    <string name="removeSetsBtnDescription">Quitar series</string>
+    <string name="addRepsBtnDescription">Añadir repetición</string>
+    <string name="removeRepsBtnDescription">Quitar repetición</string>
+    <string name="addIntervalBtnDescription">Añadir segundos a intervalo repeticion</string>
+    <string name="removeIntervalBtnDescription">Quitar segundos a intervalo repeticion</string>
+
+    <!-- Strings Used on Create Workout Screen -->
+    <string name="createActionBar">Crear ejercicio</string>
+    <string name="createActionBarHelpDescription">Ayuda creando ejercicio</string>
+    <string name="createWorkoutName">Nombre del ejercicio</string>
+    <string name="createWorkoutNextBtn">SIGUIENTE</string>
+    <string name="createWorkoutNextBtnDescription">Boton siguiente</string>
+    <string name="createWorkoutDetails">Detalles del ejercicio</string>
+    <string name="createWorkoutDetailsName">Nombre:</string>
+    <string name="createWorkoutDetailsSets">Series:</string>
+    <string name="createWorkoutDetailsReps">Reps:</string>
+    <string name="createWorkoutDetailsInterval">Intervalo reps:</string>
+    <string name="createWorkoutDetailsWorkMode">Modo trabajo:</string>
+    <string name="createWorkoutDetailsWorkTime">Tiempo trabajo:</string>
+    <string name="createWorkoutDetailsRestTime">Tiempo descanso:</string>
+    <string name="createWorkoutDetailsDefault">N/A</string>
+    <string name="createSaveBtnDescription">Guardar ejercicio</string>
+    <string name="createSaveBtnTxt">GUARDAR</string>
+    <string name="createStartSaveBtnDescription">Iniciar y guardar Ejercicio</string>
+    <string name="createStartSaveBtnTxt">INICIAR &amp; GUARDAR</string>
+    <!-- Strings Used on Workout Category -->
+    <string name="pickCategoryTitle">Elige grupo muscular</string>
+    <string name="backCategoryDescription">Grupo muscular espalda</string>
+    <string name="chestCategoryDescription">Grupo muscular pecho</string>
+    <string name="shoulderCategoryDescription">Grupo muscular hombros</string>
+    <string name="armsCategoryDescription">Grupo muscular brazos</string>
+    <string name="legsCategoryDescription">Grupo muscular piernas</string>
+    <string name="absCategoryDescription">Grupo muscular Abdomen</string>
+    <string name="backCategoryTxt">Espalda</string>
+    <string name="chestCategoryTxt">Pecho</string>
+    <string name="shoulderCategoryTxt">Hombros</string>
+    <string name="armsCategoryTxt">Brazos</string>
+    <string name="legsCategoryTxt">Piernas</string>
+    <string name="absCategoryTxt">Abdomen</string>
+
+
+    <string name="workingReps">Reps:</string>
+    <string name="workingTime">Tiempo:</string>
+
+    <!-- Strings Used on Timer Screen -->
+    <string name="getReady">¡Preparate!</string>
+    <string name="starting">Empezando en…</string>
+    <string name="timerDefaultNumber">00</string>
+    <string name="timerVerticalMinutes">MINUTOS</string>
+    <string name="timerVerticalSeconds">SEGUNDOS</string>
+    <string name="timerVerticalReps">REPETICION</string>
+    <string name="timerComingUp">A CONTINUACION:</string>
+    <string name="timerComingUpDefault">N/A</string>
+    <string name="timerStartingDefaultValue">3</string>
+    <string name="timerStartingFinalValue">YA</string>
+    <string name="backToExitTimer">Presiona atras nuevamente para salir</string>
+    <string name="doubleTapPause">Toca doble Pausar/Reanudar</string>
+    <string name="setsTimer">SERIE ACTUAL: </string>
+    <string name="restTimer">Descanso:</string>
+    <string name="workTimer">Trabajo:</string>
+    <string name="workingTimeTimer">TIEMPO TRABAJO</string>
+    <string name="workingRepsTimer">REPS</string>
+    <string name="restingTimeTimer">TIEMPO DESCANSO</string>
+    <string name="end">Final</string>
+    <string name="paused">PAUSADO</string>
+    <string name="timerPausedBtnDescription">Ejercicio pausado boton para reanudar</string>
+    <string name="timerPausedBtnTxt">Toca doble para reanudar</string>
+    <string name="timerWorkTxt">TRABAJO</string>
+    <string name="timerRestTxt">DESCANSO</string>
+</resources>
