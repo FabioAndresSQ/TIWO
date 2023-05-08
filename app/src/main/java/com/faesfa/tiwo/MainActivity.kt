@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -20,7 +21,7 @@ import java.io.*
 class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
     //Initialize everything
     private var backPressedOnce = false
-    private lateinit var plusBtn : LinearLayout
+    private lateinit var plusBtn : ImageView
     private lateinit var quickBtn : LinearLayout
     private lateinit var createBtn : LinearLayout
     private lateinit var quickTxtHome: TextView

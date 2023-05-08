@@ -5,26 +5,32 @@ import android.media.MediaPlayer
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginStart
 
 class TimerActivity : AppCompatActivity() {
     //Initialize everything
     private lateinit var timerName : TextView
-    private lateinit var timerTitle : TextView
     private lateinit var timerSets : TextView
     private lateinit var timerMinutes : TextView
     private lateinit var timerSeconds : TextView
-    private lateinit var timerDivisor : TextView
     private lateinit var timerNext : TextView
     private lateinit var timerLayout : ConstraintLayout
     private lateinit var startingLayout : ConstraintLayout
     private lateinit var pausedLayout : ConstraintLayout
+    private lateinit var startingLbl : TextView
     private lateinit var secsToStart : TextView
+    private lateinit var minutesTimerLbl : TextView
+    private lateinit var secondsTimerLbl : TextView
+    private lateinit var repsTimerLbl : TextView
+    private lateinit var timerImage : ImageView
     private lateinit var workout : WorkoutsModelClass
     private var numSets = 0
+    private var currentSet = 1
     private var reps = 0
     private var work = 0
     private var rest = 0
@@ -37,6 +43,7 @@ class TimerActivity : AppCompatActivity() {
 
     private lateinit var dataManager: DataManager
     private lateinit var countDownTimer: CountDownTimer
+    private lateinit var startDownTimer: CountDownTimer
     private lateinit var timerInterval: CountDownTimer
     private var initialWorkTime: Long = 0
     private var initialRestTime: Long = 0
@@ -59,25 +66,29 @@ class TimerActivity : AppCompatActivity() {
         dataManager = DataManager()
         workout = intent?.getSerializableExtra("selected_workout") as WorkoutsModelClass
         timerName = findViewById(R.id.timerNameTxt)
-        timerTitle = findViewById(R.id.timerTittleTxt)
         timerMinutes = findViewById(R.id.timerMinTxt)
-        timerDivisor = findViewById(R.id.divisor)
         timerSeconds = findViewById(R.id.timerSecTxt)
         timerSets = findViewById(R.id.timerSetsTxt)
         timerNext = findViewById(R.id.timerNextTxt)
         startingLayout = findViewById(R.id.startingLayout)
         pausedLayout = findViewById(R.id.pausedLayout)
+        startingLbl = findViewById(R.id.startingLbl)
         secsToStart = findViewById(R.id.secsToStart)
         timerLayout = findViewById(R.id.timerLayout)
+        timerImage = findViewById(R.id.timerImage)
+        minutesTimerLbl = findViewById(R.id.minutesTimerLbl)
+        secondsTimerLbl = findViewById(R.id.secondsTimerLbl)
+        repsTimerLbl = findViewById(R.id.repsTimerLbl)
         reps = workout.num_reps
         work = workout.work_time
         rest = workout.rest_time
         numSets = workout.sets
+
+        // Hiding and showing views according to workout mode and setting values
         if (workout.reps) { //Working with Reps
             initialWorkTime = ((workout.num_reps * workout.reps_time) * 1000 + 1000).toLong() //Set Timer Value
             workFormat = reps.toString() + " " + getString(R.string.workingRepsTimer)
             timerMinutes.visibility = View.GONE
-            timerDivisor.visibility = View.GONE
         } else { //Working with Time
             initialWorkTime = (workout.work_time * 1000 + 1000).toLong() //Set Timer Value
             val workTimeFormat = convertTime(work)
@@ -86,13 +97,24 @@ class TimerActivity : AppCompatActivity() {
             timerSeconds.text = workTimeFormat[1]
         }
         val restTimeFormat = convertTime(rest)
+
+        //Assigning values and assets
         restFormat = getString(R.string.restTimer) + " " + restTimeFormat[0] + ":" + restTimeFormat[1]
         timerNext.text = restFormat
-        timerSets.text = numSets.toString()
+        timerSets.text = currentSet.toString()
         initialRestTime = (workout.rest_time * 1000 + 1000).toLong()
-        timerName.text = workout.name
+        timerName.text = workout.name.uppercase()
+        when (workout.category){
+            "Chest" -> {timerImage.setImageResource(R.drawable.chest_ic)}
+            "Back" -> {timerImage.setImageResource(R.drawable.back_ic)}
+            "Shoulder" -> {timerImage.setImageResource(R.drawable.shoulder_ic)}
+            "Arms" -> {timerImage.setImageResource(R.drawable.arm_ic)}
+            "Legs" -> {timerImage.setImageResource(R.drawable.legs_ic)}
+            "Abs" -> {timerImage.setImageResource(R.drawable.abs_ic)}
+        }
         startingLayout.visibility = View.GONE
         started = false
+
         startingTimer(initialWorkTime) //Start Short Timer Before Starting
 
         //Set listener to The Layout for Pause/UnPause Functionality
@@ -115,28 +137,38 @@ class TimerActivity : AppCompatActivity() {
 
     private fun startingTimer(time: Long) { //Short timer before Starting Workout
         startingLayout.visibility = View.VISIBLE
-        countDownTimer = object : CountDownTimer(3000, 950){
+        startDownTimer = object : CountDownTimer(6000, 1000){
             override fun onTick(millisUntilFinished: Long) {
                 countDownInPause = initialWorkTime
-                secsToStart.text = (millisUntilFinished/countDownInterval).toString()
+                if ((millisUntilFinished/countDownInterval) > 3){
+                    startingLbl.text = getString(R.string.getReady)
+                    secsToStart.visibility = View.GONE
+                } else if ((millisUntilFinished/countDownInterval) <= 3 && (millisUntilFinished/countDownInterval) > 0.99){
+                    startingLbl.text = getString(R.string.starting)
+                    secsToStart.text = (millisUntilFinished/countDownInterval).toString()
+                    secsToStart.visibility = View.VISIBLE
+                } else if ((millisUntilFinished/countDownInterval) < 1){
+                    secsToStart.text = "GO"
+                }
             }
             override fun onFinish() {
                 started = true
-                startingLayout.visibility = View.GONE
                 startWorkTimer(time) //Start Workout timer after this is finished
+                startingLayout.visibility = View.GONE
             }
         }
-        countDownTimer.start() //Start Short Timer
+        startDownTimer.start() //Start Short Timer
     }
 
     private fun startWorkTimer(time : Long){ //Workout Timer
         timerNext.text = restFormat
-        timerSets.text = (numSets-1).toString()
+        timerSets.text = (currentSet).toString()
         if (workout.reps){ //Working with Reps, Set Visibility
             countDownInterval = (workout.reps_time * 1000).toLong()
-            timerTitle.text = getString(R.string.workingRepsTimer)
             timerMinutes.visibility = View.GONE
-            timerDivisor.visibility = View.GONE
+            minutesTimerLbl.visibility = View.GONE
+            secondsTimerLbl.visibility = View.GONE
+            repsTimerLbl.visibility = View.VISIBLE
             countDownTimer = object : CountDownTimer(time, countDownInterval){
                 override fun onTick(millisUntilFinished: Long) {
                     countDownInPause = millisUntilFinished
@@ -144,13 +176,14 @@ class TimerActivity : AppCompatActivity() {
                 }
                 override fun onFinish() {
                     numSets--
+                    currentSet++
                     startRestTimer(initialRestTime) //Start rest time after this is finished
                 }
             }
             countDownTimer.start() //Start Reps Timer
         } else{ //Working with Time, Set Visibility
             countDownInterval = 1000
-            timerTitle.text = getString(R.string.workingTimeTimer)
+            repsTimerLbl.visibility = View.GONE
             countDownTimer = object : CountDownTimer(time, countDownInterval){
                 override fun onTick(millisUntilFinished: Long) {
                     countDownInPause = millisUntilFinished
@@ -189,9 +222,11 @@ class TimerActivity : AppCompatActivity() {
             timerNext.text = getString(R.string.end)
         }
         timerMinutes.visibility = View.VISIBLE
-        timerDivisor.visibility = View.VISIBLE
+        minutesTimerLbl.visibility = View.VISIBLE
+        secondsTimerLbl.visibility = View.VISIBLE
+        repsTimerLbl.visibility = View.GONE
+        timerSeconds.marginStart.plus(60)
         countDownInterval = 1000
-        timerTitle.text = getString(R.string.restingTimeTimer)
         countDownTimer = object : CountDownTimer(time, countDownInterval){
             override fun onTick(millisUntilFinished: Long) {
                 countDownInPause = millisUntilFinished

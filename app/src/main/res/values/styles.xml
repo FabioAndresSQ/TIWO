@@ -2,9 +2,9 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/AppBlue</item>
-        <item name="colorPrimaryDark">@color/AppBlue</item>
-        <item name="colorAccent">@color/AppBlue</item>
+        <item name="colorPrimary">@color/AppColor</item>
+        <item name="colorPrimaryDark">@color/AppColor</item>
+        <item name="colorAccent">@color/AppColor</item>
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
     </style>
@@ -35,7 +35,7 @@
 
     <style name="AppTheme.Picker" parent="Theme.AppCompat.Light.NoActionBar" >
         <item name="android:textStyle">bold</item>
-        <item name="colorControlNormal">@color/AppBlue</item>
+        <item name="colorControlNormal">@color/AppColor</item>
 
     </style>
 </resources>

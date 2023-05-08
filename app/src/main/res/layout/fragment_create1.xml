@@ -8,186 +8,197 @@
     android:focusableInTouchMode="true"
     tools:context=".CreateFragment1">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
+            android:id="@+id/scrollView4"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="500dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/textView6"
-                style="@style/workoutSubtitleStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="8dp"
-                android:text="Workout Name"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/createNameTxt"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
-
-            <EditText
-                android:id="@+id/createNameTxt"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Workout Name"
-                android:inputType="text|textPersonName|textCapCharacters"
-                android:minHeight="48dp"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-            <TextView
-                android:id="@+id/textView11"
-                style="@style/workoutSubtitleStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:text="Number of Sets"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/createNameTxt"
-                app:layout_constraintVertical_chainStyle="packed" />
-
-            <TextView
-                android:id="@+id/createSetsTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:minWidth="60dp"
-                android:text="3"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="25sp"
-                app:layout_constraintEnd_toStartOf="@+id/addSetsBtn"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/removeSetsBtn"
-                app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-            <ImageButton
-                android:id="@+id/addSetsBtn"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@color/transparent"
-                android:contentDescription="Add Sets"
-                android:padding="15dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_addbtn"
-                app:layout_constraintBottom_toBottomOf="@+id/createSetsTxt"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/createSetsTxt"
-                app:layout_constraintTop_toTopOf="@+id/createSetsTxt" />
-
-            <ImageButton
-                android:id="@+id/removeSetsBtn"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@color/transparent"
-                android:contentDescription="Remove Sets"
-                android:elevation="5dp"
-                android:padding="15dp"
-                android:scaleType="fitStart"
-                android:src="@drawable/ic_removebtn"
-                app:layout_constraintBottom_toBottomOf="@+id/createSetsTxt"
-                app:layout_constraintEnd_toStartOf="@+id/createSetsTxt"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/createSetsTxt" />
-
-            <TextView
-                android:id="@+id/textView13"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:text="Working mode"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/createSetsTxt"
-                app:layout_constraintVertical_chainStyle="packed" />
-
-            <Switch
-                android:id="@+id/createWorking"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:minHeight="50dp"
-                android:text=" Time "
-                android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/textView9"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="Reps"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/createWorking"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/createWorking"
-                app:layout_constraintTop_toTopOf="@+id/createWorking" />
-
-            <LinearLayout
-                android:id="@+id/createNext1"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginTop="60dp"
-                android:background="@drawable/save_btn_shape"
-                android:clickable="true"
-                android:elevation="10dp"
-                android:focusable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/createWorking">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/textView6"
+                    style="@style/workoutSubtitleStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"
-                    android:text="SIGUIENTE"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Workout Name"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/createNameTxt"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <EditText
+                    android:id="@+id/createNameTxt"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Workout Name"
+                    android:inputType="text|textPersonName"
+                    android:minHeight="48dp"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+                <TextView
+                    android:id="@+id/textView11"
+                    style="@style/workoutSubtitleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="60dp"
+                    android:text="Number of Sets"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/createNameTxt"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/createSetsTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:minWidth="60dp"
+                    android:text="3"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    app:layout_constraintEnd_toStartOf="@+id/addSetsBtn"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/removeSetsBtn"
+                    app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="5dp"
+                <ImageButton
+                    android:id="@+id/addSetsBtn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@color/transparent"
+                    android:contentDescription="Add Sets"
+                    android:padding="15dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/baseline_navigate_next_24" />
+                    android:src="@drawable/ic_addbtn"
+                    app:layout_constraintBottom_toBottomOf="@+id/createSetsTxt"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/createSetsTxt"
+                    app:layout_constraintTop_toTopOf="@+id/createSetsTxt" />
 
-            </LinearLayout>
+                <ImageButton
+                    android:id="@+id/removeSetsBtn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@color/transparent"
+                    android:contentDescription="Remove Sets"
+                    android:elevation="5dp"
+                    android:padding="15dp"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/ic_removebtn"
+                    app:layout_constraintBottom_toBottomOf="@+id/createSetsTxt"
+                    app:layout_constraintEnd_toStartOf="@+id/createSetsTxt"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/createSetsTxt" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="60dp"
+                    android:text="Working mode"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/createSetsTxt"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
+                <Switch
+                    android:id="@+id/createWorking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:minHeight="50dp"
+                    android:text=" Time "
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@+id/textView9"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Reps"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/createWorking"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/createWorking"
+                    app:layout_constraintTop_toTopOf="@+id/createWorking" />
+
+                <LinearLayout
+                    android:id="@+id/createNext1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/save_btn_shape"
+                    android:clickable="true"
+                    android:elevation="5dp"
+                    android:focusable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/createWorking">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:text="SIGUIENTE"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="5dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/baseline_navigate_next_24" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

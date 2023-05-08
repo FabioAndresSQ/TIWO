@@ -4,320 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:padding="10dp"
     tools:context=".CreateFragment3">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
+            android:id="@+id/scrollView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Workout Details"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView15">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="0"
-                        android:text="Name: "
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/nameLastCreate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:text="TextView"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView16"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="0"
-                        android:text="Sets: "
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/setsLastCreate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:text="TextView"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView18"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="0"
-                        android:text="Working with: "
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/workingLastCreate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:text="TextView"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/repsLastTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="0"
-                        android:text="Reps: "
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/repsLastCreate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:text="TextView"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/intervalLastTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="0"
-                        android:text="Reps Interval: "
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/intervalLastCreate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:text="TextView"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/workLastTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="0"
-                        android:text="Work Time: "
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/workLastCreate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:text="TextView"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp">
-
-                    <TextView
-                        android:id="@+id/textView29"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="0"
-                        android:text="Rest Time: "
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/restLastCreate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:text="TextView"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-            </LinearLayout>
+            android:layout_height="600dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/category2"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:clickable="true"
-                    android:contentDescription="Back Muscles"
-                    app:civ_border_color="@color/AppBlue"
-                    app:civ_border_width="3dp"
-                    android:src="@drawable/back_ic"
-                    app:layout_constraintEnd_toStartOf="@+id/category3"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/category1"
-                    app:layout_constraintTop_toTopOf="@+id/category1" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/category4"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="30dp"
-                    android:clickable="true"
-                    android:contentDescription="Arm muscles"
-                    app:civ_border_color="@color/AppBlue"
-                    app:civ_border_width="3dp"
-                    android:src="@drawable/arm_ic"
-                    app:layout_constraintEnd_toStartOf="@+id/category5"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/category1Txt" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/category3"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:clickable="true"
-                    android:contentDescription="Shoulder muscles"
-                    app:civ_border_color="@color/AppBlue"
-                    app:civ_border_width="3dp"
-                    android:src="@drawable/shoulder_ic"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/category2"
-                    app:layout_constraintTop_toTopOf="@+id/category1" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/category3Txt"
+                    android:id="@+id/textView15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Shoulder"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/category3"
-                    app:layout_constraintStart_toStartOf="@+id/category3"
-                    app:layout_constraintTop_toBottomOf="@+id/category3" />
-
-                <TextView
-                    android:id="@+id/category4Txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Arms"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/category4"
-                    app:layout_constraintStart_toStartOf="@+id/category4"
-                    app:layout_constraintTop_toBottomOf="@+id/category4" />
-
-                <TextView
-                    android:id="@+id/category5Txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Legs"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/category5"
-                    app:layout_constraintStart_toStartOf="@+id/category5"
-                    app:layout_constraintTop_toBottomOf="@+id/category5" />
-
-                <TextView
-                    android:id="@+id/textView27"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:text="Pick a Muscle Category"
+                    android:text="Workout Details"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -325,159 +36,463 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/category6Txt"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Abs"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/category6"
-                    app:layout_constraintStart_toStartOf="@+id/category6"
-                    app:layout_constraintTop_toBottomOf="@+id/category6" />
-
-                <TextView
-                    android:id="@+id/category1Txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Chest"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/category1"
-                    app:layout_constraintStart_toStartOf="@+id/category1"
-                    app:layout_constraintTop_toBottomOf="@+id/category1" />
-
-                <TextView
-                    android:id="@+id/category2Txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Back"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/category2"
-                    app:layout_constraintStart_toStartOf="@+id/category2"
-                    app:layout_constraintTop_toBottomOf="@+id/category2" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/category1"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="16dp"
-                    android:clickable="true"
-                    android:contentDescription="Chest Muscles"
-                    android:src="@drawable/chest_ic"
-                    app:civ_border_color="@color/AppBlue"
-                    app:civ_border_width="3dp"
-                    app:layout_constraintEnd_toStartOf="@+id/category2"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="spread"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView27" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/category6"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:clickable="true"
-                    android:contentDescription="Abs muscles"
-                    app:civ_border_color="@color/AppBlue"
-                    app:civ_border_width="3dp"
-                    android:src="@drawable/abs_ic"
+                    android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/category5"
-                    app:layout_constraintTop_toTopOf="@+id/category4" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView15">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/category5"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:clickable="true"
-                    android:contentDescription="Leg muscles"
-                    app:civ_border_color="@color/AppBlue"
-                    app:civ_border_width="3dp"
-                    android:src="@drawable/legs_ic"
-                    app:layout_constraintEnd_toStartOf="@+id/category6"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/category4"
-                    app:layout_constraintTop_toTopOf="@+id/category4" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="0"
+                            android:text="Name: "
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/nameLastCreate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:text="TextView"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="0"
+                            android:text="Sets: "
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/setsLastCreate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:text="TextView"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView18"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="0"
+                            android:text="Working with: "
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/workingLastCreate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:text="TextView"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/repsLastTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="0"
+                            android:text="Reps: "
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/repsLastCreate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:text="TextView"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/intervalLastTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="0"
+                            android:text="Reps Interval: "
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/intervalLastCreate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:text="TextView"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/workLastTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="0"
+                            android:text="Work Time: "
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/workLastCreate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:text="TextView"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp">
+
+                        <TextView
+                            android:id="@+id/textView29"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="0"
+                            android:text="Rest Time: "
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/restLastCreate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:text="TextView"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/category2"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:clickable="true"
+                        android:contentDescription="Back Muscles"
+                        android:src="@drawable/back_ic"
+                        android:elevation="1dp"
+                        app:civ_border_color="@color/AppColor"
+                        app:civ_border_width="3dp"
+                        app:layout_constraintEnd_toStartOf="@+id/category3"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/category1"
+                        app:layout_constraintTop_toTopOf="@+id/category1" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/category4"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="30dp"
+                        android:clickable="true"
+                        android:contentDescription="Arm muscles"
+                        android:src="@drawable/arm_ic"
+                        android:elevation="1dp"
+                        app:civ_border_color="@color/AppColor"
+                        app:civ_border_width="3dp"
+                        app:layout_constraintEnd_toStartOf="@+id/category5"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/category1Txt" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/category3"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:clickable="true"
+                        android:contentDescription="Shoulder muscles"
+                        android:src="@drawable/shoulder_ic"
+                        app:civ_border_color="@color/AppColor"
+                        android:elevation="1dp"
+                        app:civ_border_width="3dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/category2"
+                        app:layout_constraintTop_toTopOf="@+id/category1" />
+
+                    <TextView
+                        android:id="@+id/category3Txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Shoulder"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@+id/category3"
+                        app:layout_constraintStart_toStartOf="@+id/category3"
+                        app:layout_constraintTop_toBottomOf="@+id/category3" />
+
+                    <TextView
+                        android:id="@+id/category4Txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Arms"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@+id/category4"
+                        app:layout_constraintStart_toStartOf="@+id/category4"
+                        app:layout_constraintTop_toBottomOf="@+id/category4" />
+
+                    <TextView
+                        android:id="@+id/category5Txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Legs"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@+id/category5"
+                        app:layout_constraintStart_toStartOf="@+id/category5"
+                        app:layout_constraintTop_toBottomOf="@+id/category5" />
+
+                    <TextView
+                        android:id="@+id/textView27"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:text="Pick a Muscle Category"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/category6Txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Abs"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@+id/category6"
+                        app:layout_constraintStart_toStartOf="@+id/category6"
+                        app:layout_constraintTop_toBottomOf="@+id/category6" />
+
+                    <TextView
+                        android:id="@+id/category1Txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Chest"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@+id/category1"
+                        app:layout_constraintStart_toStartOf="@+id/category1"
+                        app:layout_constraintTop_toBottomOf="@+id/category1" />
+
+                    <TextView
+                        android:id="@+id/category2Txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Back"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@+id/category2"
+                        app:layout_constraintStart_toStartOf="@+id/category2"
+                        app:layout_constraintTop_toBottomOf="@+id/category2" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/category1"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="16dp"
+                        android:clickable="true"
+                        android:contentDescription="Chest Muscles"
+                        android:src="@drawable/chest_ic"
+                        app:civ_border_color="@color/AppColor"
+                        android:elevation="1dp"
+                        app:civ_border_width="3dp"
+                        app:layout_constraintEnd_toStartOf="@+id/category2"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_chainStyle="spread"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/category6"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:clickable="true"
+                        android:contentDescription="Abs muscles"
+                        android:src="@drawable/abs_ic"
+                        app:civ_border_color="@color/AppColor"
+                        app:civ_border_width="3dp"
+                        android:elevation="1dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/category5"
+                        app:layout_constraintTop_toTopOf="@+id/category4" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/category5"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:clickable="true"
+                        android:contentDescription="Leg muscles"
+                        android:src="@drawable/legs_ic"
+                        app:civ_border_color="@color/AppColor"
+                        android:elevation="1dp"
+                        app:civ_border_width="3dp"
+                        app:layout_constraintEnd_toStartOf="@+id/category6"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/category4"
+                        app:layout_constraintTop_toTopOf="@+id/category4" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
-            <LinearLayout
-                android:id="@+id/saveNewBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginTop="40dp"
-                android:elevation="10dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="@drawable/save_btn_shape"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/saveStartNewBtn"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        <LinearLayout
+            android:id="@+id/saveNewBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/save_btn_shape"
+            android:clickable="true"
+            android:elevation="5dp"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/saveStartNewBtn"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scrollView2">
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="5dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/baseline_save_24" />
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/baseline_save_24" />
 
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="5dp"
-                    android:text="GUARDAR"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="5dp"
+                android:text="GUARDAR"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-            </LinearLayout>
+        </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/saveStartNewBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:elevation="10dp"
-                android:background="@drawable/save_btn_shape"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/saveNewBtn"
-                app:layout_constraintTop_toTopOf="@+id/saveNewBtn">
+        <LinearLayout
+            android:id="@+id/saveStartNewBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/save_btn_shape"
+            android:clickable="true"
+            android:elevation="5dp"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="@+id/saveNewBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/saveNewBtn"
+            app:layout_constraintTop_toTopOf="@+id/saveNewBtn">
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="5dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/baseline_play_arrow_24" />
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/baseline_play_arrow_24" />
 
-                <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="5dp"
-                    android:text="INICIAR &amp; GUARDAR"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="5dp"
+                android:text="INICIAR &amp; GUARDAR"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

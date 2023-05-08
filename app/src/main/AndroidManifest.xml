@@ -16,27 +16,32 @@
             android:name=".QuickActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme"
+            android:resizeableActivity="false"/>
         <activity
             android:name=".CreateActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme"
+            android:resizeableActivity="false"/>
         <activity
             android:name=".TimerActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme"
+            android:resizeableActivity="false"/>
         <activity
             android:name=".InfoActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme"
+            android:resizeableActivity="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.App.Starting">
+            android:theme="@style/Theme.App.Starting"
+            android:resizeableActivity="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

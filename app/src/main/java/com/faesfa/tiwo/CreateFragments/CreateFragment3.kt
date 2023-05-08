@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -114,22 +112,22 @@ class CreateFragment3 : Fragment() {
                 when (it.id) {
                     chestCategory.id -> {
                         image = "Chest"
-                        chestCategory.circleBackgroundColor = resources.getColor(R.color.AppBlue) }
+                        chestCategory.circleBackgroundColor = resources.getColor(R.color.AppColor) }
                     backCategory.id -> {
                         image = "Back"
-                        backCategory.circleBackgroundColor = resources.getColor(R.color.AppBlue)}
+                        backCategory.circleBackgroundColor = resources.getColor(R.color.AppColor)}
                     shoulderCategory.id -> {
                         image = "Shoulder"
-                        shoulderCategory.circleBackgroundColor = resources.getColor(R.color.AppBlue)}
+                        shoulderCategory.circleBackgroundColor = resources.getColor(R.color.AppColor)}
                     armsCategory.id -> {
                         image = "Arms"
-                        armsCategory.circleBackgroundColor = resources.getColor(R.color.AppBlue)}
+                        armsCategory.circleBackgroundColor = resources.getColor(R.color.AppColor)}
                     legsCategory.id -> {
                         image = "Legs"
-                        legsCategory.circleBackgroundColor = resources.getColor(R.color.AppBlue)}
+                        legsCategory.circleBackgroundColor = resources.getColor(R.color.AppColor)}
                     absCategory.id -> {
                         image = "Abs"
-                        absCategory.circleBackgroundColor = resources.getColor(R.color.AppBlue)}
+                        absCategory.circleBackgroundColor = resources.getColor(R.color.AppColor)}
                     else -> {
                         Toast.makeText(this.context, "Pick a category", Toast.LENGTH_SHORT).show()
                     }

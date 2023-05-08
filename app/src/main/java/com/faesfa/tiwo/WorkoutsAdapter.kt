@@ -2,7 +2,6 @@ package com.faesfa.tiwo
 
 import android.content.Context
 import android.os.Build
-import android.provider.ContactsContract.Data
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,8 +36,8 @@ class WorkoutsAdapter(
 
 
         @RequiresApi(Build.VERSION_CODES.M)
-        holder.workoutImage.borderColor = context.getColor(R.color.AppBlue)
-        holder.workoutImage.borderWidth = 10
+        holder.workoutImage.borderColor = context.getColor(R.color.AppColor)
+        holder.workoutImage.borderWidth = 5
 
         holder.workoutName.text = item.name.uppercase()
         holder.sets.text = item.sets.toString()

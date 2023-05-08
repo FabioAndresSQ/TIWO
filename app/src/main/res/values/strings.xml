@@ -13,10 +13,11 @@
     <string name="infoWorkRepsTittle">REPS INTERVAL</string>
 
     <!-- Strings Used on Timer Screen -->
+    <string name="getReady">Get Ready!</string>
     <string name="starting">Starting in…</string>
     <string name="backToExitTimer">Press Back Again to Exit</string>
     <string name="doubleTapPause">Double Tap Pause/UnPause</string>
-    <string name="setsTimer">SETS LEFT</string>
+    <string name="setsTimer">CURRENT SET: </string>
     <string name="restTimer">Rest:</string>
     <string name="workTimer">Work:</string>
     <string name="workingTimeTimer">WORK TIME</string>

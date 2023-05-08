@@ -5,8 +5,6 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -66,8 +64,8 @@ class InfoActivity : AppCompatActivity() {
             "Abs" -> {infoImage.setImageResource(R.drawable.abs_ic)}
         }
         @RequiresApi(Build.VERSION_CODES.M)
-        infoImage.borderColor = this.getColor(R.color.AppBlue)
-        infoImage.borderWidth = 10
+        infoImage.borderColor = this.getColor(R.color.AppColor)
+        infoImage.borderWidth = 5
 
         infoNameTxt.text = workout.name.uppercase()
         infoSetsTxt.text = workout.sets.toString()
