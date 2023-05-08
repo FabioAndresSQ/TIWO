@@ -1,20 +1,112 @@
 <resources>
     <string name="app_name">TIWO</string>
 
-    <!-- Strings Used on Home Screen -->
-    <string name="createBtnDescription">Create new timers</string>
-    <string name="backToExitApp">Press Back Again to Exit</string>
+    <!-- Strings Used in General -->
+    <string name="startBtnTxt">START</string>
+    <string name="startBtnDescription">Start Workout Button</string>
 
     <!-- Strings Used on Home Screen -->
+    <string name="newBtnDescription">New timers</string>
+    <string name="createBtnDescription">Create new timer</string>
+    <string name="createBtnTxt">NEW WORKOUT</string>
+    <string name="quickBtnDescription">Start Quick timer</string>
+    <string name="quickBtnTxt">QUICK WORKOUT</string>
+    <string name="mainActivityTitle">Workouts</string>
+    <string name="backToExitApp">Press Back Again to Exit</string>
+
+    <!-- Strings Used on Item View -->
+    <string name="itemNameField">WORKOUT NAME</string>
+    <string name="itemSetsTxt">Sets:</string>
+    <string name="itemRepsTxt">Reps:</string>
+    <string name="itemWorkTxt">Work:</string>
+    <string name="itemValueZero">0</string>
+    <string name="itemDurationTxt">Duration</string>
+    <string name="itemDurValue">00:00</string>
+    <string name="itemClockImgDescription">Clock Image Duration</string>
+
+    <!-- Strings Used on Details/Info Screen -->
+    <string name="infoWorkoutNameTitle">WORKOUT NAME</string>
+    <string name="infoNumValueDefault">0</string>
+    <string name="infoNumSetsTitle">Sets</string>
+    <string name="infoNumRepsTitle">Reps</string>
+    <string name="infoNumRepsIntervalTitle">Repetition intervals</string>
+    <string name="infoIntervalSecs">Seconds</string>
+    <string name="infoWorkTimeTitle">Work Time</string>
+    <string name="infoRestTimeTitle">Rest time</string>
+    <string name="infoDeleteBtnTxt">DELETE</string>
+    <string name="infoDeleteBtnDescription">Delete Workout Button</string>
+
+
+    <!-- Strings Used in Quick and Create workout -->
+    <string name="workoutMode">Working mode</string>
+    <string name="workoutModeTime">Time</string>
+    <string name="workoutModeReps">Reps</string>
+    <string name="workoutNumSets">Number of Sets</string>
+    <string name="workoutNumSetsValueDefault">3</string>
+    <string name="workoutNumReps">Number of Reps</string>
+    <string name="workoutNumRepsValueDefault">10</string>
+    <string name="workoutRepsInterval">Reps Interval</string>
+    <string name="workoutIntervalValueDefault">1.5</string>
+    <string name="workoutIntervalSecs">Seconds</string>
+    <string name="workoutRestTime">Rest time</string>
+    <string name="workoutWorkTime">Work time</string>
+    <string name="workoutDotsDivider">:</string>
+    <string name="addSetsBtnDescription">Add sets</string>
+    <string name="removeSetsBtnDescription">Remove sets</string>
+    <string name="addRepsBtnDescription">Add repetition</string>
+    <string name="removeRepsBtnDescription">Remove repetition</string>
+    <string name="addIntervalBtnDescription">Add repetition interval seconds</string>
+    <string name="removeIntervalBtnDescription">Remove repetition interval seconds</string>
+
+    <!-- Strings Used on Create Workout Screen -->
+    <string name="createActionBar">Create Workout</string>
+    <string name="createActionBarHelpDescription">Help creating workout</string>
+    <string name="createWorkoutName">Workout name</string>
+    <string name="createWorkoutNextBtn">NEXT</string>
+    <string name="createWorkoutNextBtnDescription">Next Button</string>
+    <string name="createWorkoutDetails">Workout Details</string>
+    <string name="createWorkoutDetailsName">Name:</string>
+    <string name="createWorkoutDetailsSets">Sets:</string>
+    <string name="createWorkoutDetailsReps">Reps:</string>
+    <string name="createWorkoutDetailsInterval">Reps interval:</string>
+    <string name="createWorkoutDetailsWorkMode">Working mode:</string>
+    <string name="createWorkoutDetailsWorkTime">Work time:</string>
+    <string name="createWorkoutDetailsRestTime">Rest time:</string>
+    <string name="createWorkoutDetailsDefault">N/A</string>
+    <string name="createSaveBtnDescription">Save workout</string>
+    <string name="createSaveBtnTxt">SAVE</string>
+    <string name="createStartSaveBtnDescription">Start and save workout</string>
+    <string name="createStartSaveBtnTxt">START &amp; SAVE</string>
+    <!-- Strings Used on Workout Category -->
+    <string name="pickCategoryTitle">Pick a Muscle Category</string>
+    <string name="backCategoryDescription">Back muscles category</string>
+    <string name="chestCategoryDescription">Chest muscles category</string>
+    <string name="shoulderCategoryDescription">Shoulder muscles category</string>
+    <string name="armsCategoryDescription">Arms muscles category</string>
+    <string name="legsCategoryDescription">Legs muscles category</string>
+    <string name="absCategoryDescription">Abs muscles category</string>
+    <string name="backCategoryTxt">Back</string>
+    <string name="chestCategoryTxt">Chest</string>
+    <string name="shoulderCategoryTxt">Shoulder</string>
+    <string name="armsCategoryTxt">Arms</string>
+    <string name="legsCategoryTxt">Legs</string>
+    <string name="absCategoryTxt">Abs</string>
+
+
     <string name="workingReps">Reps:</string>
-    //Also used on Timer
     <string name="workingTime">Work:</string>
-    <string name="infoWorkTimeTittle">WORK TIME</string>
-    <string name="infoWorkRepsTittle">REPS INTERVAL</string>
 
     <!-- Strings Used on Timer Screen -->
     <string name="getReady">Get Ready!</string>
     <string name="starting">Starting in…</string>
+    <string name="timerDefaultNumber">00</string>
+    <string name="timerVerticalMinutes">MINUTES</string>
+    <string name="timerVerticalSeconds">SECONDS</string>
+    <string name="timerVerticalReps">REPETITIONS</string>
+    <string name="timerComingUp">COMING UP NEXT:</string>
+    <string name="timerComingUpDefault">N/A</string>
+    <string name="timerStartingDefaultValue">3</string>
+    <string name="timerStartingFinalValue">GO</string>
     <string name="backToExitTimer">Press Back Again to Exit</string>
     <string name="doubleTapPause">Double Tap Pause/UnPause</string>
     <string name="setsTimer">CURRENT SET: </string>
@@ -24,5 +116,7 @@
     <string name="workingRepsTimer">REPS</string>
     <string name="restingTimeTimer">REST TIME</string>
     <string name="end">End</string>
-    <string name="paused">Paused</string>
+    <string name="paused">PAUSED</string>
+    <string name="timerPausedBtnDescription">Timer paused button to resume</string>
+    <string name="timerPausedBtnTxt">Double Tap to Resume</string>
 </resources>

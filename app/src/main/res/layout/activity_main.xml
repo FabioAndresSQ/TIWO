@@ -18,9 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="WORKOUTS"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:text="@string/mainActivityTitle"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/includeAppBar" />
@@ -52,7 +51,7 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/floating_btn_shape"
         android:clickable="true"
-        android:contentDescription="@string/createBtnDescription"
+        android:contentDescription="@string/newBtnDescription"
         android:elevation="10dp"
         android:focusable="true"
         android:padding="10dp"
@@ -81,7 +80,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NEW WORKOUT"
+            android:text="@string/createBtnTxt"
             android:textColor="@color/black"
             android:background="@drawable/rounded_corner"
             android:backgroundTint="#FFFFFF"
@@ -99,6 +98,7 @@
                 android:scaleX="0.8"
                 android:scaleY="0.8"
                 android:padding="10dp"
+                android:contentDescription="@string/createBtnDescription"
                 android:elevation="3dp"
                 android:scaleType="centerCrop"
                 android:background="@drawable/floating_btn_shape"
@@ -113,7 +113,7 @@
         android:layout_height="48dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
-        android:contentDescription="@string/createBtnDescription"
+        android:contentDescription="@string/quickBtnDescription"
         android:elevation="10dp"
         android:fadingEdgeLength="10dp"
         android:gravity="center"
@@ -133,7 +133,7 @@
             android:fadingEdgeLength="100dp"
             android:paddingStart="10dp"
             android:paddingEnd="15dp"
-            android:text="QUICK WORKOUT"
+            android:text="@string/quickBtnTxt"
             android:textColor="@color/black" />
 
             <ImageView
@@ -143,6 +143,7 @@
                 android:scaleY="0.8"
                 android:elevation="3dp"
                 android:focusable="true"
+                android:contentDescription="@string/quickBtnDescription"
                 android:gravity="center"
                 android:padding="10dp"
                 android:scaleType="centerCrop"

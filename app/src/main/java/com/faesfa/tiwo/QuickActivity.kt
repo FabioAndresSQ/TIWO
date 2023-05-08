@@ -5,12 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import java.io.Serializable
 
 class QuickActivity : AppCompatActivity() {
 
-    private lateinit var quickWorking : Switch
+    private lateinit var quickWorking : SwitchCompat
     private lateinit var quickSetsTxt : TextView
     private lateinit var quickRemoveSetsBtn : ImageButton
     private lateinit var quickAddSetsBtn : ImageButton
@@ -80,7 +81,7 @@ class QuickActivity : AppCompatActivity() {
 
         //Listener for Switch
         changeVisibility(quickWorking.isChecked)
-        quickWorking.setOnCheckedChangeListener { buttonView, isChecked ->
+        quickWorking.setOnCheckedChangeListener { _, isChecked ->
             changeVisibility(isChecked)
         }
 
@@ -141,10 +142,10 @@ class QuickActivity : AppCompatActivity() {
         workMinutesQuick.minValue = 0
         workSecondsQuick.maxValue = 59
         workSecondsQuick.minValue = 0
-        workMinutesQuick.setOnValueChangedListener { picker, oldVal, newVal ->
+        workMinutesQuick.setOnValueChangedListener { _, _, newVal ->
             workMinutes = newVal
         }
-        workSecondsQuick.setOnValueChangedListener { picker, oldVal, newVal ->
+        workSecondsQuick.setOnValueChangedListener { _, _, newVal ->
             workSeconds = newVal
         }
 
@@ -153,10 +154,10 @@ class QuickActivity : AppCompatActivity() {
         restMinutesQuick.minValue = 0
         restSecondsQuick.maxValue = 59
         restSecondsQuick.minValue = 0
-        restMinutesQuick.setOnValueChangedListener { picker, oldVal, newVal ->
+        restMinutesQuick.setOnValueChangedListener { _, _, newVal ->
             restMinutes = newVal
         }
-        restSecondsQuick.setOnValueChangedListener { picker, oldVal, newVal ->
+        restSecondsQuick.setOnValueChangedListener { _, _, newVal ->
             restSeconds = newVal
         }
 
@@ -227,7 +228,6 @@ class QuickActivity : AppCompatActivity() {
             workMinutesQuick.visibility = View.VISIBLE
             workSecondsQuick.visibility = View.VISIBLE
             dotsWorkTimeQuick.visibility = View.VISIBLE
-            Toast.makeText(this, "Working with Time", Toast.LENGTH_SHORT).show()
         } else { //Working reps
             quickNumRepsTitle.visibility = View.VISIBLE
             quickRepsTxt.visibility = View.VISIBLE
@@ -244,7 +244,6 @@ class QuickActivity : AppCompatActivity() {
             workMinutesQuick.visibility = View.GONE
             workSecondsQuick.visibility = View.GONE
             dotsWorkTimeQuick.visibility = View.GONE
-            Toast.makeText(this, "Working with Reps", Toast.LENGTH_SHORT).show()
         }
     }
 

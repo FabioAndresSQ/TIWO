@@ -73,13 +73,13 @@ class InfoActivity : AppCompatActivity() {
             infoRepsTitle.visibility = View.VISIBLE
             infoRepsTxt.visibility = View.VISIBLE
             infoRepsTxt.text = workout.num_reps.toString()
-            infoWorkTitle.text = this.getString(R.string.infoWorkRepsTittle) //Set title to working with Reps
-            val duration = workout.reps_time.toString() + " Secs"
+            infoWorkTitle.text = this.getString(R.string.infoNumRepsIntervalTitle) //Set title to working with Reps
+            val duration = "${workout.reps_time} ${getString(R.string.infoIntervalSecs)}"
             infoWorkTxt.text = duration
         }else{ //Working with Time, set visibility
             infoRepsTitle.visibility = View.GONE
             infoRepsTxt.visibility = View.GONE
-            infoWorkTitle.text = this.getString(R.string.infoWorkTimeTittle) //Set title to working with time
+            infoWorkTitle.text = this.getString(R.string.infoWorkTimeTitle) //Set title to working with time
             val duration = dataManager.convertTime(workout.work_time)
             infoWorkTxt.text = duration
         }

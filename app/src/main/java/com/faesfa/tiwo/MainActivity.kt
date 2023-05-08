@@ -8,13 +8,11 @@ import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import java.io.*
 
@@ -24,8 +22,6 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
     private lateinit var plusBtn : ImageView
     private lateinit var quickBtn : LinearLayout
     private lateinit var createBtn : LinearLayout
-    private lateinit var quickTxtHome: TextView
-    private lateinit var createTxtHome: TextView
     private lateinit var workouts : Workouts
     private lateinit var dataManager: DataManager
     private lateinit var jsonString : String
@@ -64,12 +60,12 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
             startActivity(launchCreate)
         }
         //Get data from Json file
-        try {
-            jsonString = dataManager.getJsonFromFile(this)!!
+        jsonString = try {
+            dataManager.getJsonFromFile(this)!!
         } catch (e : Exception){ //if File is Empty or null Create it
             val createJsonString = "{\"workouts\": []}"
             dataManager.saveJsonToFile(this, createJsonString)
-            jsonString = dataManager.getJsonFromFile(this)!!
+            dataManager.getJsonFromFile(this)!!
         }
 
         workouts = Gson().fromJson(jsonString, Workouts::class.java) //Turn String into Model Obj with Gson

@@ -43,12 +43,12 @@ class WorkoutsAdapter(
         holder.sets.text = item.sets.toString()
         //Check if working with Reps or Time
         if (item.reps){
-            holder.workWith.text = context.getString(R.string.workingReps)
+            holder.workWith.text = context.getString(R.string.itemRepsTxt)
             holder.reps.text = item.num_reps.toString()
             holder.workoutDuration.text = dataManager.convertTime(((item.reps_time * item.num_reps + item.rest_time) * item.sets).toInt())
         }else{
             val repsText = dataManager.convertTime(item.work_time)
-            holder.workWith.text = context.getString(R.string.workingTime)
+            holder.workWith.text = context.getString(R.string.itemWorkTxt)
             holder.reps.text = repsText
             holder.workoutDuration.text = dataManager.convertTime((item.work_time + item.rest_time) * item.sets)//convertTime((item.work_time + item.rest_time) * item.sets)
         }

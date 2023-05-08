@@ -3,6 +3,7 @@ package com.faesfa.tiwo
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.*
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.ImageView
@@ -148,7 +149,7 @@ class TimerActivity : AppCompatActivity() {
                     secsToStart.text = (millisUntilFinished/countDownInterval).toString()
                     secsToStart.visibility = View.VISIBLE
                 } else if ((millisUntilFinished/countDownInterval) < 1){
-                    secsToStart.text = "GO"
+                    secsToStart.text = getString(R.string.timerStartingFinalValue)
                 }
             }
             override fun onFinish() {
@@ -251,6 +252,7 @@ class TimerActivity : AppCompatActivity() {
 
         showedFirst = if (!showedFirst){
             //Toast.makeText(this, txt1, Toast.LENGTH_SHORT).show()
+            Log.d("TAG", txt1)
             val resID = resources.getIdentifier("tick", "raw", packageName)
             mediaPlayer.reset()
             mediaPlayer = MediaPlayer.create(this, resID)
@@ -258,6 +260,7 @@ class TimerActivity : AppCompatActivity() {
             true
         } else {
             //Toast.makeText(this, txt2, Toast.LENGTH_SHORT).show()
+            Log.d("TAG", txt2)
             val resID = resources.getIdentifier("tick", "raw", packageName)
             mediaPlayer.reset()
             mediaPlayer = MediaPlayer.create(this, resID)

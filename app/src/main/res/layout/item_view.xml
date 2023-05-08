@@ -42,7 +42,7 @@
                 android:id="@+id/workoutNameTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nombre Ejercicio"
+                android:text="@string/itemNameField"
                 android:textColor="@color/AppColor"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -55,7 +55,7 @@
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="Sets:"
+                    android:text="@string/itemSetsTxt"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -65,7 +65,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="3"
+                    android:text="@string/itemValueZero"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -79,7 +79,7 @@
                     android:id="@+id/workWithTxt"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="Reps:"
+                    android:text="@string/itemRepsTxt"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -89,7 +89,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="15"
+                    android:text="@string/itemValueZero"
                     android:textColor="@color/black"
                     android:textSize="14sp"/>
             </LinearLayout>
@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Duration"
+                android:text="@string/itemDurationTxt"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -118,6 +118,7 @@
                 android:id="@+id/imageView2"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:contentDescription="@string/itemClockImgDescription"
                 android:layout_gravity="center_horizontal"
                 app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
 
@@ -126,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="00:00"
+                android:text="@string/itemDurValue"
                 android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>

@@ -1,16 +1,12 @@
 package com.faesfa.tiwo
 
-import android.R.color
-import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import java.lang.reflect.Field
 
 
 class CreateFragment2 : Fragment() {
@@ -111,10 +107,10 @@ class CreateFragment2 : Fragment() {
             workMinutesCreate.minValue = 0
             workSecondsCreate.maxValue = 59
             workSecondsCreate.minValue = 0
-            workMinutesCreate.setOnValueChangedListener { picker, oldVal, newVal ->
+            workMinutesCreate.setOnValueChangedListener { _, _, newVal ->
                 workMinutes = newVal
             }
-            workSecondsCreate.setOnValueChangedListener { picker, oldVal, newVal ->
+            workSecondsCreate.setOnValueChangedListener { _, _, newVal ->
                 workSeconds = newVal
             }
         }
@@ -123,10 +119,10 @@ class CreateFragment2 : Fragment() {
         restMinutesCreate.minValue = 0
         restSecondsCreate.maxValue = 59
         restSecondsCreate.minValue = 0
-        restMinutesCreate.setOnValueChangedListener { picker, oldVal, newVal ->
+        restMinutesCreate.setOnValueChangedListener { _, _, newVal ->
             restMinutes = newVal
         }
-        restSecondsCreate.setOnValueChangedListener { picker, oldVal, newVal ->
+        restSecondsCreate.setOnValueChangedListener { _, _, newVal ->
             restSeconds = newVal
         }
 

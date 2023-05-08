@@ -7,6 +7,7 @@ import android.view.View
 import android.view.View.*
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.widget.SwitchCompat
 import androidx.navigation.findNavController
 
 // initialize the workout Model Obj
@@ -24,7 +25,7 @@ class CreateFragment1 : Fragment() {
         val setsTxt = view.findViewById<TextView>(R.id.createSetsTxt)
         val addBtn = view.findViewById<ImageButton>(R.id.addSetsBtn)
         val removeBtn = view.findViewById<ImageButton>(R.id.removeSetsBtn)
-        val workingWithTxt = view.findViewById<Switch>(R.id.createWorking)
+        val workingWithTxt = view.findViewById<SwitchCompat>(R.id.createWorking)
         val nextBtn = view.findViewById<LinearLayout>(R.id.createNext1)
         //Create the workout obj with default values
         workout = WorkoutsModelClass("default", 0, false,0,0.0,0,0, "")
