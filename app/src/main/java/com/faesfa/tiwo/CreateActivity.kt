@@ -8,7 +8,6 @@ import androidx.appcompat.widget.Toolbar
 
 class CreateActivity : AppCompatActivity() {
     private lateinit var toolBar : Toolbar
-    private lateinit var helpBtn : ImageButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create)
@@ -18,12 +17,7 @@ class CreateActivity : AppCompatActivity() {
         toolBar.elevation = 5F
         setSupportActionBar(toolBar)
 
-        helpBtn = findViewById(R.id.infoCreate)
-        
-        helpBtn.setOnClickListener { 
-            //Show Help Info
-            Toast.makeText(this, "Showing Help", Toast.LENGTH_SHORT).show()
-        }
+
         
     }
 }

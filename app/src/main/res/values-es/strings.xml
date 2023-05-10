@@ -111,6 +111,8 @@
     <string name="timerStartingFinalValue">YA</string>
     <string name="backToExitTimer">Presiona atras nuevamente para salir</string>
     <string name="doubleTapPause">Toca doble Pausar/Reanudar</string>
+    <string name="doubleTapSkip">Toca doble para Saltar</string>
+    <string name="doubleTapReturn">Toca doble para Volver</string>
     <string name="setsTimer">SERIE ACTUAL: </string>
     <string name="restTimer">Descanso:</string>
     <string name="workTimer">Trabajo:</string>
@@ -123,4 +125,12 @@
     <string name="timerPausedBtnTxt">Toca doble para reanudar</string>
     <string name="timerWorkTxt">TRABAJO</string>
     <string name="timerRestTxt">DESCANSO</string>
+    <string name="timerSkipBtnDescription">Boton saltar temporizador</string>
+    <string name="timerPreviousBtnDescription">Boton volver temporizador anterior</string>
+
+    <!-- Strings Used for Sound names -->
+    <string name="upSound">up_es</string>
+    <string name="downSound">down_es</string>
+    <string name="oneSound">one_es</string>
+    <string name="twoSound">two_es</string>
 </resources>

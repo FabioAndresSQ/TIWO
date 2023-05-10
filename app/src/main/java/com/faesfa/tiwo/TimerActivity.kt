@@ -1,16 +1,18 @@
 package com.faesfa.tiwo
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.*
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.animation.doOnEnd
 import androidx.core.view.marginStart
 
 class TimerActivity : AppCompatActivity() {
@@ -21,6 +23,7 @@ class TimerActivity : AppCompatActivity() {
     private lateinit var timerSeconds : TextView
     private lateinit var timerNext : TextView
     private lateinit var timerLayout : ConstraintLayout
+    private lateinit var layoutContainer : ConstraintLayout
     private lateinit var startingLayout : ConstraintLayout
     private lateinit var pausedLayout : ConstraintLayout
     private lateinit var startingLbl : TextView
@@ -30,6 +33,9 @@ class TimerActivity : AppCompatActivity() {
     private lateinit var repsTimerLbl : TextView
     private lateinit var timerImage : ImageView
     private lateinit var timerCurrentState : TextView
+    private lateinit var skipTimerBtn : LinearLayout
+    private lateinit var timerNumbersLayout : ConstraintLayout
+    private lateinit var goPreviousStateBtn : ImageView
     private lateinit var workout : WorkoutsModelClass
     private var numSets = 0
     private var currentSet = 1
@@ -41,6 +47,8 @@ class TimerActivity : AppCompatActivity() {
     private var resting = false
     private var backPressedOnce = false
     private var touchedOnce = 0
+    private var touchedSkipOnce = 0
+    private var touchedReturnOnce = 0
     private var showedFirst = false
 
     private lateinit var dataManager: DataManager
@@ -82,6 +90,10 @@ class TimerActivity : AppCompatActivity() {
         secondsTimerLbl = findViewById(R.id.secondsTimerLbl)
         repsTimerLbl = findViewById(R.id.repsTimerLbl)
         timerCurrentState = findViewById(R.id.timerCurrentState)
+        skipTimerBtn = findViewById(R.id.skipTimerBtn)
+        timerNumbersLayout = findViewById(R.id.timerNumbersLayout)
+        layoutContainer = findViewById(R.id.layoutContainer)
+        goPreviousStateBtn = findViewById(R.id.goPreviousStateBtn)
         reps = workout.num_reps
         work = workout.work_time
         rest = workout.rest_time
@@ -92,6 +104,9 @@ class TimerActivity : AppCompatActivity() {
             initialWorkTime = ((workout.num_reps * workout.reps_time) * 1000 + 1000).toLong() //Set Timer Value
             workFormat = reps.toString() + " " + getString(R.string.workingRepsTimer)
             timerMinutes.visibility = View.GONE
+            minutesTimerLbl.visibility = View.GONE
+            secondsTimerLbl.visibility = View.GONE
+            timerSeconds.textSize = 200F
         } else { //Working with Time
             initialWorkTime = (workout.work_time * 1000 + 1000).toLong() //Set Timer Value
             val workTimeFormat = convertTime(work)
@@ -116,9 +131,83 @@ class TimerActivity : AppCompatActivity() {
             "Abs" -> {timerImage.setImageResource(R.drawable.abs_ic)}
         }
         startingLayout.visibility = View.GONE
+        goPreviousStateBtn.visibility = View.GONE
         started = false
 
         startingTimer(initialWorkTime) //Start Short Timer Before Starting
+
+        skipTimerBtn.setOnClickListener {
+            if (started) {
+                touchedSkipOnce++
+                Handler(Looper.getMainLooper()).postDelayed({ //Double tap handler
+                    if (touchedSkipOnce == 1) {
+                        Toast.makeText(this, getString(R.string.doubleTapSkip), Toast.LENGTH_SHORT)
+                            .show()
+                    } else if (touchedSkipOnce == 2) {
+                        val animateNumbersLayout =
+                            ObjectAnimator.ofFloat(timerNumbersLayout, "alpha", 0f).apply {
+                                duration = 1000
+                                start()
+                            }
+                        animateNumbersLayout.doOnEnd {
+                            skipCurrentState()
+                            ObjectAnimator.ofFloat(timerNumbersLayout, "alpha", 1f).apply {
+                                duration = 1000
+                                start()
+                            }
+                        }
+                        val animateText =
+                            ObjectAnimator.ofFloat(timerCurrentState, "alpha", 0f).apply {
+                                duration = 1000
+                                start()
+                            }
+                        animateText.doOnEnd {
+                            ObjectAnimator.ofFloat(timerCurrentState, "alpha", 1f).apply {
+                                duration = 1000
+                                start()
+                            }
+                        }
+                    }
+                    touchedSkipOnce = 0
+                }, 200)
+            }
+        }
+
+            goPreviousStateBtn.setOnClickListener {
+                if (started) {
+                    touchedReturnOnce++
+                    Handler(Looper.getMainLooper()).postDelayed({ //Double tap handler
+                        if (touchedReturnOnce == 1) {
+                            Toast.makeText(this, getString(R.string.doubleTapReturn), Toast.LENGTH_SHORT).show()
+                        } else if (touchedReturnOnce == 2) {
+                            val animateNumbersLayout =
+                                ObjectAnimator.ofFloat(timerNumbersLayout, "alpha", 0f).apply {
+                                    duration = 1000
+                                    start()
+                                }
+                            animateNumbersLayout.doOnEnd {
+                                returnPreviousState()
+                                ObjectAnimator.ofFloat(timerNumbersLayout, "alpha", 1f).apply {
+                                    duration = 1000
+                                    start()
+                                }
+                            }
+                            val animateText =
+                                ObjectAnimator.ofFloat(timerCurrentState, "alpha", 0f).apply {
+                                    duration = 1000
+                                    start()
+                                }
+                            animateText.doOnEnd {
+                                ObjectAnimator.ofFloat(timerCurrentState, "alpha", 1f).apply {
+                                    duration = 1000
+                                    start()
+                                }
+                            }
+                        }
+                        touchedReturnOnce = 0
+                    }, 200)
+                }
+            }
 
         //Set listener to The Layout for Pause/UnPause Functionality
         timerLayout.setOnClickListener {
@@ -136,21 +225,75 @@ class TimerActivity : AppCompatActivity() {
                 touchedOnce = 0
             },300)
         }
+
+
+
+    }
+
+    private fun skipCurrentState(){
+        countDownTimer.cancel()
+        timerInterval.cancel()
+        if (resting) {
+            //Pass to next Set and workout
+            resting = false
+            numSets--
+            currentSet++
+            if (numSets > 0){
+                startingTimer(initialWorkTime)
+            } else {//Sets is 0
+                launchHome()
+            }
+        } else {
+            //Pass to resting time
+            startRestTimer(initialRestTime)
+        }
+    }
+
+    private fun returnPreviousState(){
+        countDownTimer.cancel()
+        timerInterval.cancel()
+        if (resting) {
+            //Pass to next Set and workout
+            resting = false
+            startingTimer(initialWorkTime)
+        } else {
+            //Pass to resting time
+            numSets++
+            currentSet--
+            startRestTimer(initialRestTime)
+        }
     }
 
     private fun startingTimer(time: Long) { //Short timer before Starting Workout
+        started = false
+        if (currentSet == 1 && resting){
+            goPreviousStateBtn.visibility = View.VISIBLE
+        } else if (currentSet > 1){
+            goPreviousStateBtn.visibility = View.VISIBLE
+        }else {
+            goPreviousStateBtn.visibility = View.GONE
+        }
         startingLayout.visibility = View.VISIBLE
+        timerLayout.visibility = View.GONE
+        countDownInPause = initialWorkTime
+        countDownInterval = 1000L
+        startingLayout.setBackgroundColor(resources.getColor(R.color.timerGrayLightStarting))
         startDownTimer = object : CountDownTimer(6000, 1000){
             override fun onTick(millisUntilFinished: Long) {
                 countDownInPause = initialWorkTime
+                actionOnIntervalStarting((millisUntilFinished))
+                actionOnIntervalStarting((countDownInterval))
                 if ((millisUntilFinished/countDownInterval) > 3){
                     startingLbl.text = getString(R.string.getReady)
                     secsToStart.visibility = View.GONE
+                    actionOnIntervalStarting((millisUntilFinished/countDownInterval))
                 } else if ((millisUntilFinished/countDownInterval) <= 3 && (millisUntilFinished/countDownInterval) > 0.99){
+                    actionOnIntervalStarting((millisUntilFinished/countDownInterval))
                     startingLbl.text = getString(R.string.starting)
                     secsToStart.text = (millisUntilFinished/countDownInterval).toString()
                     secsToStart.visibility = View.VISIBLE
                 } else if ((millisUntilFinished/countDownInterval) < 1){
+                    actionOnIntervalStarting((millisUntilFinished/countDownInterval))
                     secsToStart.text = getString(R.string.timerStartingFinalValue)
                 }
             }
@@ -158,9 +301,14 @@ class TimerActivity : AppCompatActivity() {
                 started = true
                 startWorkTimer(time) //Start Workout timer after this is finished
                 startingLayout.visibility = View.GONE
+                timerLayout.visibility = View.VISIBLE
             }
         }
         startDownTimer.start() //Start Short Timer
+    }
+
+    private fun actionOnIntervalStarting(num: Long){ //actions to do during workout
+
     }
 
     private fun startWorkTimer(time : Long){ //Workout Timer
@@ -173,14 +321,13 @@ class TimerActivity : AppCompatActivity() {
             minutesTimerLbl.visibility = View.GONE
             secondsTimerLbl.visibility = View.GONE
             repsTimerLbl.visibility = View.VISIBLE
+            timerSeconds.textSize = 200F
             countDownTimer = object : CountDownTimer(time, countDownInterval){
                 override fun onTick(millisUntilFinished: Long) {
                     countDownInPause = millisUntilFinished
                     timerSeconds.text = (millisUntilFinished/countDownInterval).toString()
                 }
                 override fun onFinish() {
-                    numSets--
-                    currentSet++
                     startRestTimer(initialRestTime) //Start rest time after this is finished
                 }
             }
@@ -197,7 +344,6 @@ class TimerActivity : AppCompatActivity() {
                     timerSeconds.text = timeFormat[1]
                 }
                 override fun onFinish() {
-                    numSets--
                     startRestTimer(initialRestTime) //Start rest time after this is finished
                 }
 
@@ -206,9 +352,14 @@ class TimerActivity : AppCompatActivity() {
         }
 
         //Timer Background to do things in between
-        timerInterval = object  : CountDownTimer(time, countDownInterval/2){
+        timerInterval = object  : CountDownTimer(time, countDownInterval){
             override fun onTick(millisUntilFinished: Long) {
-                actionOnInterval("UP", "DOWN")
+                actionOnInterval(false)
+                if ((millisUntilFinished/countDownInterval) < 3 && (millisUntilFinished/countDownInterval)>= 1){
+                    actionOnInterval(true)
+                } else if (millisUntilFinished/countDownInterval < 1){
+                    actionOnInterval(true)
+                }
             }
             override fun onFinish() {
                 showedFirst = false
@@ -220,8 +371,17 @@ class TimerActivity : AppCompatActivity() {
 
     private fun startRestTimer(time : Long){ //Rest Timer
         resting = true
+        if (currentSet == 1 && resting){
+            goPreviousStateBtn.visibility = View.VISIBLE
+        } else if (currentSet > 1){
+            goPreviousStateBtn.visibility = View.VISIBLE
+        }else {
+            goPreviousStateBtn.visibility = View.GONE
+        }
+        timerSets.text = (currentSet).toString()
         timerCurrentState.text = getString(R.string.timerRestTxt)
-        if (numSets > 0) {
+        timerSeconds.textSize = 150F
+        if (numSets > 1) {
             timerNext.text = workFormat
         } else{
             timerNext.text = getString(R.string.end)
@@ -242,6 +402,8 @@ class TimerActivity : AppCompatActivity() {
             }
             override fun onFinish() {
                 resting = false
+                numSets--
+                currentSet++
                 if (numSets > 0){ //Sets is greater than 0
                     startingTimer(initialWorkTime) //Start Workout Timer
                 } else { //Sets is 0
@@ -252,26 +414,13 @@ class TimerActivity : AppCompatActivity() {
         countDownTimer.start() //Start rest Timer
     }
 
-    private fun actionOnInterval(txt1 :String , txt2 :String){ //actions to do during workout
 
-        showedFirst = if (!showedFirst){
-            //Toast.makeText(this, txt1, Toast.LENGTH_SHORT).show()
-            Log.d("TAG", txt1)
+    private fun actionOnInterval(isFinishing : Boolean){ //actions to do during workout
+    //Create sound player for interval Ticks
             val resID = resources.getIdentifier("tick", "raw", packageName)
             mediaPlayer.reset()
             mediaPlayer = MediaPlayer.create(this, resID)
             mediaPlayer.start()
-            true
-        } else {
-            //Toast.makeText(this, txt2, Toast.LENGTH_SHORT).show()
-            Log.d("TAG", txt2)
-            val resID = resources.getIdentifier("tick", "raw", packageName)
-            mediaPlayer.reset()
-            mediaPlayer = MediaPlayer.create(this, resID)
-            mediaPlayer.start()
-            false
-        }
-
     }
 
     override fun onPause() {
@@ -280,14 +429,16 @@ class TimerActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() { //Handle back pressed
-        if (backPressedOnce) {//Double pressed
-            launchHome()
-            countDownTimer.cancel()
-            timerInterval.cancel()
+        if (started) {
+            if (backPressedOnce) {//Double pressed
+                launchHome()
+                countDownTimer.cancel()
+                timerInterval.cancel()
+            }
+            this.backPressedOnce = true
+            Toast.makeText(this, getString(R.string.backToExitTimer), Toast.LENGTH_SHORT).show()
+            Handler(Looper.getMainLooper()).postDelayed({ backPressedOnce = false }, 2000)
         }
-        this.backPressedOnce = true
-        Toast.makeText(this, getString(R.string.backToExitTimer), Toast.LENGTH_SHORT).show()
-        Handler(Looper.getMainLooper()).postDelayed({ backPressedOnce=false },2000)
     }
 
     private fun launchHome(){//Launch home screen

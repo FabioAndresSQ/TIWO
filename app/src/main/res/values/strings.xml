@@ -111,6 +111,8 @@
     <string name="timerStartingFinalValue">GO</string>
     <string name="backToExitTimer">Press Back Again to Exit</string>
     <string name="doubleTapPause">Double Tap Pause/UnPause</string>
+    <string name="doubleTapSkip">Double Tap to Skip</string>
+    <string name="doubleTapReturn">Double Tap to Return</string>
     <string name="setsTimer">CURRENT SET: </string>
     <string name="restTimer">Rest:</string>
     <string name="workTimer">Work:</string>
@@ -123,4 +125,12 @@
     <string name="timerPausedBtnTxt">Double Tap to Resume</string>
     <string name="timerWorkTxt">WORK</string>
     <string name="timerRestTxt">REST</string>
+    <string name="timerSkipBtnDescription">Skip timer button</string>
+    <string name="timerPreviousBtnDescription">Return previous timer button</string>
+
+    <!-- Strings Used for Sound names -->
+    <string name="upSound">up</string>
+    <string name="downSound">down</string>
+    <string name="oneSound">one</string>
+    <string name="twoSound">two</string>
 </resources>

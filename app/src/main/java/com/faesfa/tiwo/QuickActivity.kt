@@ -40,7 +40,6 @@ class QuickActivity : AppCompatActivity() {
     private var restMinutes = 0
     private var restSeconds = 0
     private lateinit var toolBar : Toolbar
-    private lateinit var helpBtn : ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,13 +49,6 @@ class QuickActivity : AppCompatActivity() {
         toolBar.title = ""
         toolBar.elevation = 5F
         setSupportActionBar(toolBar)
-
-        helpBtn = findViewById(R.id.infoQuick)
-
-        helpBtn.setOnClickListener {
-            //Show Help Info
-            Toast.makeText(this, "Showing Help", Toast.LENGTH_SHORT).show()
-        }
 
         quickWorking = findViewById(R.id.quickWorking)
         quickSetsTxt = findViewById(R.id.quickSetsTxt)

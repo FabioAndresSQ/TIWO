@@ -8,7 +8,9 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="AppColor">#1EF0C3</color>
-    <color name="AppBlueLight">#416CFF</color>
+    <color name="timerBlueLightStarting">#BF21398E</color>
+    <color name="timerGreenLightStarting">#BF228827</color>
+    <color name="timerGrayLightStarting">#181818</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="redDelete">#912626</color>
     <color name="greenStart">#44C865</color>
