@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="AppColor">#1EF0C3</color>
     <color name="timerBlueLightStarting">#BF21398E</color>
-    <color name="timerGreenLightStarting">#BF228827</color>
+    <color name="timerPauseBackground">#BF333333</color>
     <color name="timerGrayLightStarting">#181818</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="redDelete">#912626</color>

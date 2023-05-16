@@ -1,15 +1,18 @@
 package com.faesfa.tiwo
 
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.*
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.animation.doOnEnd
@@ -36,7 +39,10 @@ class TimerActivity : AppCompatActivity() {
     private lateinit var skipTimerBtn : LinearLayout
     private lateinit var timerNumbersLayout : ConstraintLayout
     private lateinit var goPreviousStateBtn : ImageView
+    private lateinit var soundBtn : ImageView
+    private lateinit var vibrationBtn : ImageView
     private lateinit var workout : WorkoutsModelClass
+    private lateinit var pauseAnimationLayout : ConstraintLayout
     private var numSets = 0
     private var currentSet = 1
     private var reps = 0
@@ -62,11 +68,18 @@ class TimerActivity : AppCompatActivity() {
     private var restFormat: String = ""
     private var workFormat: String = ""
     private var mediaPlayer: MediaPlayer = MediaPlayer()
+    private var vibratorDur = 0L
+    private var vibrationEnabled = true
+    private var soundEnabled = true
     private lateinit var toolBar : Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
+
+        val sharedPref = getSharedPreferences(getString(R.string.sound_vibration_setting), Context.MODE_PRIVATE)
+        soundEnabled = sharedPref.getBoolean("sound", true)
+        vibrationEnabled = sharedPref.getBoolean("vibration", true)
 
         toolBar = findViewById(R.id.includeAppBar)
         toolBar.title = ""
@@ -94,10 +107,15 @@ class TimerActivity : AppCompatActivity() {
         timerNumbersLayout = findViewById(R.id.timerNumbersLayout)
         layoutContainer = findViewById(R.id.layoutContainer)
         goPreviousStateBtn = findViewById(R.id.goPreviousStateBtn)
+        pauseAnimationLayout = findViewById(R.id.pauseAnimationLayout)
+        soundBtn = findViewById(R.id.soundBtn)
+        vibrationBtn = findViewById(R.id.vibrationBtn)
         reps = workout.num_reps
         work = workout.work_time
         rest = workout.rest_time
         numSets = workout.sets
+
+
 
         // Hiding and showing views according to workout mode and setting values
         if (workout.reps) { //Working with Reps
@@ -115,6 +133,14 @@ class TimerActivity : AppCompatActivity() {
             timerSeconds.text = workTimeFormat[1]
         }
         val restTimeFormat = convertTime(rest)
+        pauseAnimationLayout.visibility = View.VISIBLE
+        pauseAnimationLayout.alpha = 0f
+        if (!soundEnabled){
+            soundBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_volume_off_24))
+        }
+        if (!vibrationEnabled){
+            vibrationBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_mobile_off_24))
+        }
 
         //Assigning values and assets
         restFormat = getString(R.string.restTimer) + " " + restTimeFormat[0] + ":" + restTimeFormat[1]
@@ -137,7 +163,7 @@ class TimerActivity : AppCompatActivity() {
         startingTimer(initialWorkTime) //Start Short Timer Before Starting
 
         skipTimerBtn.setOnClickListener {
-            if (started) {
+            if (started && !isPaused) {
                 touchedSkipOnce++
                 Handler(Looper.getMainLooper()).postDelayed({ //Double tap handler
                     if (touchedSkipOnce == 1) {
@@ -174,7 +200,7 @@ class TimerActivity : AppCompatActivity() {
         }
 
             goPreviousStateBtn.setOnClickListener {
-                if (started) {
+                if (started && !isPaused) {
                     touchedReturnOnce++
                     Handler(Looper.getMainLooper()).postDelayed({ //Double tap handler
                         if (touchedReturnOnce == 1) {
@@ -211,6 +237,17 @@ class TimerActivity : AppCompatActivity() {
 
         //Set listener to The Layout for Pause/UnPause Functionality
         timerLayout.setOnClickListener {
+            val animatePauseLayout =
+                ObjectAnimator.ofFloat(pauseAnimationLayout, "alpha", 1f).apply {
+                    duration = 100
+                    start()
+                }
+            animatePauseLayout.doOnEnd {
+                ObjectAnimator.ofFloat(pauseAnimationLayout, "alpha", 0f).apply {
+                    duration = 600
+                    start()
+                }
+            }
             touchedOnce++
             Handler(Looper.getMainLooper()).postDelayed({ //Double tap handler
                 if (touchedOnce == 1) {
@@ -223,11 +260,40 @@ class TimerActivity : AppCompatActivity() {
                     }
                 }
                 touchedOnce = 0
-            },300)
+            },200)
         }
 
+        soundBtn.setOnClickListener {
+            if(started && !isPaused) {
+                Log.d("SettingPressed", "Sound Clicked")
+                soundEnabled = !soundEnabled
+                val prefs = getSharedPreferences(getString(R.string.sound_vibration_setting), Context.MODE_PRIVATE).edit()
+                prefs.putBoolean("sound", soundEnabled)
+                prefs.apply()
+                if (soundEnabled) {
+                    soundBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_volume_up_24))
+                } else {
+                    soundBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_volume_off_24
+                        )
+                    )
+                }
+            }
+        }
 
-
+        vibrationBtn.setOnClickListener {
+            if (started && !isPaused) {
+                Log.d("SettingPressed", "Vibration Clicked")
+                vibrationEnabled = !vibrationEnabled
+                val prefs = getSharedPreferences(getString(R.string.sound_vibration_setting), Context.MODE_PRIVATE).edit()
+                prefs.putBoolean("vibration", vibrationEnabled)
+                prefs.apply()
+                if (vibrationEnabled) {
+                    vibrationBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_vibration_24))
+                } else {
+                    vibrationBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_mobile_off_24))
+                }
+            }
+        }
     }
 
     private fun skipCurrentState(){
@@ -266,6 +332,10 @@ class TimerActivity : AppCompatActivity() {
 
     private fun startingTimer(time: Long) { //Short timer before Starting Workout
         started = false
+        skipTimerBtn.visibility = View.GONE
+        goPreviousStateBtn.visibility = View.GONE
+        soundBtn.visibility = View.GONE
+        vibrationBtn.visibility = View.GONE
         if (currentSet == 1 && resting){
             goPreviousStateBtn.visibility = View.VISIBLE
         } else if (currentSet > 1){
@@ -312,6 +382,10 @@ class TimerActivity : AppCompatActivity() {
     }
 
     private fun startWorkTimer(time : Long){ //Workout Timer
+        skipTimerBtn.visibility = View.VISIBLE
+        goPreviousStateBtn.visibility = View.VISIBLE
+        soundBtn.visibility = View.VISIBLE
+        vibrationBtn.visibility = View.VISIBLE
         timerNext.text = restFormat
         timerSets.text = (currentSet).toString()
         timerCurrentState.text = getString(R.string.timerWorkTxt)
@@ -355,9 +429,7 @@ class TimerActivity : AppCompatActivity() {
         timerInterval = object  : CountDownTimer(time, countDownInterval){
             override fun onTick(millisUntilFinished: Long) {
                 actionOnInterval(false)
-                if ((millisUntilFinished/countDownInterval) < 3 && (millisUntilFinished/countDownInterval)>= 1){
-                    actionOnInterval(true)
-                } else if (millisUntilFinished/countDownInterval < 1){
+                if ((millisUntilFinished/countDownInterval) < 3){
                     actionOnInterval(true)
                 }
             }
@@ -371,6 +443,10 @@ class TimerActivity : AppCompatActivity() {
 
     private fun startRestTimer(time : Long){ //Rest Timer
         resting = true
+        skipTimerBtn.visibility = View.VISIBLE
+        goPreviousStateBtn.visibility = View.VISIBLE
+        soundBtn.visibility = View.VISIBLE
+        vibrationBtn.visibility = View.VISIBLE
         if (currentSet == 1 && resting){
             goPreviousStateBtn.visibility = View.VISIBLE
         } else if (currentSet > 1){
@@ -417,10 +493,49 @@ class TimerActivity : AppCompatActivity() {
 
     private fun actionOnInterval(isFinishing : Boolean){ //actions to do during workout
     //Create sound player for interval Ticks
-            val resID = resources.getIdentifier("tick", "raw", packageName)
-            mediaPlayer.reset()
-            mediaPlayer = MediaPlayer.create(this, resID)
-            mediaPlayer.start()
+
+        if (!isFinishing){
+            if (vibrationEnabled){
+                val phoneVibrator = (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
+                vibratorDur = 150L
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    phoneVibrator.vibrate(VibrationEffect.createOneShot(vibratorDur,
+                        VibrationEffect.DEFAULT_AMPLITUDE))
+                }
+                else {
+                    phoneVibrator.vibrate(vibratorDur)
+                }
+            }
+            if (soundEnabled){
+                val resID = resources.getIdentifier("tick", "raw", packageName)
+                mediaPlayer.reset()
+                mediaPlayer = MediaPlayer.create(this, resID)
+                mediaPlayer.start()
+            }
+        } else {
+            if (vibrationEnabled){
+                val phoneVibrator = (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
+                vibratorDur = (150 * 2).toLong()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    phoneVibrator.vibrate(VibrationEffect.createOneShot(vibratorDur,
+                        VibrationEffect.DEFAULT_AMPLITUDE))
+                }
+                else {
+                    phoneVibrator.vibrate(vibratorDur)
+                }
+            }
+            if (soundEnabled){
+                val resID = resources.getIdentifier("tick", "raw", packageName)
+                mediaPlayer.reset()
+                mediaPlayer = MediaPlayer.create(this, resID)
+                mediaPlayer.start()
+            }
+        }
+
+
+
+
+
     }
 
     override fun onPause() {
@@ -448,6 +563,10 @@ class TimerActivity : AppCompatActivity() {
 
     private fun pauseTimer(){
         pausedLayout.visibility =View.VISIBLE
+        skipTimerBtn.visibility = View.GONE
+        goPreviousStateBtn.visibility = View.GONE
+        soundBtn.visibility = View.GONE
+        vibrationBtn.visibility = View.GONE
         countDownTimer.cancel()
         if (started){timerInterval.cancel()}
         isPaused = true

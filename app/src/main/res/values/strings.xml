@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">TIWO</string>
+    <string name="sound_vibration_setting">com.faesfa.tiwo.PREFERENCE_SOUND_VIBRATION</string>
 
     <!-- Strings Used in General -->
     <string name="startBtnTxt">START</string>
@@ -127,6 +128,9 @@
     <string name="timerRestTxt">REST</string>
     <string name="timerSkipBtnDescription">Skip timer button</string>
     <string name="timerPreviousBtnDescription">Return previous timer button</string>
+    <string name="pauseLayoutDescription">Double Tap to pause</string>
+    <string name="soundBtnDescription">Button to enable or disable sound</string>
+    <string name="vibrationBtnDescription">Button to enable or disable vibration</string>
 
     <!-- Strings Used for Sound names -->
     <string name="upSound">up</string>
