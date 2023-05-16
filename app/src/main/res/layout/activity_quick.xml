@@ -371,14 +371,16 @@
             <LinearLayout
                 android:id="@+id/quickStartBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="48dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="32dp"
                 android:background="@drawable/start_btn_shape"
                 android:clickable="true"
+                android:contentDescription="@string/startBtnDescription"
                 android:elevation="10dp"
                 android:focusable="true"
-                android:contentDescription="@string/startBtnDescription"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -389,8 +391,8 @@
                     android:layout_height="25dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="5dp"
-                    android:scaleType="fitCenter"
                     android:contentDescription="@string/startBtnDescription"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/baseline_play_arrow_24" />
 
                 <TextView

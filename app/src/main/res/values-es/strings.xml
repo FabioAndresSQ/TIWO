@@ -14,6 +14,7 @@
     <string name="quickBtnTxt">EJERCICIO RAPIDO</string>
     <string name="mainActivityTitle">Ejercicios</string>
     <string name="backToExitApp">Presiona atras nuevamente para salir</string>
+    <string name="notFoundWorkoutsTxt">No se encontraron ejercicios guardados</string>
 
     <!-- Strings Used on Item View -->
     <string name="itemNameField">NOMBRE EJERCICIO</string>

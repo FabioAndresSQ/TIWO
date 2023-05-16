@@ -14,6 +14,7 @@
     <string name="quickBtnTxt">QUICK WORKOUT</string>
     <string name="mainActivityTitle">Workouts</string>
     <string name="backToExitApp">Press Back Again to Exit</string>
+    <string name="notFoundWorkoutsTxt">No saved workouts found</string>
 
     <!-- Strings Used on Item View -->
     <string name="itemNameField">WORKOUT NAME</string>

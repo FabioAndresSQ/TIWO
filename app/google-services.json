@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "794661514015",
+    "project_id": "tiwo-7523a",
+    "storage_bucket": "tiwo-7523a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794661514015:android:543d612c3830cae21fde2a",
+        "android_client_info": {
+          "package_name": "com.faesfa.tiwo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "794661514015-3pq8usjrj1t96jrd2g83lvlnbligb4b4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAp8Y8eo88Df9DVdny-dVuLe39fp_6FefA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "794661514015-3pq8usjrj1t96jrd2g83lvlnbligb4b4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,16 +1,23 @@
 package com.faesfa.tiwo
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.get
+import androidx.core.view.isEmpty
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -25,8 +32,11 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
     private lateinit var workouts : Workouts
     private lateinit var dataManager: DataManager
     private lateinit var jsonString : String
+    private lateinit var emptyLayoutInfo : ConstraintLayout
     private var showingOpts = true
     private lateinit var toolBar : Toolbar
+    private lateinit var createTxtView : TextView
+    private lateinit var quickTxtView : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -36,6 +46,7 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
         splashScreen.setKeepOnScreenCondition{ false }
 
         toolBar = findViewById(R.id.includeAppBar)
+        emptyLayoutInfo = findViewById(R.id.emptyLayoutInfo)
         toolBar.title = ""
         toolBar.elevation = 5F
         setSupportActionBar(toolBar)
@@ -44,7 +55,13 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
         plusBtn = findViewById(R.id.mainBtn)
         quickBtn = findViewById(R.id.quickBtn)
         createBtn = findViewById(R.id.createBtn)
+        emptyLayoutInfo = findViewById(R.id.emptyLayoutInfo)
+        createTxtView = findViewById(R.id.createTxtView)
+        quickTxtView = findViewById(R.id.quickTxtView)
         checkIfBtnAreShowing()
+
+        quickBtn.visibility = View.GONE
+        createBtn.visibility = View.GONE
 
         plusBtn.setOnClickListener {
             checkIfBtnAreShowing()
@@ -69,12 +86,17 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
         }
 
         workouts = Gson().fromJson(jsonString, Workouts::class.java) //Turn String into Model Obj with Gson
-
-
+        Log.d("START", workouts.workouts.toString())
+        if (workouts.workouts.isEmpty()){
+            emptyLayoutInfo.visibility = View.VISIBLE
+        } else{
+            emptyLayoutInfo.visibility = View.GONE
+        }
         val mRecyclerView = findViewById<RecyclerView>(R.id.rvWorkouts)
         mRecyclerView.layoutManager = LinearLayoutManager(this)//Set RecyclerView to linearLayout
         val itemAdapter = WorkoutsAdapter(this, workouts.workouts, this)//Set ItemAdapter to Workouts workout from Gson created obj
         mRecyclerView.adapter = itemAdapter //Set the RecyclerView adapter to itemAdapter
+
     }
 
     override fun onItemClick(item: WorkoutsModelClass, adapterPosition : Int) { //Check on item clicked passing item and item position
@@ -97,12 +119,44 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
         if (!showingOpts) {
             quickBtn.visibility = View.VISIBLE
             createBtn.visibility = View.VISIBLE
+
             plusBtn.rotation = 45F
             showingOpts = true
+            ObjectAnimator.ofFloat(plusBtn, "rotation", 45f*5).apply {
+                duration = 500
+                start()
+            }
+            val animateBtns = ObjectAnimator.ofFloat(quickBtn, "translationY", -320f).apply {
+                duration = 300
+                start()
+            }
+            ObjectAnimator.ofFloat(createBtn, "translationY", -160f).apply {
+                duration = 300
+                start()
+            }
+            animateBtns.doOnEnd {
+                quickTxtView.visibility = View.VISIBLE
+                createTxtView.visibility = View.VISIBLE
+            }
         } else{
-            quickBtn.visibility = View.GONE
-            createBtn.visibility = View.GONE
-            plusBtn.rotation = 0F
+            quickTxtView.visibility = View.GONE
+            createTxtView.visibility = View.GONE
+            ObjectAnimator.ofFloat(plusBtn, "rotation", 0f).apply {
+                duration = 500
+                start()
+            }
+            val animateBtns = ObjectAnimator.ofFloat(quickBtn, "translationY", 0f).apply {
+                duration = 300
+                start()
+            }
+            ObjectAnimator.ofFloat(createBtn, "translationY", 0f).apply {
+                duration = 300
+                start()
+            }
+            animateBtns.doOnEnd {
+                quickBtn.visibility = View.GONE
+                createBtn.visibility = View.GONE
+            }
             showingOpts = false
         }
     }

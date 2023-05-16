@@ -7,11 +7,43 @@
     tools:context=".MainActivity">
 
     <include
-        layout="@layout/app_action_bar"
         android:id="@+id/includeAppBar"
+        layout="@layout/app_action_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/emptyLayoutInfo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/rvWorkouts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainTitle">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_marginTop="100dp"
+            android:scaleType="centerInside"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/empty_content" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/notFoundWorkoutsTxt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/mainTitle"
@@ -31,9 +63,7 @@
         app:layout_constraintBottom_toTopOf="@+id/adsFragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainTitle">
-
-    </androidx.recyclerview.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@+id/mainTitle"/>
 
     <fragment
         android:id="@+id/adsFragment"
@@ -64,45 +94,46 @@
     <LinearLayout
         android:id="@+id/createBtn"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="0dp"
         android:clickable="true"
         android:contentDescription="@string/createBtnDescription"
-        android:elevation="10dp"
+        android:elevation="8dp"
         android:fadingEdgeLength="1dp"
+        android:focusable="true"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/mainBtn"
+        app:layout_constraintBottom_toBottomOf="@+id/mainBtn"
         app:layout_constraintEnd_toEndOf="@+id/mainBtn"
+        app:layout_constraintTop_toTopOf="@+id/mainBtn"
         app:srcCompat="@android:drawable/ic_input_add"
-        tools:visibility="visible"
-        android:focusable="true">
+        tools:visibility="visible">
 
         <TextView
+            android:id="@+id/quickTxtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/createBtnTxt"
-            android:textColor="@color/black"
+            android:layout_marginEnd="-18dp"
             android:background="@drawable/rounded_corner"
             android:backgroundTint="#FFFFFF"
             android:elevation="2dp"
-            android:paddingEnd="15dp"
-            android:paddingStart="10dp"
             android:fadingEdgeLength="100dp"
-            android:layout_marginEnd="-12dp"/>
+            android:paddingStart="10dp"
+            android:paddingEnd="20dp"
+            android:text="@string/createBtnTxt"
+            android:textColor="@color/black" />
 
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:focusable="true"
-                android:gravity="center"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
-                android:padding="10dp"
-                android:contentDescription="@string/createBtnDescription"
-                android:elevation="3dp"
-                android:scaleType="centerCrop"
-                android:background="@drawable/floating_btn_shape"
-                android:src="@drawable/baseline_save_as_24" />
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/floating_btn_shape"
+            android:contentDescription="@string/createBtnDescription"
+            android:elevation="3dp"
+            android:focusable="true"
+            android:gravity="center"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/baseline_save_as_24" />
 
 
     </LinearLayout>
@@ -111,44 +142,44 @@
         android:id="@+id/quickBtn"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
         android:clickable="true"
         android:contentDescription="@string/quickBtnDescription"
-        android:elevation="10dp"
+        android:elevation="8dp"
         android:fadingEdgeLength="10dp"
+        android:focusable="true"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/createBtn"
         app:layout_constraintEnd_toEndOf="@+id/mainBtn"
+        app:layout_constraintTop_toTopOf="@+id/mainBtn"
         app:srcCompat="@android:drawable/ic_input_add"
-        tools:visibility="visible"
-        android:focusable="true">
+        tools:visibility="visible">
 
         <TextView
+            android:id="@+id/createTxtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="-12dp"
+            android:layout_marginEnd="-18dp"
             android:background="@drawable/rounded_corner"
             android:backgroundTint="#FFFFFF"
             android:elevation="2dp"
             android:fadingEdgeLength="100dp"
             android:paddingStart="10dp"
-            android:paddingEnd="15dp"
+            android:paddingEnd="20dp"
             android:text="@string/quickBtnTxt"
             android:textColor="@color/black" />
 
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
-                android:elevation="3dp"
-                android:focusable="true"
-                android:contentDescription="@string/quickBtnDescription"
-                android:gravity="center"
-                android:padding="10dp"
-                android:scaleType="centerCrop"
-                android:background="@drawable/floating_btn_shape"
-                android:src="@drawable/baseline_bolt_24" />
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/floating_btn_shape"
+            android:contentDescription="@string/quickBtnDescription"
+            android:elevation="3dp"
+            android:focusable="true"
+            android:gravity="center"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/baseline_bolt_24" />
 
     </LinearLayout>
 

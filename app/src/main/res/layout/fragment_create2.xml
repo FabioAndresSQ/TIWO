@@ -278,12 +278,14 @@
         <LinearLayout
             android:id="@+id/createNext2"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:background="@drawable/save_btn_shape"
             android:clickable="true"
+            android:contentDescription="@string/createWorkoutNextBtnDescription"
             android:elevation="5dp"
             android:focusable="true"
-            android:contentDescription="@string/createWorkoutNextBtnDescription"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -305,8 +307,8 @@
                 android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="5dp"
-                android:scaleType="fitCenter"
                 android:contentDescription="@string/createWorkoutNextBtnDescription"
+                android:scaleType="fitCenter"
                 android:src="@drawable/baseline_navigate_next_24" />
 
         </LinearLayout>
