@@ -16,10 +16,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.get
-import androidx.core.view.isEmpty
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
 import com.google.gson.Gson
 import java.io.*
 
@@ -37,12 +40,12 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
     private lateinit var toolBar : Toolbar
     private lateinit var createTxtView : TextView
     private lateinit var quickTxtView : TextView
+    private lateinit var bannerAd : AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         splashScreen.setKeepOnScreenCondition{ false }
 
         toolBar = findViewById(R.id.includeAppBar)
@@ -50,6 +53,9 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
         toolBar.title = ""
         toolBar.elevation = 5F
         setSupportActionBar(toolBar)
+
+        //INITIALIZING BANNER ADS AND REQUESTING IT
+        startBannerAds()
 
         dataManager = DataManager()
         plusBtn = findViewById(R.id.mainBtn)
@@ -62,6 +68,7 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
 
         quickBtn.visibility = View.GONE
         createBtn.visibility = View.GONE
+
 
         plusBtn.setOnClickListener {
             checkIfBtnAreShowing()
@@ -158,6 +165,46 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
                 createBtn.visibility = View.GONE
             }
             showingOpts = false
+        }
+    }
+
+    private fun startBannerAds(){
+        //INITIALIZING BANNER ADS AND REQUESTING IT
+        MobileAds.initialize(this)
+        bannerAd = findViewById(R.id.adViewHome)
+        val adRequest = AdRequest.Builder().build()
+        bannerAd.loadAd(adRequest)
+
+        bannerAd.adListener = object : AdListener(){
+            override fun onAdClicked() {
+                Log.d("AD_BANNER", "AD LOADED CLICKED")
+                super.onAdClicked()
+            }
+
+            override fun onAdClosed() {
+                Log.d("AD_BANNER", "AD LOADED CLOSED")
+                super.onAdClosed()
+            }
+
+            override fun onAdFailedToLoad(p0: LoadAdError) {
+                Log.e("AD_BANNER", p0.toString())
+                super.onAdFailedToLoad(p0)
+            }
+
+            override fun onAdImpression() {
+                Log.d("AD_BANNER", "AD IMPRESSION COUNTED")
+                super.onAdImpression()
+            }
+
+            override fun onAdLoaded() {
+                Log.d("AD_BANNER", "AD LOADED SUCCESSFUL")
+                super.onAdLoaded()
+            }
+
+            override fun onAdOpened() {
+                Log.d("AD_BANNER", "AD LOADED OPENED OVERLAY")
+                super.onAdOpened()
+            }
         }
     }
 

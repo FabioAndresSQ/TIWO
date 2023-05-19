@@ -1,6 +1,7 @@
 package com.faesfa.tiwo
 
 import android.animation.ObjectAnimator
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
@@ -17,6 +18,15 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.view.marginStart
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 
 class TimerActivity : AppCompatActivity() {
     //Initialize everything
@@ -68,10 +78,13 @@ class TimerActivity : AppCompatActivity() {
     private var restFormat: String = ""
     private var workFormat: String = ""
     private var mediaPlayer: MediaPlayer = MediaPlayer()
-    private var vibratorDur = 0L
+    private var vibratorDur = 100L
     private var vibrationEnabled = true
     private var soundEnabled = true
     private lateinit var toolBar : Toolbar
+    private lateinit var bannerAd : AdView
+    private var finalInterstitialAd : InterstitialAd? = null
+    private lateinit var activity: Activity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +98,9 @@ class TimerActivity : AppCompatActivity() {
         toolBar.title = ""
         toolBar.elevation = 5F
         setSupportActionBar(toolBar)
+        supportActionBar?.elevation  = 0f
 
+        activity = this
         dataManager = DataManager()
         workout = intent?.getSerializableExtra("selected_workout") as WorkoutsModelClass
         timerName = findViewById(R.id.timerNameTxt)
@@ -115,7 +130,19 @@ class TimerActivity : AppCompatActivity() {
         rest = workout.rest_time
         numSets = workout.sets
 
+        startBannerAds()
+        var adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(this,"ca-app-pub-2716842126108084/3865049547", adRequest, object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                Log.d("AD INTERSTITIAL", adError.toString())
+                finalInterstitialAd = null
+            }
 
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                Log.d("AD INTERSTITIAL", "Ad was loaded.")
+                finalInterstitialAd = interstitialAd
+            }
+        })
 
         // Hiding and showing views according to workout mode and setting values
         if (workout.reps) { //Working with Reps
@@ -333,13 +360,12 @@ class TimerActivity : AppCompatActivity() {
     private fun startingTimer(time: Long) { //Short timer before Starting Workout
         started = false
         skipTimerBtn.visibility = View.GONE
-        goPreviousStateBtn.visibility = View.GONE
         soundBtn.visibility = View.GONE
         vibrationBtn.visibility = View.GONE
         if (currentSet == 1 && resting){
-            goPreviousStateBtn.visibility = View.VISIBLE
+            goPreviousStateBtn.visibility = View.GONE
         } else if (currentSet > 1){
-            goPreviousStateBtn.visibility = View.VISIBLE
+            goPreviousStateBtn.visibility = View.GONE
         }else {
             goPreviousStateBtn.visibility = View.GONE
         }
@@ -383,9 +409,13 @@ class TimerActivity : AppCompatActivity() {
 
     private fun startWorkTimer(time : Long){ //Workout Timer
         skipTimerBtn.visibility = View.VISIBLE
-        goPreviousStateBtn.visibility = View.VISIBLE
         soundBtn.visibility = View.VISIBLE
         vibrationBtn.visibility = View.VISIBLE
+        if (currentSet > 1){
+            goPreviousStateBtn.visibility = View.VISIBLE
+        }else {
+            goPreviousStateBtn.visibility = View.GONE
+        }
         timerNext.text = restFormat
         timerSets.text = (currentSet).toString()
         timerCurrentState.text = getString(R.string.timerWorkTxt)
@@ -429,7 +459,7 @@ class TimerActivity : AppCompatActivity() {
         timerInterval = object  : CountDownTimer(time, countDownInterval){
             override fun onTick(millisUntilFinished: Long) {
                 actionOnInterval(false)
-                if ((millisUntilFinished/countDownInterval) < 3){
+                if ((millisUntilFinished/countDownInterval) < 4){
                     actionOnInterval(true)
                 }
             }
@@ -444,7 +474,6 @@ class TimerActivity : AppCompatActivity() {
     private fun startRestTimer(time : Long){ //Rest Timer
         resting = true
         skipTimerBtn.visibility = View.VISIBLE
-        goPreviousStateBtn.visibility = View.VISIBLE
         soundBtn.visibility = View.VISIBLE
         vibrationBtn.visibility = View.VISIBLE
         if (currentSet == 1 && resting){
@@ -483,7 +512,7 @@ class TimerActivity : AppCompatActivity() {
                 if (numSets > 0){ //Sets is greater than 0
                     startingTimer(initialWorkTime) //Start Workout Timer
                 } else { //Sets is 0
-                    launchHome()//Launch home Screen
+                    startInterstitialAd()
                 }
             }
         }
@@ -493,11 +522,12 @@ class TimerActivity : AppCompatActivity() {
 
     private fun actionOnInterval(isFinishing : Boolean){ //actions to do during workout
     //Create sound player for interval Ticks
+        val resID = resources.getIdentifier("tick", "raw", packageName)
 
         if (!isFinishing){
             if (vibrationEnabled){
                 val phoneVibrator = (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
-                vibratorDur = 150L
+                vibratorDur = 100L
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     phoneVibrator.vibrate(VibrationEffect.createOneShot(vibratorDur,
                         VibrationEffect.DEFAULT_AMPLITUDE))
@@ -507,15 +537,31 @@ class TimerActivity : AppCompatActivity() {
                 }
             }
             if (soundEnabled){
-                val resID = resources.getIdentifier("tick", "raw", packageName)
                 mediaPlayer.reset()
                 mediaPlayer = MediaPlayer.create(this, resID)
                 mediaPlayer.start()
             }
         } else {
+            ObjectAnimator.ofFloat(timerSeconds,"scaleX",1.1f, 1f).apply {
+                duration = 400
+                start()
+            }
+            ObjectAnimator.ofFloat(timerSeconds,"scaleY",1.1f, 1f).apply {
+                duration = 400
+                start()
+            }
+            ObjectAnimator.ofFloat(timerMinutes,"scaleX",1.1f, 1f).apply {
+                duration = 400
+                start()
+            }
+            ObjectAnimator.ofFloat(timerMinutes,"scaleY",1.1f, 1f).apply {
+                duration = 400
+                start()
+            }
             if (vibrationEnabled){
+
                 val phoneVibrator = (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
-                vibratorDur = (150 * 2).toLong()
+                vibratorDur = (vibratorDur * 1.333).toLong()
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     phoneVibrator.vibrate(VibrationEffect.createOneShot(vibratorDur,
                         VibrationEffect.DEFAULT_AMPLITUDE))
@@ -525,7 +571,6 @@ class TimerActivity : AppCompatActivity() {
                 }
             }
             if (soundEnabled){
-                val resID = resources.getIdentifier("tick", "raw", packageName)
                 mediaPlayer.reset()
                 mediaPlayer = MediaPlayer.create(this, resID)
                 mediaPlayer.start()
@@ -564,9 +609,11 @@ class TimerActivity : AppCompatActivity() {
     private fun pauseTimer(){
         pausedLayout.visibility =View.VISIBLE
         skipTimerBtn.visibility = View.GONE
-        goPreviousStateBtn.visibility = View.GONE
         soundBtn.visibility = View.GONE
         vibrationBtn.visibility = View.GONE
+        if (goPreviousStateBtn.visibility == View.VISIBLE){
+            goPreviousStateBtn.visibility = View.GONE
+        }
         countDownTimer.cancel()
         if (started){timerInterval.cancel()}
         isPaused = true
@@ -598,5 +645,84 @@ class TimerActivity : AppCompatActivity() {
         return arrayOf(minutesTxt, secondsTxt)
     }
 
+    private fun startBannerAds(){
+        //INITIALIZING BANNER ADS AND REQUESTING IT
+        MobileAds.initialize(this)
+        bannerAd = findViewById(R.id.adViewTimer)
+        val adRequest = AdRequest.Builder().build()
+        bannerAd.loadAd(adRequest)
+
+        bannerAd.adListener = object : AdListener(){
+            override fun onAdClicked() {
+                Log.d("AD_BANNER", "AD LOADED CLICKED")
+                super.onAdClicked()
+            }
+
+            override fun onAdClosed() {
+                Log.d("AD_BANNER", "AD LOADED CLOSED")
+                super.onAdClosed()
+            }
+
+            override fun onAdFailedToLoad(p0: LoadAdError) {
+                Log.e("AD_BANNER", p0.toString())
+                super.onAdFailedToLoad(p0)
+            }
+
+            override fun onAdImpression() {
+                Log.d("AD_BANNER", "AD IMPRESSION COUNTED")
+                super.onAdImpression()
+            }
+
+            override fun onAdLoaded() {
+                Log.d("AD_BANNER", "AD LOADED SUCCESSFUL")
+                super.onAdLoaded()
+            }
+
+            override fun onAdOpened() {
+                Log.d("AD_BANNER", "AD LOADED OPENED OVERLAY")
+                super.onAdOpened()
+            }
+        }
+    }
+
+    private fun startInterstitialAd(){
+        if (finalInterstitialAd != null) {
+            finalInterstitialAd?.show(activity)
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.")
+            launchHome()//Launch home Screen
+        }
+        finalInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+            override fun onAdClicked() {
+                // Called when a click is recorded for an ad.
+                Log.d("AD INTERSTITIAL", "Ad was clicked.")
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+                // Called when ad is dismissed.
+                Log.d("AD INTERSTITIAL", "Ad dismissed fullscreen content.")
+                finalInterstitialAd = null
+                launchHome()//Launch home Screen
+            }
+
+            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                // Called when ad fails to show.
+                Log.e("AD INTERSTITIAL", "Ad failed to show fullscreen content.")
+                finalInterstitialAd = null
+                launchHome()//Launch home Screen
+                super.onAdFailedToShowFullScreenContent(p0)
+            }
+
+            override fun onAdImpression() {
+                // Called when an impression is recorded for an ad.
+                Log.d("AD INTERSTITIAL", "Ad recorded an impression.")
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                // Called when ad is shown.
+                Log.d("AD INTERSTITIAL", "Ad showed fullscreen content.")
+            }
+        }
+    }
 
 }

@@ -97,6 +97,7 @@
                 android:textColor="@color/AppColor"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/infoImg" />
@@ -165,7 +166,7 @@
         android:focusable="true"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/adsFragment2"
+        app:layout_constraintBottom_toTopOf="@+id/adViewInfo"
         app:layout_constraintEnd_toStartOf="@+id/infoDeleteBtn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -231,13 +232,16 @@
 
     </LinearLayout>
 
-    <fragment
-        android:id="@+id/adsFragment2"
-        android:name="com.faesfa.tiwo.AdsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:adSize="SMART_BANNER"
+        app:adUnitId="ca-app-pub-2716842126108084/7109287848"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"  />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

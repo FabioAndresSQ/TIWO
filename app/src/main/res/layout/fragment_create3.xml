@@ -15,10 +15,11 @@
         <ScrollView
             android:id="@+id/scrollView2"
             android:layout_width="match_parent"
-            android:layout_height="600dp"
+            android:layout_height="match_parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -434,87 +435,89 @@
                         android:focusable="true" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:id="@+id/saveNewBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="@drawable/save_btn_shape"
+                    android:clickable="true"
+                    android:contentDescription="@string/createSaveBtnDescription"
+                    android:elevation="5dp"
+                    android:focusable="true"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/saveStartNewBtn"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:contentDescription="@string/createSaveBtnDescription"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/baseline_save_24" />
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/createSaveBtnTxt"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/saveStartNewBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="@drawable/save_btn_shape"
+                    android:clickable="true"
+                    android:contentDescription="@string/createStartSaveBtnDescription"
+                    android:elevation="5dp"
+                    android:focusable="true"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/saveNewBtn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/saveNewBtn"
+                    app:layout_constraintTop_toTopOf="@+id/saveNewBtn">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:contentDescription="@string/createStartSaveBtnDescription"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/baseline_play_arrow_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/createStartSaveBtnTxt"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </ScrollView>
 
-        <LinearLayout
-            android:id="@+id/saveNewBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:background="@drawable/save_btn_shape"
-            android:clickable="true"
-            android:contentDescription="@string/createSaveBtnDescription"
-            android:elevation="5dp"
-            android:focusable="true"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/saveStartNewBtn"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scrollView2">
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="5dp"
-                android:contentDescription="@string/createSaveBtnDescription"
-                android:scaleType="fitCenter"
-                android:src="@drawable/baseline_save_24" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="5dp"
-                android:text="@string/createSaveBtnTxt"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/saveStartNewBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:background="@drawable/save_btn_shape"
-            android:clickable="true"
-            android:contentDescription="@string/createStartSaveBtnDescription"
-            android:elevation="5dp"
-            android:focusable="true"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            app:layout_constraintBottom_toBottomOf="@+id/saveNewBtn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/saveNewBtn"
-            app:layout_constraintTop_toTopOf="@+id/saveNewBtn">
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="5dp"
-                android:contentDescription="@string/createStartSaveBtnDescription"
-                android:scaleType="fitCenter"
-                android:src="@drawable/baseline_play_arrow_24" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="10dp"
-                android:text="@string/createStartSaveBtnTxt"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

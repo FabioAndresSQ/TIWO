@@ -24,7 +24,7 @@
         android:layout_height="0dp"
         android:clipChildren="false"
         android:clipToPadding="false"
-        app:layout_constraintBottom_toTopOf="@id/adsFragment3"
+        app:layout_constraintBottom_toTopOf="@id/adViewTimer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/includeAppBar">
@@ -33,14 +33,15 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/timerLayout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:clickable="true"
             android:contentDescription="@string/pauseLayoutDescription"
             android:focusable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/adViewTimer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="NotSibling" />
 
         <TextView
             android:id="@+id/timerCurrentState"
@@ -169,7 +170,8 @@
                     android:text="@string/createWorkoutDetailsDefault"
                     android:textColor="@color/AppColor"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:maxWidth="140dp"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -345,15 +347,18 @@
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <fragment
-        android:id="@+id/adsFragment3"
-        android:name="com.faesfa.tiwo.AdsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:elevation="2dp"
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:adSize="SMART_BANNER"
+        android:elevation="11dp"
+        app:adUnitId="ca-app-pub-2716842126108084/5956822420"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/pauseAnimationLayout"
@@ -362,7 +367,7 @@
         android:alpha="0"
         android:background="@color/timerPauseBackground"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/adsFragment3"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -386,7 +391,7 @@
         android:background="@color/timerGrayLightStarting"
         android:elevation="10dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/adsFragment3"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -437,7 +442,7 @@
         android:background="@color/timerGrayLightStarting"
         android:elevation="10dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/adsFragment3"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -446,6 +451,7 @@
             android:id="@+id/textView13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
             android:elevation="6dp"
             android:text="@string/paused"
             android:textAlignment="center"
@@ -457,7 +463,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <ImageView
@@ -468,21 +473,21 @@
             android:layout_marginBottom="16dp"
             android:contentDescription="@string/timerPausedBtnDescription"
             android:src="@drawable/baseline_play_circle_filled_24"
-            app:layout_constraintBottom_toTopOf="@+id/textView20"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:text="@string/timerPausedBtnTxt"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

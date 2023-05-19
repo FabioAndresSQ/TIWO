@@ -3,10 +3,16 @@ package com.faesfa.tiwo
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
 import java.io.Serializable
 
 class QuickActivity : AppCompatActivity() {
@@ -40,6 +46,7 @@ class QuickActivity : AppCompatActivity() {
     private var restMinutes = 0
     private var restSeconds = 0
     private lateinit var toolBar : Toolbar
+    private lateinit var bannerAd : AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +77,9 @@ class QuickActivity : AppCompatActivity() {
         restMinutesQuick = findViewById(R.id.restMinutesQuick)
         restSecondsQuick = findViewById(R.id.restSecondsQuick)
         quickStartBtn = findViewById(R.id.quickStartBtn)
+
+        //INITIALIZING BANNER ADS AND REQUESTING IT
+        startBannerAds()
 
         //Listener for Switch
         changeVisibility(quickWorking.isChecked)
@@ -236,6 +246,46 @@ class QuickActivity : AppCompatActivity() {
             workMinutesQuick.visibility = View.GONE
             workSecondsQuick.visibility = View.GONE
             dotsWorkTimeQuick.visibility = View.GONE
+        }
+    }
+
+    private fun startBannerAds(){
+        //INITIALIZING BANNER ADS AND REQUESTING IT
+        MobileAds.initialize(this)
+        bannerAd = findViewById(R.id.adViewQuick)
+        val adRequest = AdRequest.Builder().build()
+        bannerAd.loadAd(adRequest)
+
+        bannerAd.adListener = object : AdListener(){
+            override fun onAdClicked() {
+                Log.d("AD_BANNER", "AD LOADED CLICKED")
+                super.onAdClicked()
+            }
+
+            override fun onAdClosed() {
+                Log.d("AD_BANNER", "AD LOADED CLOSED")
+                super.onAdClosed()
+            }
+
+            override fun onAdFailedToLoad(p0: LoadAdError) {
+                Log.e("AD_BANNER", p0.toString())
+                super.onAdFailedToLoad(p0)
+            }
+
+            override fun onAdImpression() {
+                Log.d("AD_BANNER", "AD IMPRESSION COUNTED")
+                super.onAdImpression()
+            }
+
+            override fun onAdLoaded() {
+                Log.d("AD_BANNER", "AD LOADED SUCCESSFUL")
+                super.onAdLoaded()
+            }
+
+            override fun onAdOpened() {
+                Log.d("AD_BANNER", "AD LOADED OPENED OVERLAY")
+                super.onAdOpened()
+            }
         }
     }
 
