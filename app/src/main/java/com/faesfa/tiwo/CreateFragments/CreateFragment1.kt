@@ -7,55 +7,53 @@ import android.view.View
 import android.view.View.*
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.widget.SwitchCompat
 import androidx.navigation.findNavController
+import com.faesfa.tiwo.databinding.FragmentCreate1Binding
 
 // initialize the workout Model Obj
 private lateinit var workout : WorkoutsModelClass
 private var sets = 3 //Default sets 3
 
 class CreateFragment1 : Fragment() {
+    private var _binding:FragmentCreate1Binding? = null
+    private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_create1, container, false) //save inflater to view
-        //Assign every view
-        val nameTxt = view.findViewById<EditText>(R.id.createNameTxt)
-        val setsTxt = view.findViewById<TextView>(R.id.createSetsTxt)
-        val addBtn = view.findViewById<ImageButton>(R.id.addSetsBtn)
-        val removeBtn = view.findViewById<ImageButton>(R.id.removeSetsBtn)
-        val workingWithTxt = view.findViewById<SwitchCompat>(R.id.createWorking)
-        val nextBtn = view.findViewById<LinearLayout>(R.id.createNext1)
+    ): View {
+        _binding = FragmentCreate1Binding.inflate(inflater, container, false)
+
+        val view = binding.root //save inflater to view
+
         //Create the workout obj with default values
         workout = WorkoutsModelClass("default", 0, false,0,0.0,0,0, "")
 
 
         //Set listener to sets add or remove
-        setsTxt.text = sets.toString()
-        addBtn.setOnClickListener {
+        binding.createSetsTxt.text = sets.toString()
+        binding.addSetsBtn.setOnClickListener {
             if (sets > 0) {
                 sets++
-                setsTxt.text = sets.toString()
-                removeBtn?.visibility = VISIBLE
+                binding.createSetsTxt.text = sets.toString()
+                binding.removeSetsBtn.visibility = VISIBLE
             }
         }
-        removeBtn.setOnClickListener {
+        binding.removeSetsBtn.setOnClickListener {
             if (sets > 1){
                 sets--
-                setsTxt.text = sets.toString()
+                binding.createSetsTxt.text = sets.toString()
             } else if (sets == 1) {
-                removeBtn.visibility = INVISIBLE
+                binding.removeSetsBtn.visibility = INVISIBLE
             }
         }
         //Set listener to button to go next fragment
-        nextBtn.setOnClickListener {
-            if (nameTxt.text?.isNotEmpty() == true){ //Check that name fiel is not empty
+        binding.createNext1.setOnClickListener {
+            if (binding.createNameTxt.text?.isNotEmpty() == true){ //Check that name fiel is not empty
                 if (sets > 0) { //Check that sets is more than 0
                     //Set values to Workout Obj
-                    workout.name = nameTxt.text.toString()
+                    workout.name = binding.createNameTxt.text.toString()
                     workout.sets = sets
-                    workout.reps = workingWithTxt.isChecked //Check if the switch is time or Reps
+                    workout.reps = binding.createWorking.isChecked //Check if the switch is time or Reps
 
                     val bundle = Bundle()
                     bundle.putSerializable("workout", workout) // Save workout on bundle to pass it to next fragment

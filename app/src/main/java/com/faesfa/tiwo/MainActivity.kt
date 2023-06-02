@@ -8,19 +8,15 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.faesfa.tiwo.databinding.ActivityMainBinding
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.gson.Gson
@@ -28,28 +24,22 @@ import java.io.*
 
 class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
     //Initialize everything
+    private  lateinit var binding: ActivityMainBinding
     private var backPressedOnce = false
-    private lateinit var plusBtn : ImageView
-    private lateinit var quickBtn : LinearLayout
-    private lateinit var createBtn : LinearLayout
     private lateinit var workouts : Workouts
     private lateinit var dataManager: DataManager
     private lateinit var jsonString : String
-    private lateinit var emptyLayoutInfo : ConstraintLayout
     private var showingOpts = true
     private lateinit var toolBar : Toolbar
-    private lateinit var createTxtView : TextView
-    private lateinit var quickTxtView : TextView
-    private lateinit var bannerAd : AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         splashScreen.setKeepOnScreenCondition{ false }
 
         toolBar = findViewById(R.id.includeAppBar)
-        emptyLayoutInfo = findViewById(R.id.emptyLayoutInfo)
         toolBar.title = ""
         toolBar.elevation = 5F
         setSupportActionBar(toolBar)
@@ -58,28 +48,22 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
         startBannerAds()
 
         dataManager = DataManager()
-        plusBtn = findViewById(R.id.mainBtn)
-        quickBtn = findViewById(R.id.quickBtn)
-        createBtn = findViewById(R.id.createBtn)
-        emptyLayoutInfo = findViewById(R.id.emptyLayoutInfo)
-        createTxtView = findViewById(R.id.createTxtView)
-        quickTxtView = findViewById(R.id.quickTxtView)
         checkIfBtnAreShowing()
 
-        quickBtn.visibility = View.GONE
-        createBtn.visibility = View.GONE
+        binding.quickBtn.visibility = View.GONE
+        binding.createBtn.visibility = View.GONE
 
 
-        plusBtn.setOnClickListener {
+        binding.mainBtn.setOnClickListener {
             checkIfBtnAreShowing()
         }
 
-        quickBtn.setOnClickListener {
+        binding.quickBtn.setOnClickListener {
             val launchQuick = Intent(this, QuickActivity::class.java)
             startActivity(launchQuick)
         }
 
-        createBtn.setOnClickListener{
+        binding.createBtn.setOnClickListener{
             val launchCreate = Intent(this, CreateActivity::class.java)
             startActivity(launchCreate)
         }
@@ -95,9 +79,9 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
         workouts = Gson().fromJson(jsonString, Workouts::class.java) //Turn String into Model Obj with Gson
         Log.d("START", workouts.workouts.toString())
         if (workouts.workouts.isEmpty()){
-            emptyLayoutInfo.visibility = View.VISIBLE
+            binding.emptyLayoutInfo.visibility = View.VISIBLE
         } else{
-            emptyLayoutInfo.visibility = View.GONE
+            binding.emptyLayoutInfo.visibility = View.GONE
         }
         val mRecyclerView = findViewById<RecyclerView>(R.id.rvWorkouts)
         mRecyclerView.layoutManager = LinearLayoutManager(this)//Set RecyclerView to linearLayout
@@ -124,45 +108,45 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
 
     private fun checkIfBtnAreShowing(){
         if (!showingOpts) {
-            quickBtn.visibility = View.VISIBLE
-            createBtn.visibility = View.VISIBLE
+            binding.quickBtn.visibility = View.VISIBLE
+            binding.createBtn.visibility = View.VISIBLE
 
-            plusBtn.rotation = 45F
+            binding.mainBtn.rotation = 45F
             showingOpts = true
-            ObjectAnimator.ofFloat(plusBtn, "rotation", 45f*5).apply {
+            ObjectAnimator.ofFloat(binding.mainBtn, "rotation", 45f*8).apply {
                 duration = 500
                 start()
             }
-            val animateBtns = ObjectAnimator.ofFloat(quickBtn, "translationY", -320f).apply {
+            val animateBtns = ObjectAnimator.ofFloat(binding.quickBtn, "translationY", -320f).apply {
                 duration = 300
                 start()
             }
-            ObjectAnimator.ofFloat(createBtn, "translationY", -160f).apply {
+            ObjectAnimator.ofFloat(binding.createBtn, "translationY", -160f).apply {
                 duration = 300
                 start()
             }
             animateBtns.doOnEnd {
-                quickTxtView.visibility = View.VISIBLE
-                createTxtView.visibility = View.VISIBLE
+                binding.quickTxtView.visibility = View.VISIBLE
+                binding.createTxtView.visibility = View.VISIBLE
             }
         } else{
-            quickTxtView.visibility = View.GONE
-            createTxtView.visibility = View.GONE
-            ObjectAnimator.ofFloat(plusBtn, "rotation", 0f).apply {
+            binding.quickTxtView.visibility = View.GONE
+            binding.createTxtView.visibility = View.GONE
+            ObjectAnimator.ofFloat(binding.mainBtn, "rotation", 0f).apply {
                 duration = 500
                 start()
             }
-            val animateBtns = ObjectAnimator.ofFloat(quickBtn, "translationY", 0f).apply {
+            val animateBtns = ObjectAnimator.ofFloat(binding.quickBtn, "translationY", 0f).apply {
                 duration = 300
                 start()
             }
-            ObjectAnimator.ofFloat(createBtn, "translationY", 0f).apply {
+            ObjectAnimator.ofFloat(binding.createBtn, "translationY", 0f).apply {
                 duration = 300
                 start()
             }
             animateBtns.doOnEnd {
-                quickBtn.visibility = View.GONE
-                createBtn.visibility = View.GONE
+                binding.quickBtn.visibility = View.GONE
+                binding.createBtn.visibility = View.GONE
             }
             showingOpts = false
         }
@@ -171,11 +155,10 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
     private fun startBannerAds(){
         //INITIALIZING BANNER ADS AND REQUESTING IT
         MobileAds.initialize(this)
-        bannerAd = findViewById(R.id.adViewHome)
         val adRequest = AdRequest.Builder().build()
-        bannerAd.loadAd(adRequest)
+        binding.adViewHome.loadAd(adRequest)
 
-        bannerAd.adListener = object : AdListener(){
+        binding.adViewHome.adListener = object : AdListener(){
             override fun onAdClicked() {
                 Log.d("AD_BANNER", "AD LOADED CLICKED")
                 super.onAdClicked()

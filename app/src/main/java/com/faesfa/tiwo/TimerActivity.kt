@@ -9,19 +9,15 @@ import android.os.*
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.view.marginStart
+import com.faesfa.tiwo.databinding.ActivityTimerBinding
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
@@ -30,29 +26,9 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 
 class TimerActivity : AppCompatActivity() {
     //Initialize everything
-    private lateinit var timerName : TextView
-    private lateinit var timerSets : TextView
-    private lateinit var timerMinutes : TextView
-    private lateinit var timerSeconds : TextView
-    private lateinit var timerNext : TextView
-    private lateinit var timerLayout : ConstraintLayout
-    private lateinit var layoutContainer : ConstraintLayout
-    private lateinit var startingLayout : ConstraintLayout
-    private lateinit var pausedLayout : ConstraintLayout
-    private lateinit var startingLbl : TextView
-    private lateinit var secsToStart : TextView
-    private lateinit var minutesTimerLbl : TextView
-    private lateinit var secondsTimerLbl : TextView
-    private lateinit var repsTimerLbl : TextView
-    private lateinit var timerImage : ImageView
-    private lateinit var timerCurrentState : TextView
-    private lateinit var skipTimerBtn : LinearLayout
-    private lateinit var timerNumbersLayout : ConstraintLayout
-    private lateinit var goPreviousStateBtn : ImageView
-    private lateinit var soundBtn : ImageView
-    private lateinit var vibrationBtn : ImageView
+    private lateinit var binding: ActivityTimerBinding
+
     private lateinit var workout : WorkoutsModelClass
-    private lateinit var pauseAnimationLayout : ConstraintLayout
     private var numSets = 0
     private var currentSet = 1
     private var reps = 0
@@ -82,13 +58,13 @@ class TimerActivity : AppCompatActivity() {
     private var vibrationEnabled = true
     private var soundEnabled = true
     private lateinit var toolBar : Toolbar
-    private lateinit var bannerAd : AdView
     private var finalInterstitialAd : InterstitialAd? = null
     private lateinit var activity: Activity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_timer)
+        binding = ActivityTimerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val sharedPref = getSharedPreferences(getString(R.string.sound_vibration_setting), Context.MODE_PRIVATE)
         soundEnabled = sharedPref.getBoolean("sound", true)
@@ -103,36 +79,14 @@ class TimerActivity : AppCompatActivity() {
         activity = this
         dataManager = DataManager()
         workout = intent?.getSerializableExtra("selected_workout") as WorkoutsModelClass
-        timerName = findViewById(R.id.timerNameTxt)
-        timerMinutes = findViewById(R.id.timerMinTxt)
-        timerSeconds = findViewById(R.id.timerSecTxt)
-        timerSets = findViewById(R.id.timerSetsTxt)
-        timerNext = findViewById(R.id.timerNextTxt)
-        startingLayout = findViewById(R.id.startingLayout)
-        pausedLayout = findViewById(R.id.pausedLayout)
-        startingLbl = findViewById(R.id.startingLbl)
-        secsToStart = findViewById(R.id.secsToStart)
-        timerLayout = findViewById(R.id.timerLayout)
-        timerImage = findViewById(R.id.timerImage)
-        minutesTimerLbl = findViewById(R.id.minutesTimerLbl)
-        secondsTimerLbl = findViewById(R.id.secondsTimerLbl)
-        repsTimerLbl = findViewById(R.id.repsTimerLbl)
-        timerCurrentState = findViewById(R.id.timerCurrentState)
-        skipTimerBtn = findViewById(R.id.skipTimerBtn)
-        timerNumbersLayout = findViewById(R.id.timerNumbersLayout)
-        layoutContainer = findViewById(R.id.layoutContainer)
-        goPreviousStateBtn = findViewById(R.id.goPreviousStateBtn)
-        pauseAnimationLayout = findViewById(R.id.pauseAnimationLayout)
-        soundBtn = findViewById(R.id.soundBtn)
-        vibrationBtn = findViewById(R.id.vibrationBtn)
         reps = workout.num_reps
         work = workout.work_time
         rest = workout.rest_time
         numSets = workout.sets
 
         startBannerAds()
-        var adRequest = AdRequest.Builder().build()
-        InterstitialAd.load(this,"ca-app-pub-2716842126108084/3865049547", adRequest, object : InterstitialAdLoadCallback() {
+        val adRequestInterstitial = AdRequest.Builder().build()
+        InterstitialAd.load(this,"ca-app-pub-2716842126108084/3865049547", adRequestInterstitial, object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 Log.d("AD INTERSTITIAL", adError.toString())
                 finalInterstitialAd = null
@@ -148,48 +102,48 @@ class TimerActivity : AppCompatActivity() {
         if (workout.reps) { //Working with Reps
             initialWorkTime = ((workout.num_reps * workout.reps_time) * 1000 + 1000).toLong() //Set Timer Value
             workFormat = reps.toString() + " " + getString(R.string.workingRepsTimer)
-            timerMinutes.visibility = View.GONE
-            minutesTimerLbl.visibility = View.GONE
-            secondsTimerLbl.visibility = View.GONE
-            timerSeconds.textSize = 200F
+            binding.timerMinTxt.visibility = View.GONE
+            binding.minutesTimerLbl.visibility = View.GONE
+            binding.secondsTimerLbl.visibility = View.GONE
+            binding.timerSecTxt.textSize = 200F
         } else { //Working with Time
             initialWorkTime = (workout.work_time * 1000 + 1000).toLong() //Set Timer Value
             val workTimeFormat = convertTime(work)
             workFormat = getString(R.string.workTimer) + " " + workTimeFormat[0] + ":" + workTimeFormat[1]
-            timerMinutes.text = workTimeFormat[0]
-            timerSeconds.text = workTimeFormat[1]
+            binding.timerMinTxt.text = workTimeFormat[0]
+            binding.timerSecTxt.text = workTimeFormat[1]
         }
         val restTimeFormat = convertTime(rest)
-        pauseAnimationLayout.visibility = View.VISIBLE
-        pauseAnimationLayout.alpha = 0f
+        binding.pauseAnimationLayout.visibility = View.VISIBLE
+        binding.pauseAnimationLayout.alpha = 0f
         if (!soundEnabled){
-            soundBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_volume_off_24))
+            binding.soundBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_volume_off_24))
         }
         if (!vibrationEnabled){
-            vibrationBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_mobile_off_24))
+            binding.vibrationBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_mobile_off_24))
         }
 
         //Assigning values and assets
         restFormat = getString(R.string.restTimer) + " " + restTimeFormat[0] + ":" + restTimeFormat[1]
-        timerNext.text = restFormat
-        timerSets.text = currentSet.toString()
+        binding.timerNextTxt.text = restFormat
+        binding.timerSetsTxt.text = currentSet.toString()
         initialRestTime = (workout.rest_time * 1000 + 1000).toLong()
-        timerName.text = workout.name.uppercase()
+        binding.timerNameTxt.text = workout.name.uppercase()
         when (workout.category){
-            "Chest" -> {timerImage.setImageResource(R.drawable.chest_ic)}
-            "Back" -> {timerImage.setImageResource(R.drawable.back_ic)}
-            "Shoulder" -> {timerImage.setImageResource(R.drawable.shoulder_ic)}
-            "Arms" -> {timerImage.setImageResource(R.drawable.arm_ic)}
-            "Legs" -> {timerImage.setImageResource(R.drawable.legs_ic)}
-            "Abs" -> {timerImage.setImageResource(R.drawable.abs_ic)}
+            "Chest" -> {binding.timerImage.setImageResource(R.drawable.chest_ic)}
+            "Back" -> {binding.timerImage.setImageResource(R.drawable.back_ic)}
+            "Shoulder" -> {binding.timerImage.setImageResource(R.drawable.shoulder_ic)}
+            "Arms" -> {binding.timerImage.setImageResource(R.drawable.arm_ic)}
+            "Legs" -> {binding.timerImage.setImageResource(R.drawable.legs_ic)}
+            "Abs" -> {binding.timerImage.setImageResource(R.drawable.abs_ic)}
         }
-        startingLayout.visibility = View.GONE
-        goPreviousStateBtn.visibility = View.GONE
+        binding.startingLayout.visibility = View.GONE
+        binding.goPreviousStateBtn.visibility = View.GONE
         started = false
 
         startingTimer(initialWorkTime) //Start Short Timer Before Starting
 
-        skipTimerBtn.setOnClickListener {
+        binding.skipTimerBtn.setOnClickListener {
             if (started && !isPaused) {
                 touchedSkipOnce++
                 Handler(Looper.getMainLooper()).postDelayed({ //Double tap handler
@@ -198,24 +152,24 @@ class TimerActivity : AppCompatActivity() {
                             .show()
                     } else if (touchedSkipOnce == 2) {
                         val animateNumbersLayout =
-                            ObjectAnimator.ofFloat(timerNumbersLayout, "alpha", 0f).apply {
+                            ObjectAnimator.ofFloat(binding.timerNumbersLayout, "alpha", 0f).apply {
                                 duration = 1000
                                 start()
                             }
                         animateNumbersLayout.doOnEnd {
                             skipCurrentState()
-                            ObjectAnimator.ofFloat(timerNumbersLayout, "alpha", 1f).apply {
+                            ObjectAnimator.ofFloat(binding.timerNumbersLayout, "alpha", 1f).apply {
                                 duration = 1000
                                 start()
                             }
                         }
                         val animateText =
-                            ObjectAnimator.ofFloat(timerCurrentState, "alpha", 0f).apply {
+                            ObjectAnimator.ofFloat(binding.timerCurrentState, "alpha", 0f).apply {
                                 duration = 1000
                                 start()
                             }
                         animateText.doOnEnd {
-                            ObjectAnimator.ofFloat(timerCurrentState, "alpha", 1f).apply {
+                            ObjectAnimator.ofFloat(binding.timerCurrentState, "alpha", 1f).apply {
                                 duration = 1000
                                 start()
                             }
@@ -226,7 +180,7 @@ class TimerActivity : AppCompatActivity() {
             }
         }
 
-            goPreviousStateBtn.setOnClickListener {
+        binding.goPreviousStateBtn.setOnClickListener {
                 if (started && !isPaused) {
                     touchedReturnOnce++
                     Handler(Looper.getMainLooper()).postDelayed({ //Double tap handler
@@ -234,24 +188,24 @@ class TimerActivity : AppCompatActivity() {
                             Toast.makeText(this, getString(R.string.doubleTapReturn), Toast.LENGTH_SHORT).show()
                         } else if (touchedReturnOnce == 2) {
                             val animateNumbersLayout =
-                                ObjectAnimator.ofFloat(timerNumbersLayout, "alpha", 0f).apply {
+                                ObjectAnimator.ofFloat(binding.timerNumbersLayout, "alpha", 0f).apply {
                                     duration = 1000
                                     start()
                                 }
                             animateNumbersLayout.doOnEnd {
                                 returnPreviousState()
-                                ObjectAnimator.ofFloat(timerNumbersLayout, "alpha", 1f).apply {
+                                ObjectAnimator.ofFloat(binding.timerNumbersLayout, "alpha", 1f).apply {
                                     duration = 1000
                                     start()
                                 }
                             }
                             val animateText =
-                                ObjectAnimator.ofFloat(timerCurrentState, "alpha", 0f).apply {
+                                ObjectAnimator.ofFloat(binding.timerCurrentState, "alpha", 0f).apply {
                                     duration = 1000
                                     start()
                                 }
                             animateText.doOnEnd {
-                                ObjectAnimator.ofFloat(timerCurrentState, "alpha", 1f).apply {
+                                ObjectAnimator.ofFloat(binding.timerCurrentState, "alpha", 1f).apply {
                                     duration = 1000
                                     start()
                                 }
@@ -263,14 +217,14 @@ class TimerActivity : AppCompatActivity() {
             }
 
         //Set listener to The Layout for Pause/UnPause Functionality
-        timerLayout.setOnClickListener {
+        binding.timerLayout.setOnClickListener {
             val animatePauseLayout =
-                ObjectAnimator.ofFloat(pauseAnimationLayout, "alpha", 1f).apply {
+                ObjectAnimator.ofFloat(binding.pauseAnimationLayout, "alpha", 1f).apply {
                     duration = 100
                     start()
                 }
             animatePauseLayout.doOnEnd {
-                ObjectAnimator.ofFloat(pauseAnimationLayout, "alpha", 0f).apply {
+                ObjectAnimator.ofFloat(binding.pauseAnimationLayout, "alpha", 0f).apply {
                     duration = 600
                     start()
                 }
@@ -290,7 +244,7 @@ class TimerActivity : AppCompatActivity() {
             },200)
         }
 
-        soundBtn.setOnClickListener {
+        binding.soundBtn.setOnClickListener {
             if(started && !isPaused) {
                 Log.d("SettingPressed", "Sound Clicked")
                 soundEnabled = !soundEnabled
@@ -298,16 +252,16 @@ class TimerActivity : AppCompatActivity() {
                 prefs.putBoolean("sound", soundEnabled)
                 prefs.apply()
                 if (soundEnabled) {
-                    soundBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_volume_up_24))
+                    binding.soundBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_volume_up_24))
                 } else {
-                    soundBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_volume_off_24
+                    binding.soundBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_volume_off_24
                         )
                     )
                 }
             }
         }
 
-        vibrationBtn.setOnClickListener {
+        binding.vibrationBtn.setOnClickListener {
             if (started && !isPaused) {
                 Log.d("SettingPressed", "Vibration Clicked")
                 vibrationEnabled = !vibrationEnabled
@@ -315,9 +269,9 @@ class TimerActivity : AppCompatActivity() {
                 prefs.putBoolean("vibration", vibrationEnabled)
                 prefs.apply()
                 if (vibrationEnabled) {
-                    vibrationBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_vibration_24))
+                    binding.vibrationBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_vibration_24))
                 } else {
-                    vibrationBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_mobile_off_24))
+                    binding.vibrationBtn.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.baseline_mobile_off_24))
                 }
             }
         }
@@ -359,45 +313,45 @@ class TimerActivity : AppCompatActivity() {
 
     private fun startingTimer(time: Long) { //Short timer before Starting Workout
         started = false
-        skipTimerBtn.visibility = View.GONE
-        soundBtn.visibility = View.GONE
-        vibrationBtn.visibility = View.GONE
+        binding.skipTimerBtn.visibility = View.GONE
+        binding.soundBtn.visibility = View.GONE
+        binding.vibrationBtn.visibility = View.GONE
         if (currentSet == 1 && resting){
-            goPreviousStateBtn.visibility = View.GONE
+            binding.goPreviousStateBtn.visibility = View.GONE
         } else if (currentSet > 1){
-            goPreviousStateBtn.visibility = View.GONE
+            binding.goPreviousStateBtn.visibility = View.GONE
         }else {
-            goPreviousStateBtn.visibility = View.GONE
+            binding.goPreviousStateBtn.visibility = View.GONE
         }
-        startingLayout.visibility = View.VISIBLE
-        timerLayout.visibility = View.GONE
+        binding.startingLayout.visibility = View.VISIBLE
+        binding.timerLayout.visibility = View.GONE
         countDownInPause = initialWorkTime
         countDownInterval = 1000L
-        startingLayout.setBackgroundColor(resources.getColor(R.color.timerGrayLightStarting))
+        binding.startingLayout.setBackgroundColor(resources.getColor(R.color.timerGrayLightStarting))
         startDownTimer = object : CountDownTimer(6000, 1000){
             override fun onTick(millisUntilFinished: Long) {
                 countDownInPause = initialWorkTime
                 actionOnIntervalStarting((millisUntilFinished))
                 actionOnIntervalStarting((countDownInterval))
                 if ((millisUntilFinished/countDownInterval) > 3){
-                    startingLbl.text = getString(R.string.getReady)
-                    secsToStart.visibility = View.GONE
+                    binding.startingLbl.text = getString(R.string.getReady)
+                    binding.secsToStart.visibility = View.GONE
                     actionOnIntervalStarting((millisUntilFinished/countDownInterval))
                 } else if ((millisUntilFinished/countDownInterval) <= 3 && (millisUntilFinished/countDownInterval) > 0.99){
                     actionOnIntervalStarting((millisUntilFinished/countDownInterval))
-                    startingLbl.text = getString(R.string.starting)
-                    secsToStart.text = (millisUntilFinished/countDownInterval).toString()
-                    secsToStart.visibility = View.VISIBLE
+                    binding.startingLbl.text = getString(R.string.starting)
+                    binding.secsToStart.text = (millisUntilFinished/countDownInterval).toString()
+                    binding.secsToStart.visibility = View.VISIBLE
                 } else if ((millisUntilFinished/countDownInterval) < 1){
                     actionOnIntervalStarting((millisUntilFinished/countDownInterval))
-                    secsToStart.text = getString(R.string.timerStartingFinalValue)
+                    binding.secsToStart.text = getString(R.string.timerStartingFinalValue)
                 }
             }
             override fun onFinish() {
                 started = true
                 startWorkTimer(time) //Start Workout timer after this is finished
-                startingLayout.visibility = View.GONE
-                timerLayout.visibility = View.VISIBLE
+                binding.startingLayout.visibility = View.GONE
+                binding.timerLayout.visibility = View.VISIBLE
             }
         }
         startDownTimer.start() //Start Short Timer
@@ -408,28 +362,28 @@ class TimerActivity : AppCompatActivity() {
     }
 
     private fun startWorkTimer(time : Long){ //Workout Timer
-        skipTimerBtn.visibility = View.VISIBLE
-        soundBtn.visibility = View.VISIBLE
-        vibrationBtn.visibility = View.VISIBLE
+        binding.skipTimerBtn.visibility = View.VISIBLE
+        binding.soundBtn.visibility = View.VISIBLE
+        binding.vibrationBtn.visibility = View.VISIBLE
         if (currentSet > 1){
-            goPreviousStateBtn.visibility = View.VISIBLE
+            binding.goPreviousStateBtn.visibility = View.VISIBLE
         }else {
-            goPreviousStateBtn.visibility = View.GONE
+            binding.goPreviousStateBtn.visibility = View.GONE
         }
-        timerNext.text = restFormat
-        timerSets.text = (currentSet).toString()
-        timerCurrentState.text = getString(R.string.timerWorkTxt)
+        binding.timerNextTxt.text = restFormat
+        binding.timerSetsTxt.text = (currentSet).toString()
+        binding.timerCurrentState.text = getString(R.string.timerWorkTxt)
         if (workout.reps){ //Working with Reps, Set Visibility
             countDownInterval = (workout.reps_time * 1000).toLong()
-            timerMinutes.visibility = View.GONE
-            minutesTimerLbl.visibility = View.GONE
-            secondsTimerLbl.visibility = View.GONE
-            repsTimerLbl.visibility = View.VISIBLE
-            timerSeconds.textSize = 200F
+            binding.timerMinTxt.visibility = View.GONE
+            binding.minutesTimerLbl.visibility = View.GONE
+            binding.secondsTimerLbl.visibility = View.GONE
+            binding.repsTimerLbl.visibility = View.VISIBLE
+            binding.timerSecTxt.textSize = 200F
             countDownTimer = object : CountDownTimer(time, countDownInterval){
                 override fun onTick(millisUntilFinished: Long) {
                     countDownInPause = millisUntilFinished
-                    timerSeconds.text = (millisUntilFinished/countDownInterval).toString()
+                    binding.timerSecTxt.text = (millisUntilFinished/countDownInterval).toString()
                 }
                 override fun onFinish() {
                     startRestTimer(initialRestTime) //Start rest time after this is finished
@@ -438,14 +392,14 @@ class TimerActivity : AppCompatActivity() {
             countDownTimer.start() //Start Reps Timer
         } else{ //Working with Time, Set Visibility
             countDownInterval = 1000
-            repsTimerLbl.visibility = View.GONE
+            binding.repsTimerLbl.visibility = View.GONE
             countDownTimer = object : CountDownTimer(time, countDownInterval){
                 override fun onTick(millisUntilFinished: Long) {
                     countDownInPause = millisUntilFinished
                     work = (millisUntilFinished/1000).toInt()
                     val timeFormat = convertTime(work)
-                    timerMinutes.text = timeFormat[0]
-                    timerSeconds.text = timeFormat[1]
+                    binding.timerMinTxt.text = timeFormat[0]
+                    binding.timerSecTxt.text = timeFormat[1]
                 }
                 override fun onFinish() {
                     startRestTimer(initialRestTime) //Start rest time after this is finished
@@ -473,37 +427,37 @@ class TimerActivity : AppCompatActivity() {
 
     private fun startRestTimer(time : Long){ //Rest Timer
         resting = true
-        skipTimerBtn.visibility = View.VISIBLE
-        soundBtn.visibility = View.VISIBLE
-        vibrationBtn.visibility = View.VISIBLE
+        binding.skipTimerBtn.visibility = View.VISIBLE
+        binding.soundBtn.visibility = View.VISIBLE
+        binding.vibrationBtn.visibility = View.VISIBLE
         if (currentSet == 1 && resting){
-            goPreviousStateBtn.visibility = View.VISIBLE
+            binding.goPreviousStateBtn.visibility = View.VISIBLE
         } else if (currentSet > 1){
-            goPreviousStateBtn.visibility = View.VISIBLE
+            binding.goPreviousStateBtn.visibility = View.VISIBLE
         }else {
-            goPreviousStateBtn.visibility = View.GONE
+            binding.goPreviousStateBtn.visibility = View.GONE
         }
-        timerSets.text = (currentSet).toString()
-        timerCurrentState.text = getString(R.string.timerRestTxt)
-        timerSeconds.textSize = 150F
+        binding.timerSetsTxt.text = (currentSet).toString()
+        binding.timerCurrentState.text = getString(R.string.timerRestTxt)
+        binding.timerSecTxt.textSize = 150F
         if (numSets > 1) {
-            timerNext.text = workFormat
+            binding.timerNextTxt.text = workFormat
         } else{
-            timerNext.text = getString(R.string.end)
+            binding.timerNextTxt.text = getString(R.string.end)
         }
-        timerMinutes.visibility = View.VISIBLE
-        minutesTimerLbl.visibility = View.VISIBLE
-        secondsTimerLbl.visibility = View.VISIBLE
-        repsTimerLbl.visibility = View.GONE
-        timerSeconds.marginStart.plus(60)
+        binding.timerMinTxt.visibility = View.VISIBLE
+        binding.minutesTimerLbl.visibility = View.VISIBLE
+        binding.secondsTimerLbl.visibility = View.VISIBLE
+        binding.repsTimerLbl.visibility = View.GONE
+        binding.timerSecTxt.marginStart.plus(60)
         countDownInterval = 1000
         countDownTimer = object : CountDownTimer(time, countDownInterval){
             override fun onTick(millisUntilFinished: Long) {
                 countDownInPause = millisUntilFinished
                 rest = (millisUntilFinished/1000).toInt()
                 val timeFormat = convertTime(rest)
-                timerMinutes.text = timeFormat[0]
-                timerSeconds.text = timeFormat[1]
+                binding.timerMinTxt.text = timeFormat[0]
+                binding.timerSecTxt.text = timeFormat[1]
             }
             override fun onFinish() {
                 resting = false
@@ -542,19 +496,19 @@ class TimerActivity : AppCompatActivity() {
                 mediaPlayer.start()
             }
         } else {
-            ObjectAnimator.ofFloat(timerSeconds,"scaleX",1.1f, 1f).apply {
+            ObjectAnimator.ofFloat(binding.timerSecTxt,"scaleX",1.1f, 1f).apply {
                 duration = 400
                 start()
             }
-            ObjectAnimator.ofFloat(timerSeconds,"scaleY",1.1f, 1f).apply {
+            ObjectAnimator.ofFloat(binding.timerSecTxt,"scaleY",1.1f, 1f).apply {
                 duration = 400
                 start()
             }
-            ObjectAnimator.ofFloat(timerMinutes,"scaleX",1.1f, 1f).apply {
+            ObjectAnimator.ofFloat(binding.timerMinTxt,"scaleX",1.1f, 1f).apply {
                 duration = 400
                 start()
             }
-            ObjectAnimator.ofFloat(timerMinutes,"scaleY",1.1f, 1f).apply {
+            ObjectAnimator.ofFloat(binding.timerMinTxt,"scaleY",1.1f, 1f).apply {
                 duration = 400
                 start()
             }
@@ -607,12 +561,12 @@ class TimerActivity : AppCompatActivity() {
     }
 
     private fun pauseTimer(){
-        pausedLayout.visibility =View.VISIBLE
-        skipTimerBtn.visibility = View.GONE
-        soundBtn.visibility = View.GONE
-        vibrationBtn.visibility = View.GONE
-        if (goPreviousStateBtn.visibility == View.VISIBLE){
-            goPreviousStateBtn.visibility = View.GONE
+        binding.pausedLayout.visibility =View.VISIBLE
+        binding.skipTimerBtn.visibility = View.GONE
+        binding.soundBtn.visibility = View.GONE
+        binding.vibrationBtn.visibility = View.GONE
+        if (binding.goPreviousStateBtn.visibility == View.VISIBLE){
+            binding.goPreviousStateBtn.visibility = View.GONE
         }
         countDownTimer.cancel()
         if (started){timerInterval.cancel()}
@@ -620,7 +574,7 @@ class TimerActivity : AppCompatActivity() {
     }
 
     private fun resumeTimer(){
-        pausedLayout.visibility =View.GONE
+        binding.pausedLayout.visibility =View.GONE
         if (resting) {
             startRestTimer(countDownInPause)
         } else {
@@ -648,11 +602,10 @@ class TimerActivity : AppCompatActivity() {
     private fun startBannerAds(){
         //INITIALIZING BANNER ADS AND REQUESTING IT
         MobileAds.initialize(this)
-        bannerAd = findViewById(R.id.adViewTimer)
         val adRequest = AdRequest.Builder().build()
-        bannerAd.loadAd(adRequest)
+        binding.adViewTimer.loadAd(adRequest)
 
-        bannerAd.adListener = object : AdListener(){
+        binding.adViewTimer.adListener = object : AdListener(){
             override fun onAdClicked() {
                 Log.d("AD_BANNER", "AD LOADED CLICKED")
                 super.onAdClicked()

@@ -7,38 +7,26 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.faesfa.tiwo.databinding.FragmentCreate2Binding
 
 
 class CreateFragment2 : Fragment() {
     //Initialize all views on Screen
-    private lateinit var numRepsTitle: TextView
-    private lateinit var createRepsTxt: TextView
-    private lateinit var addRepsBtn: ImageButton
-    private lateinit var removeRepsBtn: ImageButton
-    private lateinit var repsIntervalTitle: TextView
-    private lateinit var createIntervalTxt: TextView
-    private lateinit var addIntervalBtn: ImageButton
-    private lateinit var removeIntervalBtn: ImageButton
-    private lateinit var secondsIntervalTxt: TextView
-    private lateinit var workTimeTitle: TextView
-    private lateinit var workMinutesCreate: NumberPicker
-    private lateinit var workSecondsCreate: NumberPicker
-    private lateinit var dotsWorkTime: TextView
-    private lateinit var restTimeTitle: TextView
-    private lateinit var restMinutesCreate: NumberPicker
-    private lateinit var restSecondsCreate: NumberPicker
+    private var _binding: FragmentCreate2Binding? = null
+    private val binding get() = _binding!!
+
     private lateinit var workout : WorkoutsModelClass
-
-    private lateinit var nextBtn : LinearLayout
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val args = this.arguments
         workout = args?.getSerializable("workout") as WorkoutsModelClass //Receive data from Prev Fragment
-        val view = inflater.inflate(R.layout.fragment_create2, container, false) //save inflater into view
+
+        _binding = FragmentCreate2Binding.inflate(inflater, container,false)
+        val view = binding.root //save inflater into view
+
         var reps = 10
         var interval = 1.5
         var workMinutes = 0
@@ -46,88 +34,69 @@ class CreateFragment2 : Fragment() {
         var restMinutes = 0
         var restSeconds = 0
 
-        //Declare each view
-        numRepsTitle = view.findViewById(R.id.numRepsTitle)
-        createRepsTxt = view.findViewById(R.id.createRepsTxt)
-        addRepsBtn = view.findViewById(R.id.addRepsBtn)
-        removeRepsBtn = view.findViewById(R.id.removeRepsBtn)
-        repsIntervalTitle = view.findViewById(R.id.repsIntervalTitle)
-        createIntervalTxt = view.findViewById(R.id.createIntervalTxt)
-        addIntervalBtn = view.findViewById(R.id.addIntervalBtn)
-        removeIntervalBtn = view.findViewById(R.id.removeIntervalBtn)
-        secondsIntervalTxt = view.findViewById(R.id.secondsIntervalTxt)
-        workTimeTitle = view.findViewById(R.id.workTimeTitle)
-        workMinutesCreate = view.findViewById(R.id.workMinutesCreate)
-        workSecondsCreate = view.findViewById(R.id.workSecondsCreate)
-        dotsWorkTime = view.findViewById(R.id.dotsWorkTime)
-        restTimeTitle = view.findViewById(R.id.restTimeTitle)
-        restMinutesCreate = view.findViewById(R.id.restMinutesCreate)
-        restSecondsCreate = view.findViewById(R.id.restSecondsCreate)
-        nextBtn = view.findViewById(R.id.createNext2)
-
         //Check if working with Reps or Time and Set Visibility
         changeVisibility(workout.reps)
 
         if (workout.reps) { //Set Listeners for Buttons if working with Reps
-            addRepsBtn.setOnClickListener {
+            binding.addRepsBtn.setOnClickListener {
                 if (reps > 0) {
                     reps++
-                    createRepsTxt.text = reps.toString()
-                    removeRepsBtn.visibility = View.VISIBLE
+                    binding.createRepsTxt.text = reps.toString()
+                    binding.removeRepsBtn.visibility = View.VISIBLE
                 }
             }
-            removeRepsBtn.setOnClickListener {
+            binding.removeRepsBtn.setOnClickListener {
                 if (reps > 1){
                     reps--
-                    createRepsTxt.text = reps.toString()
+                    binding.createRepsTxt.text = reps.toString()
                 } else if (reps == 1) {
-                    removeRepsBtn.visibility = View.INVISIBLE
+                    binding.removeRepsBtn.visibility = View.INVISIBLE
                 }
             }
 
             //Set Listeners for Buttons on Interval
-            addIntervalBtn.setOnClickListener {
+            binding.addIntervalBtn.setOnClickListener {
                 if (interval > 0.0) {
                     interval += 0.5
-                    createIntervalTxt.text = interval.toString()
-                    removeIntervalBtn.visibility = View.VISIBLE
+                    binding.createIntervalTxt.text = interval.toString()
+                    binding.removeIntervalBtn.visibility = View.VISIBLE
                 }
             }
-            removeIntervalBtn.setOnClickListener {
+            binding.removeIntervalBtn.setOnClickListener {
                 if (interval > 0.6){
                     interval -= 0.5
-                    createIntervalTxt.text = interval.toString()
+                    binding.createIntervalTxt.text = interval.toString()
                 } else if (interval == 0.5) {
-                    removeIntervalBtn.visibility = View.INVISIBLE
+                    binding.removeIntervalBtn.visibility = View.INVISIBLE
                 }
             }
         } else { // Set listeners if Working with Time
             //Listener for the NumberPickers on Work Time
-            workMinutesCreate.maxValue = 59
-            workMinutesCreate.minValue = 0
-            workSecondsCreate.maxValue = 59
-            workSecondsCreate.minValue = 0
-            workMinutesCreate.setOnValueChangedListener { _, _, newVal ->
+            binding.workMinutesCreate.maxValue = 59
+            binding.workMinutesCreate.minValue = 0
+            binding.workSecondsCreate.maxValue = 59
+            binding.workSecondsCreate.minValue = 0
+            binding.workMinutesCreate.setOnValueChangedListener { _, _, newVal ->
                 workMinutes = newVal
             }
-            workSecondsCreate.setOnValueChangedListener { _, _, newVal ->
+            binding.workSecondsCreate.setOnValueChangedListener { _, _, newVal ->
                 workSeconds = newVal
             }
         }
         //Listener for the NumberPickers on Rest Time
-        restMinutesCreate.maxValue = 59
-        restMinutesCreate.minValue = 0
-        restSecondsCreate.maxValue = 59
-        restSecondsCreate.minValue = 0
-        restMinutesCreate.setOnValueChangedListener { _, _, newVal ->
+        binding.restMinutesCreate.maxValue = 59
+        binding.restMinutesCreate.minValue = 0
+        binding.restSecondsCreate.maxValue = 59
+        binding.restSecondsCreate.minValue = 0
+        binding.restMinutesCreate.setOnValueChangedListener { _, _, newVal ->
             restMinutes = newVal
         }
-        restSecondsCreate.setOnValueChangedListener { _, _, newVal ->
+        binding.restSecondsCreate.setOnValueChangedListener { _, _, newVal ->
             restSeconds = newVal
         }
 
         //Listener for Next Button
-        nextBtn.setOnClickListener {
+        binding.createNext2.setOnClickListener {
             val workTime = (workMinutes * 60) + workSeconds
             val restTime = (restMinutes * 60) + restSeconds
             if (workout.reps){ //Working with reps
@@ -176,37 +145,37 @@ class CreateFragment2 : Fragment() {
 
     private fun changeVisibility(workReps : Boolean){ //Set visibility depending on working with reps or time
         if (!workReps){ //Working time
-            numRepsTitle.visibility = View.GONE
-            createRepsTxt.visibility = View.GONE
-            addRepsBtn.visibility = View.GONE
-            removeRepsBtn.visibility = View.GONE
+            binding.numRepsTitle.visibility = View.GONE
+            binding.createRepsTxt.visibility = View.GONE
+            binding.addRepsBtn.visibility = View.GONE
+            binding.removeRepsBtn.visibility = View.GONE
 
-            repsIntervalTitle.visibility = View.GONE
-            createIntervalTxt.visibility = View.GONE
-            addIntervalBtn.visibility = View.GONE
-            removeIntervalBtn.visibility = View.GONE
-            secondsIntervalTxt.visibility = View.GONE
+            binding.repsIntervalTitle.visibility = View.GONE
+            binding.createIntervalTxt.visibility = View.GONE
+            binding.addIntervalBtn.visibility = View.GONE
+            binding.removeIntervalBtn.visibility = View.GONE
+            binding.secondsIntervalTxt.visibility = View.GONE
 
-            workTimeTitle.visibility = View.VISIBLE
-            workMinutesCreate.visibility = View.VISIBLE
-            workSecondsCreate.visibility = View.VISIBLE
-            dotsWorkTime.visibility = View.VISIBLE
+            binding.workTimeTitle.visibility = View.VISIBLE
+            binding.workMinutesCreate.visibility = View.VISIBLE
+            binding.workSecondsCreate.visibility = View.VISIBLE
+            binding.dotsWorkTime.visibility = View.VISIBLE
         } else { //Working reps
-            numRepsTitle.visibility = View.VISIBLE
-            createRepsTxt.visibility = View.VISIBLE
-            addRepsBtn.visibility = View.VISIBLE
-            removeRepsBtn.visibility = View.VISIBLE
+            binding.numRepsTitle.visibility = View.VISIBLE
+            binding.createRepsTxt.visibility = View.VISIBLE
+            binding.addRepsBtn.visibility = View.VISIBLE
+            binding.removeRepsBtn.visibility = View.VISIBLE
 
-            repsIntervalTitle.visibility = View.VISIBLE
-            createIntervalTxt.visibility = View.VISIBLE
-            addIntervalBtn.visibility = View.VISIBLE
-            removeIntervalBtn.visibility = View.VISIBLE
-            secondsIntervalTxt.visibility = View.VISIBLE
+            binding.repsIntervalTitle.visibility = View.VISIBLE
+            binding.createIntervalTxt.visibility = View.VISIBLE
+            binding.addIntervalBtn.visibility = View.VISIBLE
+            binding.removeIntervalBtn.visibility = View.VISIBLE
+            binding.secondsIntervalTxt.visibility = View.VISIBLE
 
-            workTimeTitle.visibility = View.GONE
-            workMinutesCreate.visibility = View.GONE
-            workSecondsCreate.visibility = View.GONE
-            dotsWorkTime.visibility = View.GONE
+            binding.workTimeTitle.visibility = View.GONE
+            binding.workMinutesCreate.visibility = View.GONE
+            binding.workSecondsCreate.visibility = View.GONE
+            binding.dotsWorkTime.visibility = View.GONE
         }
     }
 }

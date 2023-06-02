@@ -6,41 +6,29 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
+import com.faesfa.tiwo.databinding.ActivityInfoBinding
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import de.hdodenhof.circleimageview.CircleImageView
 import java.io.*
 
 class InfoActivity : AppCompatActivity() {
     //Initialize everything
+    private lateinit var binding: ActivityInfoBinding
     private lateinit var workouts: Workouts
     private lateinit var dataManager: DataManager
-    private lateinit var infoImage:CircleImageView
-    private lateinit var infoNameTxt:TextView
-    private lateinit var infoSetsTxt:TextView
-    private lateinit var infoRepsTitle:TextView
-    private lateinit var infoRepsTxt:TextView
-    private lateinit var infoWorkTitle:TextView
-    private lateinit var infoWorkTxt:TextView
-    private lateinit var infoRestTxt:TextView
-    private lateinit var infoStartBtn:LinearLayout
-    private lateinit var infoDeleteBtn:LinearLayout
     private lateinit var toolBar : Toolbar
-    private lateinit var bannerAd : AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_info)
+        binding = ActivityInfoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         toolBar = findViewById(R.id.includeAppBar)
         toolBar.title = ""
@@ -50,60 +38,49 @@ class InfoActivity : AppCompatActivity() {
         dataManager = DataManager()
         val workout : WorkoutsModelClass = intent?.getSerializableExtra("selected_workout") as WorkoutsModelClass //Save workout got from Prev Activity
         val position = intent?.getSerializableExtra("position") as Int //Save position got from Prev Activity
-        //Declare all views
-        infoImage = findViewById(R.id.infoImg)
-        infoNameTxt = findViewById(R.id.infoNameTxt)
-        infoSetsTxt = findViewById(R.id.infoSetsTxt)
-        infoRepsTitle = findViewById(R.id.infoReps)
-        infoRepsTxt = findViewById(R.id.infoRepsTxt)
-        infoWorkTitle = findViewById(R.id.infoWorkTitle)
-        infoWorkTxt = findViewById(R.id.infoWorkTxt)
-        infoRestTxt = findViewById(R.id.infoRestTxt)
-        infoStartBtn = findViewById(R.id.infoStartBtn)
-        infoDeleteBtn = findViewById(R.id.infoDeleteBtn)
 
         //INITIALIZING BANNER ADS AND REQUESTING IT
         startBannerAds()
 
         when (workout.category){
-            "Chest" -> {infoImage.setImageResource(R.drawable.chest_ic)}
-            "Back" -> {infoImage.setImageResource(R.drawable.back_ic)}
-            "Shoulder" -> {infoImage.setImageResource(R.drawable.shoulder_ic)}
-            "Arms" -> {infoImage.setImageResource(R.drawable.arm_ic)}
-            "Legs" -> {infoImage.setImageResource(R.drawable.legs_ic)}
-            "Abs" -> {infoImage.setImageResource(R.drawable.abs_ic)}
+            "Chest" -> {binding.infoImg.setImageResource(R.drawable.chest_ic)}
+            "Back" -> {binding.infoImg.setImageResource(R.drawable.back_ic)}
+            "Shoulder" -> {binding.infoImg.setImageResource(R.drawable.shoulder_ic)}
+            "Arms" -> {binding.infoImg.setImageResource(R.drawable.arm_ic)}
+            "Legs" -> {binding.infoImg.setImageResource(R.drawable.legs_ic)}
+            "Abs" -> {binding.infoImg.setImageResource(R.drawable.abs_ic)}
         }
         @RequiresApi(Build.VERSION_CODES.M)
-        infoImage.borderColor = this.getColor(R.color.AppColor)
-        infoImage.borderWidth = 5
+        binding.infoImg.borderColor = this.getColor(R.color.AppColor)
+        binding.infoImg.borderWidth = 5
 
-        infoNameTxt.text = workout.name.uppercase()
-        infoSetsTxt.text = workout.sets.toString()
+        binding.infoNameTxt.text = workout.name.uppercase()
+        binding.infoSetsTxt.text = workout.sets.toString()
         if (workout.reps){ //Working with reps, set visibility
-            infoRepsTitle.visibility = View.VISIBLE
-            infoRepsTxt.visibility = View.VISIBLE
-            infoRepsTxt.text = workout.num_reps.toString()
-            infoWorkTitle.text = this.getString(R.string.infoNumRepsIntervalTitle) //Set title to working with Reps
+            binding.infoReps.visibility = View.VISIBLE
+            binding.infoRepsTxt.visibility = View.VISIBLE
+            binding.infoRepsTxt.text = workout.num_reps.toString()
+            binding.infoWorkTitle.text = this.getString(R.string.infoNumRepsIntervalTitle) //Set title to working with Reps
             val duration = "${workout.reps_time} ${getString(R.string.infoIntervalSecs)}"
-            infoWorkTxt.text = duration
+            binding.infoWorkTxt.text = duration
         }else{ //Working with Time, set visibility
-            infoRepsTitle.visibility = View.GONE
-            infoRepsTxt.visibility = View.GONE
-            infoWorkTitle.text = this.getString(R.string.infoWorkTimeTitle) //Set title to working with time
+            binding.infoReps.visibility = View.GONE
+            binding.infoRepsTxt.visibility = View.GONE
+            binding.infoWorkTitle.text = this.getString(R.string.infoWorkTimeTitle) //Set title to working with time
             val duration = dataManager.convertTime(workout.work_time)
-            infoWorkTxt.text = duration
+            binding.infoWorkTxt.text = duration
         }
         val restDur = dataManager.convertTime(workout.rest_time)
-        infoRestTxt.text = restDur
+        binding.infoRestTxt.text = restDur
 
         //Set listeners for Start and delete Btn
-        infoStartBtn.setOnClickListener {
+        binding.infoStartBtn.setOnClickListener {
             val launchTimer = Intent(this, TimerActivity::class.java)
             launchTimer.putExtra("selected_workout" , workout as Serializable) //Add workout Obj to pass it to timer
             startActivity(launchTimer)
         }
 
-        infoDeleteBtn.setOnClickListener {
+        binding.infoDeleteBtn.setOnClickListener {
             try {
                 val jsonString = dataManager.getJsonFromFile(this)!! //Get String from File
                 workouts = Gson().fromJson(jsonString, Workouts::class.java) //Turn Json String into Workouts obj
@@ -112,7 +89,7 @@ class InfoActivity : AppCompatActivity() {
                 val newJson = jsonCute.toJson(workouts) //Create the new Json string with Gson
                 dataManager.saveJsonToFile(this, newJson) //Save Json to file
                 Toast.makeText(this, "Workout Deleted", Toast.LENGTH_SHORT).show()
-                /*TODO something before Starting Home screen*/
+
                 val launchHome = Intent(this, MainActivity::class.java)
                 startActivity(launchHome)
             }catch (e: Exception){
@@ -126,11 +103,10 @@ class InfoActivity : AppCompatActivity() {
     private fun startBannerAds(){
         //INITIALIZING BANNER ADS AND REQUESTING IT
         MobileAds.initialize(this)
-        bannerAd = findViewById(R.id.adViewInfo)
         val adRequest = AdRequest.Builder().build()
-        bannerAd.loadAd(adRequest)
+        binding.adViewInfo.loadAd(adRequest)
 
-        bannerAd.adListener = object : AdListener(){
+        binding.adViewInfo.adListener = object : AdListener(){
             override fun onAdClicked() {
                 Log.d("AD_BANNER", "AD LOADED CLICKED")
                 super.onAdClicked()

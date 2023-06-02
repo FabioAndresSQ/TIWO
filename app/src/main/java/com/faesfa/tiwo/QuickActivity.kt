@@ -6,37 +6,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
+import com.faesfa.tiwo.databinding.ActivityQuickBinding
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import java.io.Serializable
 
 class QuickActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityQuickBinding
 
-    private lateinit var quickWorking : SwitchCompat
-    private lateinit var quickSetsTxt : TextView
-    private lateinit var quickRemoveSetsBtn : ImageButton
-    private lateinit var quickAddSetsBtn : ImageButton
-    private lateinit var quickNumRepsTitle : TextView
-    private lateinit var quickRepsTxt : TextView
-    private lateinit var quickRemoveRepsBtn : ImageButton
-    private lateinit var quickAddRepsBtn : ImageButton
-    private lateinit var quickRepsIntervalTitle : TextView
-    private lateinit var quickIntervalTxt : TextView
-    private lateinit var quickRemoveIntervalBtn : ImageButton
-    private lateinit var quickAddIntervalBtn : ImageButton
-    private lateinit var quickSecondsIntervalTxt : TextView
-    private lateinit var quickWorkTimeTitle : TextView
-    private lateinit var workMinutesQuick : NumberPicker
-    private lateinit var workSecondsQuick : NumberPicker
-    private lateinit var dotsWorkTimeQuick : TextView
-    private lateinit var restMinutesQuick : NumberPicker
-    private lateinit var restSecondsQuick : NumberPicker
-    private lateinit var quickStartBtn : LinearLayout
     private lateinit var workout : WorkoutsModelClass
     private var sets = 3 //Default sets 3
     private var reps = 10
@@ -46,128 +26,107 @@ class QuickActivity : AppCompatActivity() {
     private var restMinutes = 0
     private var restSeconds = 0
     private lateinit var toolBar : Toolbar
-    private lateinit var bannerAd : AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_quick)
+        binding = ActivityQuickBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         toolBar = findViewById(R.id.includeQuickBar)
         toolBar.title = ""
         toolBar.elevation = 5F
         setSupportActionBar(toolBar)
 
-        quickWorking = findViewById(R.id.quickWorking)
-        quickSetsTxt = findViewById(R.id.quickSetsTxt)
-        quickRemoveSetsBtn = findViewById(R.id.quickRemoveSetsBtn)
-        quickAddSetsBtn = findViewById(R.id.quickAddSetsBtn)
-        quickNumRepsTitle = findViewById(R.id.quickNumRepsTitle)
-        quickRepsTxt = findViewById(R.id.quickRepsTxt)
-        quickRemoveRepsBtn = findViewById(R.id.quickRemoveRepsBtn)
-        quickAddRepsBtn = findViewById(R.id.quickAddRepsBtn)
-        quickRepsIntervalTitle = findViewById(R.id.quickRepsIntervalTitle)
-        quickIntervalTxt = findViewById(R.id.quickIntervalTxt)
-        quickRemoveIntervalBtn = findViewById(R.id.quickRemoveIntervalBtn)
-        quickAddIntervalBtn = findViewById(R.id.quickAddIntervalBtn)
-        quickSecondsIntervalTxt = findViewById(R.id.quickSecondsIntervalTxt)
-        quickWorkTimeTitle = findViewById(R.id.quickWorkTimeTitle)
-        workMinutesQuick = findViewById(R.id.workMinutesQuick)
-        workSecondsQuick = findViewById(R.id.workSecondsQuick)
-        dotsWorkTimeQuick = findViewById(R.id.dotsWorkTimeQuick)
-        restMinutesQuick = findViewById(R.id.restMinutesQuick)
-        restSecondsQuick = findViewById(R.id.restSecondsQuick)
-        quickStartBtn = findViewById(R.id.quickStartBtn)
-
         //INITIALIZING BANNER ADS AND REQUESTING IT
         startBannerAds()
 
         //Listener for Switch
-        changeVisibility(quickWorking.isChecked)
-        quickWorking.setOnCheckedChangeListener { _, isChecked ->
+        changeVisibility(binding.quickWorking.isChecked)
+        binding.quickWorking.setOnCheckedChangeListener { _, isChecked ->
             changeVisibility(isChecked)
         }
 
         //Set listener to sets add or remove
-        quickSetsTxt.text = sets.toString()
-        quickAddSetsBtn.setOnClickListener {
+        binding.quickSetsTxt.text = sets.toString()
+        binding.quickAddSetsBtn.setOnClickListener {
             if (sets > 0) {
                 sets++
-                quickSetsTxt.text = sets.toString()
-                quickRemoveSetsBtn.visibility = View.VISIBLE
+                binding.quickSetsTxt.text = sets.toString()
+                binding.quickRemoveSetsBtn.visibility = View.VISIBLE
             }
         }
-        quickRemoveSetsBtn.setOnClickListener {
+        binding.quickRemoveSetsBtn.setOnClickListener {
             if (sets > 1){
                 sets--
-                quickSetsTxt.text = sets.toString()
+                binding.quickSetsTxt.text = sets.toString()
             } else if (sets == 1) {
-                quickRemoveSetsBtn.visibility = View.INVISIBLE
+                binding.quickRemoveSetsBtn.visibility = View.INVISIBLE
             }
         }
 
         //Listeners for add or remove Reps
-        quickAddRepsBtn.setOnClickListener {
+        binding.quickAddRepsBtn.setOnClickListener {
             if (reps > 0) {
                 reps++
-                quickRepsTxt.text = reps.toString()
-                quickRemoveRepsBtn.visibility = View.VISIBLE
+                binding.quickRepsTxt.text = reps.toString()
+                binding.quickRemoveRepsBtn.visibility = View.VISIBLE
             }
         }
-        quickRemoveRepsBtn.setOnClickListener {
+        binding.quickRemoveRepsBtn.setOnClickListener {
             if (reps > 1){
                 reps--
-                quickRepsTxt.text = reps.toString()
+                binding.quickRepsTxt.text = reps.toString()
             } else if (reps == 1) {
-                quickRemoveRepsBtn.visibility = View.INVISIBLE
+                binding.quickRemoveRepsBtn.visibility = View.INVISIBLE
             }
         }
 
         //Listeners for add or remove Interval
-        quickAddIntervalBtn.setOnClickListener {
+        binding.quickAddIntervalBtn.setOnClickListener {
             if (interval > 0.0) {
                 interval += 0.5
-                quickIntervalTxt.text = interval.toString()
-                quickRemoveIntervalBtn.visibility = View.VISIBLE
+                binding.quickIntervalTxt.text = interval.toString()
+                binding.quickRemoveIntervalBtn.visibility = View.VISIBLE
             }
         }
-        quickRemoveIntervalBtn.setOnClickListener {
+        binding.quickRemoveIntervalBtn.setOnClickListener {
             if (interval > 0.6){
                 interval -= 0.5
-                quickIntervalTxt.text = interval.toString()
+                binding.quickIntervalTxt.text = interval.toString()
             } else if (interval == 0.5) {
-                quickRemoveIntervalBtn.visibility = View.INVISIBLE
+                binding.quickRemoveIntervalBtn.visibility = View.INVISIBLE
             }
         }
 
         //Listeners for the NumberPickers on Work Time
-        workMinutesQuick.maxValue = 59
-        workMinutesQuick.minValue = 0
-        workSecondsQuick.maxValue = 59
-        workSecondsQuick.minValue = 0
-        workMinutesQuick.setOnValueChangedListener { _, _, newVal ->
+        binding.workMinutesQuick.maxValue = 59
+        binding.workMinutesQuick.minValue = 0
+        binding.workSecondsQuick.maxValue = 59
+        binding.workSecondsQuick.minValue = 0
+        binding.workMinutesQuick.setOnValueChangedListener { _, _, newVal ->
             workMinutes = newVal
         }
-        workSecondsQuick.setOnValueChangedListener { _, _, newVal ->
+        binding.workSecondsQuick.setOnValueChangedListener { _, _, newVal ->
             workSeconds = newVal
         }
 
         //Listener for the NumberPickers on Rest Time
-        restMinutesQuick.maxValue = 59
-        restMinutesQuick.minValue = 0
-        restSecondsQuick.maxValue = 59
-        restSecondsQuick.minValue = 0
-        restMinutesQuick.setOnValueChangedListener { _, _, newVal ->
+        binding.restMinutesQuick.maxValue = 59
+        binding.restMinutesQuick.minValue = 0
+        binding.restSecondsQuick.maxValue = 59
+        binding.restSecondsQuick.minValue = 0
+        binding.restMinutesQuick.setOnValueChangedListener { _, _, newVal ->
             restMinutes = newVal
         }
-        restSecondsQuick.setOnValueChangedListener { _, _, newVal ->
+        binding.restSecondsQuick.setOnValueChangedListener { _, _, newVal ->
             restSeconds = newVal
         }
 
         //listener for Start Quick timer Btn
-        quickStartBtn.setOnClickListener {
+        binding.quickStartBtn.setOnClickListener {
             val workTime = (workMinutes * 60) + workSeconds
             val restTime = (restMinutes * 60) + restSeconds
-            if (quickWorking.isChecked){ //Working with reps
+            if (binding.quickWorking.isChecked){ //Working with reps
                 if (reps > 0){ //Checks for Number of reps to not be 0
                     if (interval > 0){ //Checks for reps interval to not be 0
                         if (restTime > 0){ //Checks that Rest is not 0
@@ -215,48 +174,47 @@ class QuickActivity : AppCompatActivity() {
 
     private fun changeVisibility(workReps : Boolean){ //Set visibility depending on working with reps or time
         if (!workReps){ //Working time
-            quickNumRepsTitle.visibility = View.GONE
-            quickRepsTxt.visibility = View.GONE
-            quickAddRepsBtn.visibility = View.GONE
-            quickRemoveRepsBtn.visibility = View.GONE
+            binding.quickNumRepsTitle.visibility = View.GONE
+            binding.quickRepsTxt.visibility = View.GONE
+            binding.quickAddRepsBtn.visibility = View.GONE
+            binding.quickRemoveRepsBtn.visibility = View.GONE
 
-            quickRepsIntervalTitle.visibility = View.GONE
-            quickIntervalTxt.visibility = View.GONE
-            quickAddIntervalBtn.visibility = View.GONE
-            quickRemoveIntervalBtn.visibility = View.GONE
-            quickSecondsIntervalTxt.visibility = View.GONE
+            binding.quickRepsIntervalTitle.visibility = View.GONE
+            binding.quickIntervalTxt.visibility = View.GONE
+            binding.quickAddIntervalBtn.visibility = View.GONE
+            binding.quickRemoveIntervalBtn.visibility = View.GONE
+            binding.quickSecondsIntervalTxt.visibility = View.GONE
 
-            quickWorkTimeTitle.visibility = View.VISIBLE
-            workMinutesQuick.visibility = View.VISIBLE
-            workSecondsQuick.visibility = View.VISIBLE
-            dotsWorkTimeQuick.visibility = View.VISIBLE
+            binding.quickWorkTimeTitle.visibility = View.VISIBLE
+            binding.workMinutesQuick.visibility = View.VISIBLE
+            binding.workSecondsQuick.visibility = View.VISIBLE
+            binding.dotsWorkTimeQuick.visibility = View.VISIBLE
         } else { //Working reps
-            quickNumRepsTitle.visibility = View.VISIBLE
-            quickRepsTxt.visibility = View.VISIBLE
-            quickAddRepsBtn.visibility = View.VISIBLE
-            quickRemoveRepsBtn.visibility = View.VISIBLE
+            binding.quickNumRepsTitle.visibility = View.VISIBLE
+            binding.quickRepsTxt.visibility = View.VISIBLE
+            binding.quickAddRepsBtn.visibility = View.VISIBLE
+            binding.quickRemoveRepsBtn.visibility = View.VISIBLE
 
-            quickRepsIntervalTitle.visibility = View.VISIBLE
-            quickIntervalTxt.visibility = View.VISIBLE
-            quickAddIntervalBtn.visibility = View.VISIBLE
-            quickRemoveIntervalBtn.visibility = View.VISIBLE
-            quickSecondsIntervalTxt.visibility = View.VISIBLE
+            binding.quickRepsIntervalTitle.visibility = View.VISIBLE
+            binding.quickIntervalTxt.visibility = View.VISIBLE
+            binding.quickAddIntervalBtn.visibility = View.VISIBLE
+            binding.quickRemoveIntervalBtn.visibility = View.VISIBLE
+            binding.quickSecondsIntervalTxt.visibility = View.VISIBLE
 
-            quickWorkTimeTitle.visibility = View.GONE
-            workMinutesQuick.visibility = View.GONE
-            workSecondsQuick.visibility = View.GONE
-            dotsWorkTimeQuick.visibility = View.GONE
+            binding.quickWorkTimeTitle.visibility = View.GONE
+            binding.workMinutesQuick.visibility = View.GONE
+            binding.workSecondsQuick.visibility = View.GONE
+            binding.dotsWorkTimeQuick.visibility = View.GONE
         }
     }
 
     private fun startBannerAds(){
         //INITIALIZING BANNER ADS AND REQUESTING IT
         MobileAds.initialize(this)
-        bannerAd = findViewById(R.id.adViewQuick)
         val adRequest = AdRequest.Builder().build()
-        bannerAd.loadAd(adRequest)
+        binding.adViewQuick.loadAd(adRequest)
 
-        bannerAd.adListener = object : AdListener(){
+        binding.adViewQuick.adListener = object : AdListener(){
             override fun onAdClicked() {
                 Log.d("AD_BANNER", "AD LOADED CLICKED")
                 super.onAdClicked()

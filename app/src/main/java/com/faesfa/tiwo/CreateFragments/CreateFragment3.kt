@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.faesfa.tiwo.databinding.FragmentCreate3Binding
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import de.hdodenhof.circleimageview.CircleImageView
@@ -16,16 +17,9 @@ import java.io.*
 
 class CreateFragment3 : Fragment() {
     //Initialize everything to use it all over class
-    private lateinit var nameLastCreate : TextView
-    private lateinit var setsLastCreate : TextView
-    private lateinit var workingLastCreate : TextView
-    private lateinit var repsTitleLast : TextView
-    private lateinit var repsLastCreate : TextView
-    private lateinit var intervalTitleLast : TextView
-    private lateinit var intervalLastCreate : TextView
-    private lateinit var workTitleLast : TextView
-    private lateinit var workLastCreate : TextView
-    private lateinit var restLastCreate : TextView
+    private var _binding: FragmentCreate3Binding? = null
+    private val binding get() = _binding!!
+
     private lateinit var chestCategory : CircleImageView
     private lateinit var backCategory : CircleImageView
     private lateinit var shoulderCategory : CircleImageView
@@ -33,8 +27,6 @@ class CreateFragment3 : Fragment() {
     private lateinit var legsCategory : CircleImageView
     private lateinit var absCategory : CircleImageView
     private lateinit var imagesList: ArrayList<CircleImageView>
-    private lateinit var saveNewBtn: LinearLayout
-    private lateinit var saveStartNewBtn: LinearLayout
     private lateinit var dataManager : DataManager
 
     private lateinit var workout : WorkoutsModelClass
@@ -43,24 +35,15 @@ class CreateFragment3 : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_create3, container, false)
+    ): View {
         val args = this.arguments
         dataManager = DataManager()
         workout = args?.getSerializable("workout") as WorkoutsModelClass
-        nameLastCreate = view.findViewById(R.id.nameLastCreate)
-        setsLastCreate = view.findViewById(R.id.setsLastCreate)
-        workingLastCreate = view.findViewById(R.id.workingLastCreate)
-        repsTitleLast = view.findViewById(R.id.repsLastTitle)
-        repsLastCreate = view.findViewById(R.id.repsLastCreate)
-        intervalTitleLast = view .findViewById(R.id.intervalLastTitle)
-        intervalLastCreate = view.findViewById(R.id.intervalLastCreate)
-        workTitleLast = view.findViewById(R.id.workLastTitle)
-        workLastCreate = view.findViewById(R.id.workLastCreate)
-        restLastCreate = view.findViewById(R.id.restLastCreate)
-        saveNewBtn = view.findViewById(R.id.saveNewBtn)
-        saveStartNewBtn = view.findViewById(R.id.saveStartNewBtn)
+        val selectedColor = resources.getColor(R.color.AppColor)
+
+        // Inflate the layout for this fragment
+        _binding = FragmentCreate3Binding.inflate(inflater,container,false)
+        val view = binding.root
 
         //Declare each category images and save them in list
         chestCategory = view.findViewById(R.id.category1)
@@ -79,29 +62,29 @@ class CreateFragment3 : Fragment() {
 
         //Check if working with Reps or Time
         if (workout.reps) { //working With Reps -> Set visibility of Time fields to gone
-            workTitleLast.visibility = View.GONE
-            workLastCreate.visibility = View.GONE
-            repsTitleLast.visibility = View.VISIBLE
-            intervalTitleLast.visibility = View.VISIBLE
-            repsLastCreate.visibility = View.VISIBLE
-            intervalLastCreate.visibility = View.VISIBLE
+            binding.workLastTitle.visibility = View.GONE
+            binding.workLastCreate.visibility = View.GONE
+            binding.repsLastCreate.visibility = View.VISIBLE
+            binding.intervalLastTitle.visibility = View.VISIBLE
+            binding.repsLastCreate.visibility = View.VISIBLE
+            binding.intervalLastCreate.visibility = View.VISIBLE
         } else { //working With Time -> Set visibility of Reps fields to gone
-            repsTitleLast.visibility = View.GONE
-            intervalTitleLast.visibility = View.GONE
-            repsLastCreate.visibility = View.GONE
-            intervalLastCreate.visibility = View.GONE
-            workTitleLast.visibility = View.VISIBLE
-            workLastCreate.visibility = View.VISIBLE
+            binding.repsLastTitle.visibility = View.GONE
+            binding.intervalLastTitle.visibility = View.GONE
+            binding.repsLastCreate.visibility = View.GONE
+            binding.intervalLastCreate.visibility = View.GONE
+            binding.workLastTitle.visibility = View.VISIBLE
+            binding.workLastCreate.visibility = View.VISIBLE
         }
 
         //Assign text to each field
-        nameLastCreate.text = workout.name
-        setsLastCreate.text = workout.sets.toString()
-        workingLastCreate.text = if (workout.reps) {getString(R.string.infoWorkingWithReps)} else {getString(R.string.infoWorkingWithTime)}
-        repsLastCreate.text = workout.num_reps.toString()
-        intervalLastCreate.text = workout.reps_time.toString()
-        workLastCreate.text = dataManager.convertTime(workout.work_time)
-        restLastCreate.text = dataManager.convertTime(workout.rest_time)
+        binding.nameLastCreate.text = workout.name
+        binding.setsLastCreate.text = workout.sets.toString()
+        binding.workingLastCreate.text = if (workout.reps) {getString(R.string.infoWorkingWithReps)} else {getString(R.string.infoWorkingWithTime)}
+        binding.repsLastCreate.text = workout.num_reps.toString()
+        binding.intervalLastCreate.text = workout.reps_time.toString()
+        binding.workLastCreate.text = dataManager.convertTime(workout.work_time)
+        binding.restLastCreate.text = dataManager.convertTime(workout.rest_time)
         
         //Set Click listener to each category image
         for (i in imagesList){
@@ -112,22 +95,22 @@ class CreateFragment3 : Fragment() {
                 when (it.id) {
                     chestCategory.id -> {
                         image = "Chest"
-                        chestCategory.circleBackgroundColor = resources.getColor(R.color.AppColor) }
+                        chestCategory.circleBackgroundColor = selectedColor }
                     backCategory.id -> {
                         image = "Back"
-                        backCategory.circleBackgroundColor = resources.getColor(R.color.AppColor)}
+                        backCategory.circleBackgroundColor = selectedColor}
                     shoulderCategory.id -> {
                         image = "Shoulder"
-                        shoulderCategory.circleBackgroundColor = resources.getColor(R.color.AppColor)}
+                        shoulderCategory.circleBackgroundColor = selectedColor}
                     armsCategory.id -> {
                         image = "Arms"
-                        armsCategory.circleBackgroundColor = resources.getColor(R.color.AppColor)}
+                        armsCategory.circleBackgroundColor = selectedColor}
                     legsCategory.id -> {
                         image = "Legs"
-                        legsCategory.circleBackgroundColor = resources.getColor(R.color.AppColor)}
+                        legsCategory.circleBackgroundColor = selectedColor}
                     absCategory.id -> {
                         image = "Abs"
-                        absCategory.circleBackgroundColor = resources.getColor(R.color.AppColor)}
+                        absCategory.circleBackgroundColor = selectedColor}
                     else -> {
                         Toast.makeText(this.context, "Pick a category", Toast.LENGTH_SHORT).show()
                     }
@@ -135,7 +118,7 @@ class CreateFragment3 : Fragment() {
             }
         }
 
-        saveNewBtn.setOnClickListener {
+        binding.saveNewBtn.setOnClickListener {
             /**Save Workout Data In Json file**/
             if (checkIfImageSelected()){
                 saveWorkout()
@@ -146,7 +129,7 @@ class CreateFragment3 : Fragment() {
             }
         }
 
-        saveStartNewBtn.setOnClickListener {
+        binding.saveStartNewBtn.setOnClickListener {
             /**Save Workout Data In Json file
              * And Start Timer Activity passing the workout**/
             if (checkIfImageSelected()){
