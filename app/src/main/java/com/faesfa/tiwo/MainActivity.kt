@@ -1,28 +1,25 @@
 package com.faesfa.tiwo
 
-import android.animation.ObjectAnimator
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.res.Resources.NotFoundException
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.View
+import android.view.MotionEvent
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.faesfa.tiwo.databinding.ActivityMainBinding
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
-import com.google.gson.Gson
+import com.google.android.gms.ads.nativead.NativeAdOptions.SwipeGestureDirection
+import com.google.android.material.tabs.TabLayoutMediator
 import java.io.*
 
-class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
+class MainActivity : AppCompatActivity() {
     //Initialize everything
     private  lateinit var binding: ActivityMainBinding
     private var backPressedOnce = false
@@ -35,9 +32,10 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+        splashScreen.setKeepOnScreenCondition{ false }
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        splashScreen.setKeepOnScreenCondition{ false }
 
         toolBar = findViewById(R.id.includeAppBar)
         toolBar.title = ""
@@ -47,54 +45,41 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
         //INITIALIZING BANNER ADS AND REQUESTING IT
         startBannerAds()
 
-        dataManager = DataManager()
-        checkIfBtnAreShowing()
-
-        binding.quickBtn.visibility = View.GONE
-        binding.createBtn.visibility = View.GONE
-
-
-        binding.mainBtn.setOnClickListener {
-            checkIfBtnAreShowing()
+        /*binding.presetsBtn.setOnClickListener {
+            supportFragmentManager.beginTransaction().replace(R.id.containerView, PresetsFragment()).commit()
+            binding.presetsBtn.setTextColor(resources.getColor(R.color.AppColor))
+            binding.workoutsBtn.setTextColor(resources.getColor(R.color.black))
+            Toast.makeText(this,"Ubicacion: ${binding.presetsBtn.x / binding.workoutsBtn.x}", Toast.LENGTH_SHORT).show()
+            ObjectAnimator.ofFloat(binding.bottomLine, "translationX", binding.presetsBtn.x - binding.workoutsBtn.x).apply {
+                duration = 500
+                start()
+            }
         }
 
-        binding.quickBtn.setOnClickListener {
-            val launchQuick = Intent(this, QuickActivity::class.java)
-            startActivity(launchQuick)
-        }
+        binding.workoutsBtn.setOnClickListener {
+            supportFragmentManager.beginTransaction().replace(R.id.containerView, MainFragment()).commit()
+            binding.workoutsBtn.setTextColor(resources.getColor(R.color.AppColor))
+            binding.presetsBtn.setTextColor(resources.getColor(R.color.black))
+            val ub = IntArray(2)
+            val location = binding.workoutsBtn.getLocationInWindow(ub)
+            Toast.makeText(this,"Ubicacion: ${binding.workoutsBtn.x}", Toast.LENGTH_SHORT).show()
+            ObjectAnimator.ofFloat(binding.bottomLine, "translationX", 5f).apply {
+                duration = 500
+                start()
+            }
+        }*/
 
-        binding.createBtn.setOnClickListener{
-            val launchCreate = Intent(this, CreateActivity::class.java)
-            startActivity(launchCreate)
-        }
-        //Get data from Json file
-        jsonString = try {
-            dataManager.getJsonFromFile(this)!!
-        } catch (e : Exception){ //if File is Empty or null Create it
-            val createJsonString = "{\"workouts\": []}"
-            dataManager.saveJsonToFile(this, createJsonString)
-            dataManager.getJsonFromFile(this)!!
-        }
 
-        workouts = Gson().fromJson(jsonString, Workouts::class.java) //Turn String into Model Obj with Gson
-        Log.d("START", workouts.workouts.toString())
-        if (workouts.workouts.isEmpty()){
-            binding.emptyLayoutInfo.visibility = View.VISIBLE
-        } else{
-            binding.emptyLayoutInfo.visibility = View.GONE
-        }
-        val mRecyclerView = findViewById<RecyclerView>(R.id.rvWorkouts)
-        mRecyclerView.layoutManager = LinearLayoutManager(this)//Set RecyclerView to linearLayout
-        val itemAdapter = WorkoutsAdapter(this, workouts.workouts, this)//Set ItemAdapter to Workouts workout from Gson created obj
-        mRecyclerView.adapter = itemAdapter //Set the RecyclerView adapter to itemAdapter
 
-    }
+        binding.viewPagerHome.adapter = HomeAdapter(this)
+        TabLayoutMediator(binding.tabLayoutMenu,binding.viewPagerHome){tab, index ->
+            tab.text = when (index){
+                0 -> {resources.getString(R.string.mainHomeTitle)}
+                1 -> {resources.getString(R.string.mainPresetsTitle)}
+                else -> { throw NotFoundException("Tab Position not Found")}
+            }
+        }.attach()
 
-    override fun onItemClick(item: WorkoutsModelClass, adapterPosition : Int) { //Check on item clicked passing item and item position
-        val launchDetails = Intent(this, InfoActivity::class.java)
-        launchDetails.putExtra("selected_workout" , item as Serializable) //Save item on Intend
-        launchDetails.putExtra("position" , adapterPosition as Serializable) //Save item position on Intend
-        startActivity(launchDetails)
     }
 
     override fun onBackPressed() { //Control the back button pressed
@@ -104,52 +89,6 @@ class MainActivity : AppCompatActivity(), WorkoutsAdapter.OnItemClickListener {
         this.backPressedOnce = true
         Toast.makeText(this, getString(R.string.backToExitApp), Toast.LENGTH_SHORT).show()
         Handler(Looper.getMainLooper()).postDelayed({ backPressedOnce=false },2000)
-    }
-
-    private fun checkIfBtnAreShowing(){
-        if (!showingOpts) {
-            binding.quickBtn.visibility = View.VISIBLE
-            binding.createBtn.visibility = View.VISIBLE
-
-            binding.mainBtn.rotation = 45F
-            showingOpts = true
-            ObjectAnimator.ofFloat(binding.mainBtn, "rotation", 45f*8).apply {
-                duration = 500
-                start()
-            }
-            val animateBtns = ObjectAnimator.ofFloat(binding.quickBtn, "translationY", -320f).apply {
-                duration = 300
-                start()
-            }
-            ObjectAnimator.ofFloat(binding.createBtn, "translationY", -160f).apply {
-                duration = 300
-                start()
-            }
-            animateBtns.doOnEnd {
-                binding.quickTxtView.visibility = View.VISIBLE
-                binding.createTxtView.visibility = View.VISIBLE
-            }
-        } else{
-            binding.quickTxtView.visibility = View.GONE
-            binding.createTxtView.visibility = View.GONE
-            ObjectAnimator.ofFloat(binding.mainBtn, "rotation", 0f).apply {
-                duration = 500
-                start()
-            }
-            val animateBtns = ObjectAnimator.ofFloat(binding.quickBtn, "translationY", 0f).apply {
-                duration = 300
-                start()
-            }
-            ObjectAnimator.ofFloat(binding.createBtn, "translationY", 0f).apply {
-                duration = 300
-                start()
-            }
-            animateBtns.doOnEnd {
-                binding.quickBtn.visibility = View.GONE
-                binding.createBtn.visibility = View.GONE
-            }
-            showingOpts = false
-        }
     }
 
     private fun startBannerAds(){

@@ -12,7 +12,8 @@
     <string name="createBtnTxt">NUEVO EJERCICIO</string>
     <string name="quickBtnDescription">Iniciar ejercicio rápido</string>
     <string name="quickBtnTxt">EJERCICIO RAPIDO</string>
-    <string name="mainActivityTitle">Ejercicios</string>
+    <string name="mainHomeTitle">Ejercicios</string>
+    <string name="mainPresetsTitle">Presets</string>
     <string name="backToExitApp">Presiona atras nuevamente para salir</string>
     <string name="notFoundWorkoutsTxt">No se encontraron ejercicios guardados</string>
 

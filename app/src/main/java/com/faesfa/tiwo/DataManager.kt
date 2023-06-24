@@ -34,6 +34,17 @@ class DataManager {
         }
     }
 
+    fun savePresetsJsonToFile(context: Context?, json: String){
+        try {
+            val writer = FileWriter( File(context?.filesDir , "workoutsPresets.json"))
+            writer.use { it.write(json) }
+        }catch (ex: IOException){
+            ex.printStackTrace()
+        } finally {
+            Toast.makeText(context, "Saved Correctly", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     fun convertTime(secs: Int): String {
         val minutes = secs / 60
         val seconds = secs % 60

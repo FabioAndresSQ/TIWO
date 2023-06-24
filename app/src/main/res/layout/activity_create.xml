@@ -30,6 +30,7 @@
         android:id="@+id/adViewCreate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:focusableInTouchMode="false"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         app:adSize="SMART_BANNER"
