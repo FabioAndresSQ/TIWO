@@ -23,11 +23,14 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+@AndroidEntryPoint
 class TimerActivity : AppCompatActivity() {
     //Initialize everything
-    private lateinit var binding: ActivityTimerBinding
+    @Inject lateinit var dataManager: DataManager
 
+    private lateinit var binding: ActivityTimerBinding
     private lateinit var workout : WorkoutsModelClass
     private var numSets = 0
     private var currentSet = 1
@@ -43,7 +46,6 @@ class TimerActivity : AppCompatActivity() {
     private var touchedReturnOnce = 0
     private var showedFirst = false
 
-    private lateinit var dataManager: DataManager
     private lateinit var countDownTimer: CountDownTimer
     private lateinit var startDownTimer: CountDownTimer
     private lateinit var timerInterval: CountDownTimer
@@ -77,7 +79,6 @@ class TimerActivity : AppCompatActivity() {
         supportActionBar?.elevation  = 0f
 
         activity = this
-        dataManager = DataManager()
         workout = intent?.getSerializableExtra("selected_workout") as WorkoutsModelClass
         reps = workout.num_reps
         work = workout.work_time
@@ -108,12 +109,12 @@ class TimerActivity : AppCompatActivity() {
             binding.timerSecTxt.textSize = 200F
         } else { //Working with Time
             initialWorkTime = (workout.work_time * 1000 + 1000).toLong() //Set Timer Value
-            val workTimeFormat = convertTime(work)
+            val workTimeFormat = dataManager.convertTimeTimer(work)
             workFormat = getString(R.string.workTimer) + " " + workTimeFormat[0] + ":" + workTimeFormat[1]
             binding.timerMinTxt.text = workTimeFormat[0]
             binding.timerSecTxt.text = workTimeFormat[1]
         }
-        val restTimeFormat = convertTime(rest)
+        val restTimeFormat = dataManager.convertTimeTimer(rest)
         binding.pauseAnimationLayout.visibility = View.VISIBLE
         binding.pauseAnimationLayout.alpha = 0f
         if (!soundEnabled){
@@ -397,7 +398,7 @@ class TimerActivity : AppCompatActivity() {
                 override fun onTick(millisUntilFinished: Long) {
                     countDownInPause = millisUntilFinished
                     work = (millisUntilFinished/1000).toInt()
-                    val timeFormat = convertTime(work)
+                    val timeFormat = dataManager.convertTimeTimer(work)
                     binding.timerMinTxt.text = timeFormat[0]
                     binding.timerSecTxt.text = timeFormat[1]
                 }
@@ -455,7 +456,7 @@ class TimerActivity : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
                 countDownInPause = millisUntilFinished
                 rest = (millisUntilFinished/1000).toInt()
-                val timeFormat = convertTime(rest)
+                val timeFormat = dataManager.convertTimeTimer(rest)
                 binding.timerMinTxt.text = timeFormat[0]
                 binding.timerSecTxt.text = timeFormat[1]
             }
@@ -581,22 +582,6 @@ class TimerActivity : AppCompatActivity() {
             startingTimer(countDownInPause)
         }
         isPaused = false
-    }
-
-    private fun convertTime(secs: Int): Array<String> {
-        val minutes = secs / 60
-        val seconds = secs % 60
-        val minutesTxt: String = if (minutes < 10){
-            "0$minutes"
-        } else {
-            "$minutes"
-        }
-        val secondsTxt: String = if (seconds < 10){
-            "0$seconds"
-        } else {
-            "$seconds"
-        }
-        return arrayOf(minutesTxt, secondsTxt)
     }
 
     private fun startBannerAds(){

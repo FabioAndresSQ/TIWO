@@ -12,11 +12,14 @@ import androidx.fragment.app.Fragment
 import com.faesfa.tiwo.databinding.FragmentCreate3Binding
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.*
-
+import javax.inject.Inject
+@AndroidEntryPoint
 class CreateFragment3 : Fragment() {
     //Initialize everything to use it all over class
+    @Inject lateinit var dataManager : DataManager
     private var _binding: FragmentCreate3Binding? = null
     private val binding get() = _binding!!
 
@@ -27,7 +30,6 @@ class CreateFragment3 : Fragment() {
     private lateinit var legsCategory : CircleImageView
     private lateinit var absCategory : CircleImageView
     private lateinit var imagesList: ArrayList<CircleImageView>
-    private lateinit var dataManager : DataManager
 
     private lateinit var workout : WorkoutsModelClass
     private var image = ""
@@ -37,7 +39,6 @@ class CreateFragment3 : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val args = this.arguments
-        dataManager = DataManager()
         workout = args?.getSerializable("workout") as WorkoutsModelClass
         val selectedColor = resources.getColor(R.color.AppColor)
 

@@ -17,16 +17,14 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.nativead.NativeAdOptions.SwipeGestureDirection
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.*
-
-class MainActivity : AppCompatActivity() {
+import javax.inject.Inject
+@AndroidEntryPoint
+class MainActivity: AppCompatActivity() {
     //Initialize everything
     private  lateinit var binding: ActivityMainBinding
     private var backPressedOnce = false
-    private lateinit var workouts : Workouts
-    private lateinit var dataManager: DataManager
-    private lateinit var jsonString : String
-    private var showingOpts = true
     private lateinit var toolBar : Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,32 +42,6 @@ class MainActivity : AppCompatActivity() {
 
         //INITIALIZING BANNER ADS AND REQUESTING IT
         startBannerAds()
-
-        /*binding.presetsBtn.setOnClickListener {
-            supportFragmentManager.beginTransaction().replace(R.id.containerView, PresetsFragment()).commit()
-            binding.presetsBtn.setTextColor(resources.getColor(R.color.AppColor))
-            binding.workoutsBtn.setTextColor(resources.getColor(R.color.black))
-            Toast.makeText(this,"Ubicacion: ${binding.presetsBtn.x / binding.workoutsBtn.x}", Toast.LENGTH_SHORT).show()
-            ObjectAnimator.ofFloat(binding.bottomLine, "translationX", binding.presetsBtn.x - binding.workoutsBtn.x).apply {
-                duration = 500
-                start()
-            }
-        }
-
-        binding.workoutsBtn.setOnClickListener {
-            supportFragmentManager.beginTransaction().replace(R.id.containerView, MainFragment()).commit()
-            binding.workoutsBtn.setTextColor(resources.getColor(R.color.AppColor))
-            binding.presetsBtn.setTextColor(resources.getColor(R.color.black))
-            val ub = IntArray(2)
-            val location = binding.workoutsBtn.getLocationInWindow(ub)
-            Toast.makeText(this,"Ubicacion: ${binding.workoutsBtn.x}", Toast.LENGTH_SHORT).show()
-            ObjectAnimator.ofFloat(binding.bottomLine, "translationX", 5f).apply {
-                duration = 500
-                start()
-            }
-        }*/
-
-
 
         binding.viewPagerHome.adapter = HomeAdapter(this)
         TabLayoutMediator(binding.tabLayoutMenu,binding.viewPagerHome){tab, index ->

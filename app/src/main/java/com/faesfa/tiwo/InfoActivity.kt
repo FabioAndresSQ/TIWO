@@ -16,13 +16,16 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.*
-
+import javax.inject.Inject
+@AndroidEntryPoint
 class InfoActivity : AppCompatActivity() {
     //Initialize everything
+    @Inject lateinit var dataManager: DataManager
+
     private lateinit var binding: ActivityInfoBinding
     private lateinit var workouts: Workouts
-    private lateinit var dataManager: DataManager
     private lateinit var toolBar : Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +38,6 @@ class InfoActivity : AppCompatActivity() {
         toolBar.elevation = 5F
         setSupportActionBar(toolBar)
 
-        dataManager = DataManager()
         val workout : WorkoutsModelClass = intent?.getSerializableExtra("selected_workout") as WorkoutsModelClass //Save workout got from Prev Activity
         val position = intent?.getSerializableExtra("position") as Int //Save position got from Prev Activity
 

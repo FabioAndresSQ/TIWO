@@ -22,20 +22,26 @@ import com.faesfa.tiwo.data.network.APIService
 import com.faesfa.tiwo.core.RetrofitHelper
 import com.faesfa.tiwo.data.PresetsRepository
 import com.faesfa.tiwo.databinding.FragmentPresetsBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.Serializable
 import java.util.Locale
+import javax.inject.Inject
 
+@AndroidEntryPoint
+class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQueryTextListener  {
 
-class PresetsFragment : Fragment(), PresetsAdapter.OnPresetClickListener, OnQueryTextListener {
+    @Inject lateinit var dataManager : DataManager
+    @Inject lateinit var repository : PresetsRepository
+
     private var _binding : FragmentPresetsBinding ?= null
     private val binding get() = _binding!!
     private lateinit var adapter: PresetsAdapter
     private val presetsList = mutableListOf<PresetsModel>()
-    private val dataManager = DataManager()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +103,7 @@ class PresetsFragment : Fragment(), PresetsAdapter.OnPresetClickListener, OnQuer
 
     private fun getPresetsByMuscle(muscle: String){
         CoroutineScope(Dispatchers.IO).launch{
-            val apiResponse = PresetsRepository().getPresets("bodyPart/$muscle")
+            val apiResponse = repository.getPresets("bodyPart/$muscle")
 
             run { CoroutineScope(Dispatchers.Main).launch {
                 if (apiResponse.isEmpty()){
@@ -137,7 +143,7 @@ class PresetsFragment : Fragment(), PresetsAdapter.OnPresetClickListener, OnQuer
 
     private fun getPresetsBySearch(query: String){
         CoroutineScope(Dispatchers.IO).launch{
-            val apiResponse = PresetsRepository().getPresets("name/${query.toLowerCase()}")
+            val apiResponse = repository.getPresets("name/${query.toLowerCase()}")
 
             run { CoroutineScope(Dispatchers.Main).launch {
                 if (apiResponse.isEmpty()){

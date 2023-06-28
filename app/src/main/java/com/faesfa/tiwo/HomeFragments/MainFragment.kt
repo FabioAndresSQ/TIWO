@@ -3,12 +3,9 @@ package com.faesfa.tiwo.HomeFragments
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
-import android.transition.TransitionInflater
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import androidx.core.animation.doOnEnd
 import androidx.fragment.app.Fragment
@@ -17,21 +14,23 @@ import com.faesfa.tiwo.CreateActivity
 import com.faesfa.tiwo.DataManager
 import com.faesfa.tiwo.InfoActivity
 import com.faesfa.tiwo.QuickActivity
-import com.faesfa.tiwo.R
 import com.faesfa.tiwo.Workouts
 import com.faesfa.tiwo.WorkoutsAdapter
 import com.faesfa.tiwo.WorkoutsModelClass
 import com.faesfa.tiwo.databinding.FragmentMainBinding
 import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.Serializable
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class MainFragment : Fragment(), WorkoutsAdapter.OnItemClickListener {
+
+    @Inject lateinit var dataManager : DataManager
+
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-    private var backPressedOnce = false
     private lateinit var workouts : Workouts
-    private lateinit var dataManager: DataManager
     private lateinit var jsonString : String
     private var showingOpts = true
 
@@ -46,7 +45,6 @@ class MainFragment : Fragment(), WorkoutsAdapter.OnItemClickListener {
         val view = binding.root //save inflater to view
 
         checkIfBtnAreShowing()
-        dataManager = DataManager()
 
         jsonString = try {
             dataManager.getJsonFromFile(context)!!
@@ -100,15 +98,6 @@ class MainFragment : Fragment(), WorkoutsAdapter.OnItemClickListener {
         launchDetails.putExtra("selected_workout" , item as Serializable) //Save item on Intend
         launchDetails.putExtra("position" , adapterPosition as Serializable) //Save item position on Intend
         startActivity(launchDetails)
-    }
-
-    fun onBackPressed() { //Control the back button pressed
-        /*if (backPressedOnce) {
-            finishAffinity() //Close App
-        }
-        this.backPressedOnce = true
-        Toast.makeText(this, getString(R.string.backToExitApp), Toast.LENGTH_SHORT).show()
-        Handler(Looper.getMainLooper()).postDelayed({ backPressedOnce=false },2000)*/
     }
 
     private fun checkIfBtnAreShowing(){

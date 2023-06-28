@@ -8,11 +8,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
+import javax.inject.Inject
 
-class PresetsService {
+class PresetsService @Inject constructor(private val api: APIService) {
+    //private val retrofit = RetrofitHelper.getRetrofit()
     suspend fun searchPresets(query: String):List<PresetsModel>{
         return withContext(Dispatchers.IO) {
-            val call: Response<List<PresetsModel>> = RetrofitHelper.getRetrofit().create(APIService::class.java).getPresets(query)
+            val call: Response<List<PresetsModel>> = api.getPresets(query)
             call.body() ?: emptyList<PresetsModel>()
         }
     }

@@ -6,6 +6,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.faesfa.tiwo.HomeFragments.MainFragment
 import com.faesfa.tiwo.HomeFragments.PresetsFragment
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 class HomeAdapter (fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
     override fun getItemCount() = 2

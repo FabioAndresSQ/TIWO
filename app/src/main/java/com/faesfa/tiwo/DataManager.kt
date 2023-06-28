@@ -6,8 +6,11 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class DataManager {
+@Singleton
+class DataManager @Inject constructor(){
 
     fun getJsonFromFile(context: Context?): String?{
         val json: String?
@@ -59,6 +62,22 @@ class DataManager {
             "$seconds"
         }
         return "$minutesTxt:$secondsTxt"
+    }
+
+    fun convertTimeTimer(secs: Int): Array<String> {
+        val minutes = secs / 60
+        val seconds = secs % 60
+        val minutesTxt: String = if (minutes < 10){
+            "0$minutes"
+        } else {
+            "$minutes"
+        }
+        val secondsTxt: String = if (seconds < 10){
+            "0$seconds"
+        } else {
+            "$seconds"
+        }
+        return arrayOf(minutesTxt, secondsTxt)
     }
 
 }

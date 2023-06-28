@@ -9,7 +9,9 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CreateActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateBinding
     private lateinit var toolBar : Toolbar
