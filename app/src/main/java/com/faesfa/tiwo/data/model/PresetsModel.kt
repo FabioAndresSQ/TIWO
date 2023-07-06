@@ -1,6 +1,7 @@
 package com.faesfa.tiwo.data.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class PresetsModel (
     @SerializedName("bodyPart"  ) var bodyPart  : String? = null,
@@ -9,4 +10,4 @@ data class PresetsModel (
     @SerializedName("id"        ) var id        : String? = null,
     @SerializedName("name"      ) var name      : String? = null,
     @SerializedName("target"    ) var target    : String? = null
-)
+) : Serializable

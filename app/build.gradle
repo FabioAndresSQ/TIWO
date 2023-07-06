@@ -58,8 +58,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.android.gms:play-services-ads:22.0.0'
 
-    //Picasso for Image load
+    //Picasso and Glide for Image load
     implementation 'com.squareup.picasso:picasso:2.8'
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+
     //Retrofit and Converter gson
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'

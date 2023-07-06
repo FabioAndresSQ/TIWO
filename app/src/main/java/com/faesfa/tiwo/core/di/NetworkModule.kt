@@ -18,7 +18,7 @@ object NetworkModule {
     @Provides
     fun provideRetrofit(): Retrofit{
         return Retrofit.Builder()
-            .baseUrl("https://exercisedb.p.rapidapi.com/exercises/")
+            .baseUrl("https://exercisedb.p.rapidapi.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

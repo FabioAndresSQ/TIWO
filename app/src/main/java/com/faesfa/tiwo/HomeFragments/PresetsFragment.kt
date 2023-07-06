@@ -12,12 +12,17 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faesfa.tiwo.DataManager
 import com.faesfa.tiwo.InfoActivity
+import com.faesfa.tiwo.PresetDetails
 import com.faesfa.tiwo.PresetsAdapter
 import com.faesfa.tiwo.data.model.PresetsModel
 import com.faesfa.tiwo.R
+import com.faesfa.tiwo.TimerActivity
 import com.faesfa.tiwo.data.network.APIService
 import com.faesfa.tiwo.core.RetrofitHelper
 import com.faesfa.tiwo.data.PresetsRepository
@@ -41,6 +46,7 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
     private val binding get() = _binding!!
     private lateinit var adapter: PresetsAdapter
     private val presetsList = mutableListOf<PresetsModel>()
+    private val isLoading = MutableLiveData<Boolean>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +63,10 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
         val view = binding.root
 
         binding.presetsEmptyLayout.visibility = View.VISIBLE
+
+        isLoading.observe(requireActivity(), Observer {
+            binding.loadingBar.isVisible = it
+        })
 
         binding.searchPreset.setOnQueryTextListener(this)
         startRecyclerView()
@@ -102,7 +112,9 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
     }
 
     private fun getPresetsByMuscle(muscle: String){
+        binding.presetsEmptyLayout.visibility = View.GONE
         CoroutineScope(Dispatchers.IO).launch{
+            isLoading.postValue(true)
             val apiResponse = repository.getPresets("bodyPart/$muscle")
 
             run { CoroutineScope(Dispatchers.Main).launch {
@@ -111,12 +123,14 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
                     binding.emptyResultImg.setImageResource(R.drawable.not_found)
                     binding.emptyResultTxt.text = "Workout not found"
                     binding.presetsEmptyLayout.visibility = View.VISIBLE
+                    isLoading.postValue(false)
                     showError()
                 } else {
                     presetsList.clear()
                     presetsList.addAll(apiResponse)
                     binding.presetsEmptyLayout.visibility = View.GONE
                     adapter.notifyDataSetChanged()
+                    isLoading.postValue(false)
                 }
                 if (apiResponse.isNotEmpty()){
                     var stringToTranslate = "["
@@ -128,7 +142,6 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
                         } else {
                             stringToTranslate += "\"${i.equipment.toString()}\"]},\n"
                         }
-
                     }
                     stringToTranslate += "]"
                     dataManager.savePresetsJsonToFile(requireContext(), stringToTranslate)
@@ -143,6 +156,7 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
 
     private fun getPresetsBySearch(query: String){
         CoroutineScope(Dispatchers.IO).launch{
+            isLoading.postValue(true)
             val apiResponse = repository.getPresets("name/${query.toLowerCase()}")
 
             run { CoroutineScope(Dispatchers.Main).launch {
@@ -151,12 +165,14 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
                     binding.emptyResultImg.setImageResource(R.drawable.not_found)
                     binding.emptyResultTxt.text = "Workout not found"
                     binding.presetsEmptyLayout.visibility = View.VISIBLE
+                    isLoading.postValue(false)
                     showError()
                 } else {
                     presetsList.clear()
                     presetsList.addAll(apiResponse)
                     binding.presetsEmptyLayout.visibility = View.GONE
                     adapter.notifyDataSetChanged()
+                    isLoading.postValue(false)
                 }
             } }
 
@@ -169,11 +185,10 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
     }
 
     override fun onItemClick(item: PresetsModel, adapterPosition: Int) {
-//        val launchPresetDetails = Intent(this.context, InfoActivity::class.java)
-//        launchPresetDetails.putExtra("selected_workout" , item as Serializable) //Save item on Intend
-//        launchPresetDetails.putExtra("position" , adapterPosition as Serializable) //Save item position on Intend
-//        startActivity(launchPresetDetails)
-        Toast.makeText(requireContext(), item.toString(), Toast.LENGTH_SHORT).show()
+        val launchPresetDetails = Intent(this.context, PresetDetails::class.java)
+        launchPresetDetails.putExtra("selected_preset" , item as Serializable) //Save item on Intend
+        startActivity(launchPresetDetails)
+        //Toast.makeText(requireContext(), item.toString(), Toast.LENGTH_SHORT).show()
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
