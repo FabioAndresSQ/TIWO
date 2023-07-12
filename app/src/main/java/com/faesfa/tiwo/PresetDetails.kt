@@ -1,14 +1,23 @@
 package com.faesfa.tiwo
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.core.animation.doOnEnd
 import com.bumptech.glide.Glide
+import com.faesfa.tiwo.data.database.entities.toDatabase
 import com.faesfa.tiwo.data.model.PresetsModel
 import com.faesfa.tiwo.databinding.ActivityPresetDetailsBinding
+import com.faesfa.tiwo.domain.model.Preset
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +31,7 @@ class PresetDetails : AppCompatActivity() {
     @Inject lateinit var dataManager : DataManager
 
     private lateinit var binding : ActivityPresetDetailsBinding
-    private lateinit var preset : PresetsModel
+    private lateinit var preset : Preset
 
     //Default values
     private var sets = 3
@@ -46,7 +55,9 @@ class PresetDetails : AppCompatActivity() {
         setSupportActionBar(toolBar)
 
         //Receive preset selected
-        preset = intent.getSerializableExtra("selected_preset") as PresetsModel
+        preset = intent.getSerializableExtra("selected_preset") as Preset
+
+        startBannerAds()
 
         //Set Info to display
         binding.presetNameTxt.text = preset.name?.capitalize()
@@ -144,6 +155,19 @@ class PresetDetails : AppCompatActivity() {
         binding.saveStartNewPresetBtn.setOnClickListener {
             savePresetAsWorkout(it)
         }
+
+        binding.scrollViewLayout.smoothScrollTo(0, 100)
+
+        /*val animateScroll = ObjectAnimator.ofFloat(binding.scrollViewLayout, "translationY", -300f).apply {
+            duration = 500
+            start()
+        }
+        animateScroll.doOnEnd {
+            ObjectAnimator.ofFloat(binding.scrollViewLayout, "translationY", 0f).apply {
+                duration = 500
+                start()
+            }
+        }*/
 
     }
 
@@ -280,5 +304,44 @@ class PresetDetails : AppCompatActivity() {
         val jsonCute = GsonBuilder().setPrettyPrinting().create() //Set Gson Look to pretty
         val newJson = jsonCute.toJson(workouts) //Turn the workouts Obj to String Again with Gson
         dataManager.saveJsonToFile(this, newJson) //Save new Json to File
+    }
+
+    private fun startBannerAds(){
+        //INITIALIZING BANNER ADS AND REQUESTING IT
+        MobileAds.initialize(this)
+        val adRequest = AdRequest.Builder().build()
+        binding.adViewPreset.loadAd(adRequest)
+
+        binding.adViewPreset.adListener = object : AdListener(){
+            override fun onAdClicked() {
+                Log.d("AD_BANNER", "AD LOADED CLICKED")
+                super.onAdClicked()
+            }
+
+            override fun onAdClosed() {
+                Log.d("AD_BANNER", "AD LOADED CLOSED")
+                super.onAdClosed()
+            }
+
+            override fun onAdFailedToLoad(p0: LoadAdError) {
+                Log.e("AD_BANNER", p0.toString())
+                super.onAdFailedToLoad(p0)
+            }
+
+            override fun onAdImpression() {
+                Log.d("AD_BANNER", "AD IMPRESSION COUNTED")
+                super.onAdImpression()
+            }
+
+            override fun onAdLoaded() {
+                Log.d("AD_BANNER", "AD LOADED SUCCESSFUL")
+                super.onAdLoaded()
+            }
+
+            override fun onAdOpened() {
+                Log.d("AD_BANNER", "AD LOADED OPENED OVERLAY")
+                super.onAdOpened()
+            }
+        }
     }
 }

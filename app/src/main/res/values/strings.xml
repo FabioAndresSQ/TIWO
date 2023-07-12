@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">TIWO</string>
     <string name="sound_vibration_setting">com.faesfa.tiwo.PREFERENCE_SOUND_VIBRATION</string>
+    <string name="last_db_saved" translatable="false">com.faesfa.tiwo.LAST_SAVED_DB</string>
 
     <!-- Strings Used in General -->
     <string name="startBtnTxt">START</string>

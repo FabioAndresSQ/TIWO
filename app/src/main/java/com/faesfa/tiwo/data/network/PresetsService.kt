@@ -14,7 +14,7 @@ class PresetsService @Inject constructor(private val api: APIService) {
     //private val retrofit = RetrofitHelper.getRetrofit()
     suspend fun searchPresets(query: String):List<PresetsModel>{
         return withContext(Dispatchers.IO) {
-            val call: Response<List<PresetsModel>> = api.getPresets("exercises/")
+            val call: Response<List<PresetsModel>> = api.getPresets(query)
             call.body() ?: emptyList<PresetsModel>()
         }
     }

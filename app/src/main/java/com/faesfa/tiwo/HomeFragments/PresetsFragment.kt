@@ -27,25 +27,30 @@ import com.faesfa.tiwo.data.network.APIService
 import com.faesfa.tiwo.core.RetrofitHelper
 import com.faesfa.tiwo.data.PresetsRepository
 import com.faesfa.tiwo.databinding.FragmentPresetsBinding
+import com.faesfa.tiwo.domain.GetAllPresetsUseCase
+import com.faesfa.tiwo.domain.model.Preset
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.Serializable
+import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.math.log
 
 @AndroidEntryPoint
 class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQueryTextListener  {
 
     @Inject lateinit var dataManager : DataManager
     @Inject lateinit var repository : PresetsRepository
+    @Inject lateinit var getAllPresetsUseCase: GetAllPresetsUseCase
 
     private var _binding : FragmentPresetsBinding ?= null
     private val binding get() = _binding!!
     private lateinit var adapter: PresetsAdapter
-    private val presetsList = mutableListOf<PresetsModel>()
+    private val presetsList = mutableListOf<Preset>()
     private val isLoading = MutableLiveData<Boolean>()
 
 
@@ -64,8 +69,12 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
 
         binding.presetsEmptyLayout.visibility = View.VISIBLE
 
+        checkDbDate()
+
+
         isLoading.observe(requireActivity(), Observer {
             binding.loadingBar.isVisible = it
+            binding.rvPresets.isVisible = !it
         })
 
         binding.searchPreset.setOnQueryTextListener(this)
@@ -105,33 +114,84 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
         return view
     }
 
+    private fun checkDbDate() {
+        Log.d("DATEMATH", "Starting Date Check")
+        val sharedPref = activity?.getSharedPreferences(getString(R.string.last_db_saved), Context.MODE_PRIVATE)
+        val currentDate = Date().time
+        val savedDate = sharedPref?.getLong("db_date", 0)
+        Log.d("DATEMATH", "SharedPref = $savedDate")
+        if (savedDate != null) {
+            if (savedDate > 0) {
+                // Verify if current date is 12 hours later
+                val diff: Long = currentDate - savedDate
+                val seconds = diff / 1000
+                val minutes = seconds / 60
+                val hours = minutes / 60
+                val days = hours / 24
+                Log.d("DATEMATH", "Database date found = $savedDate")
+                Log.d("DATEMATH", "current date: $currentDate")
+                Log.d("DATEMATH", "Difference: days=$days, hours=$hours, minutes=$minutes, seconds=$seconds")
+                if (hours > 12 || days > 0){
+                    //Update DataBase from Api
+                    getAllPresetsFromApi()
+                    //Update Database date
+                    val prefs = activity?.getSharedPreferences(getString(R.string.last_db_saved), Context.MODE_PRIVATE)?.edit()
+                    prefs?.putLong("db_date", currentDate)
+                    prefs?.apply()
+                }
+            } else {
+                // DataBase is not created so call for api and save current date
+                Log.d("DATEMATH", "Database Not Created: $currentDate")
+                val prefs = activity?.getSharedPreferences(getString(R.string.last_db_saved), Context.MODE_PRIVATE)?.edit()
+                prefs?.putLong("db_date", currentDate)
+                prefs?.apply()
+                //Update DataBase from Api
+                getAllPresetsFromApi()
+            }
+        }
+    }
+
     private fun startRecyclerView() {
         adapter = PresetsAdapter(requireContext(), presetsList, this)
         binding.rvPresets.layoutManager = LinearLayoutManager(context)
         binding.rvPresets.adapter = adapter
     }
 
+    private fun getAllPresetsFromApi(){
+        CoroutineScope(Dispatchers.IO).launch {
+            val result = getAllPresetsUseCase(requireContext())
+            if (result.isEmpty()){
+                run { CoroutineScope(Dispatchers.Main).launch {
+                    Toast.makeText(context, "Error getting data from Internet", Toast.LENGTH_SHORT).show()
+                } }
+            }
+        }
+    }
     private fun getPresetsByMuscle(muscle: String){
         binding.presetsEmptyLayout.visibility = View.GONE
         CoroutineScope(Dispatchers.IO).launch{
             isLoading.postValue(true)
-            val apiResponse = repository.getPresets("bodyPart/$muscle")
-
+            val apiResponse = repository.getPresetsByMuscleFromDb(muscle)
             run { CoroutineScope(Dispatchers.Main).launch {
                 if (apiResponse.isEmpty()){
                     //Error
+                    binding.rvPresets.smoothScrollToPosition(0)
+                    isLoading.postValue(false)
+                    presetsList.clear()
                     binding.emptyResultImg.setImageResource(R.drawable.not_found)
                     binding.emptyResultTxt.text = "Workout not found"
                     binding.presetsEmptyLayout.visibility = View.VISIBLE
-                    isLoading.postValue(false)
                     showError()
                 } else {
+                    binding.rvPresets.smoothScrollToPosition(0)
                     presetsList.clear()
                     presetsList.addAll(apiResponse)
                     binding.presetsEmptyLayout.visibility = View.GONE
                     adapter.notifyDataSetChanged()
                     isLoading.postValue(false)
                 }
+
+                /*TRANSLATE RESULT ON FUTURE UPDATE
                 if (apiResponse.isNotEmpty()){
                     var stringToTranslate = "["
                     for (i in apiResponse){
@@ -147,7 +207,7 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
                     dataManager.savePresetsJsonToFile(requireContext(), stringToTranslate)
                     println(stringToTranslate)
                     Log.d("TRANSLATE", stringToTranslate)
-                }
+                }*/
             } }
 
         }
@@ -157,17 +217,20 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
     private fun getPresetsBySearch(query: String){
         CoroutineScope(Dispatchers.IO).launch{
             isLoading.postValue(true)
-            val apiResponse = repository.getPresets("name/${query.toLowerCase()}")
+            val apiResponse = repository.getPresetsBySearchFromDb(query.toLowerCase())
 
             run { CoroutineScope(Dispatchers.Main).launch {
                 if (apiResponse.isEmpty()){
                     //Error
+                    Log.d("Search result", "getPresetsBySearch: $apiResponse")
+                    isLoading.postValue(false)
                     binding.emptyResultImg.setImageResource(R.drawable.not_found)
                     binding.emptyResultTxt.text = "Workout not found"
                     binding.presetsEmptyLayout.visibility = View.VISIBLE
-                    isLoading.postValue(false)
+                    presetsList.clear()
                     showError()
                 } else {
+                    binding.rvPresets.smoothScrollToPosition(0)
                     presetsList.clear()
                     presetsList.addAll(apiResponse)
                     binding.presetsEmptyLayout.visibility = View.GONE
@@ -184,7 +247,7 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
         Toast.makeText(requireContext(), "Error while fetching data", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onItemClick(item: PresetsModel, adapterPosition: Int) {
+    override fun onItemClick(item: Preset, adapterPosition: Int) {
         val launchPresetDetails = Intent(this.context, PresetDetails::class.java)
         launchPresetDetails.putExtra("selected_preset" , item as Serializable) //Save item on Intend
         startActivity(launchPresetDetails)

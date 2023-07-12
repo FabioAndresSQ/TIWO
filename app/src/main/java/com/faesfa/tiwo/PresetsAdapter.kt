@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.faesfa.tiwo.data.model.PresetsModel
 import com.faesfa.tiwo.databinding.PresetsViewBinding
+import com.faesfa.tiwo.domain.model.Preset
 import com.squareup.picasso.Picasso
 
 class PresetsAdapter (private val context: Context,
-                      val items: List<PresetsModel>,
+                      val items: List<Preset>,
                       private val listener: OnPresetClickListener)
     :RecyclerView.Adapter<PresetsAdapter.ViewHolder>(){
 
@@ -53,7 +54,7 @@ class PresetsAdapter (private val context: Context,
         }
     }
     interface OnPresetClickListener{
-        fun onItemClick(item: PresetsModel, adapterPosition: Int)
+        fun onItemClick(item: Preset, adapterPosition: Int)
     }
 }
 

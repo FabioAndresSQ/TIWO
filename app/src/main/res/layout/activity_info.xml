@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:id="@+id/scrollView3"
+        android:id="@+id/scrollViewLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxHeight="500dp"
@@ -170,7 +170,7 @@
         app:layout_constraintEnd_toStartOf="@+id/infoDeleteBtn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView3">
+        app:layout_constraintTop_toBottomOf="@+id/scrollViewLayout">
 
         <ImageView
             android:layout_width="25dp"
@@ -238,7 +238,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        app:adSize="SMART_BANNER"
+        app:adSize="FULL_BANNER"
         app:adUnitId="ca-app-pub-2716842126108084/7109287848"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

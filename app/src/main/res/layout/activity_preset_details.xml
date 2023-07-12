@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:id="@+id/scrollView3"
+        android:id="@+id/scrollViewLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:maxHeight="500dp"
@@ -42,9 +42,11 @@
             <ImageView
                 android:id="@+id/presetImg"
                 android:layout_width="160dp"
-                android:layout_height="160dp"
+                android:layout_height="200dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:elevation="2dp"
                 android:src="@android:drawable/ic_menu_camera"
                 android:layout_weight="0.5"/>
@@ -557,8 +559,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        app:adSize="SMART_BANNER"
-        app:adUnitId="ca-app-pub-2716842126108084/7109287848"
+        app:adSize="FULL_BANNER"
+        app:adUnitId="ca-app-pub-2716842126108084/1053916279"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"  />

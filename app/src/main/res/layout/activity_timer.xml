@@ -353,7 +353,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        app:adSize="SMART_BANNER"
+        app:adSize="FULL_BANNER"
         android:elevation="11dp"
         app:adUnitId="ca-app-pub-2716842126108084/5956822420"
         app:layout_constraintBottom_toBottomOf="parent"
