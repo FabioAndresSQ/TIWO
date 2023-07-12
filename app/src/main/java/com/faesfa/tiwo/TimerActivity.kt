@@ -45,6 +45,7 @@ class TimerActivity : AppCompatActivity() {
     private var touchedSkipOnce = 0
     private var touchedReturnOnce = 0
     private var showedFirst = false
+    private var completed = false
 
     private lateinit var countDownTimer: CountDownTimer
     private lateinit var startDownTimer: CountDownTimer
@@ -73,6 +74,7 @@ class TimerActivity : AppCompatActivity() {
         vibrationEnabled = sharedPref.getBoolean("vibration", true)
 
         toolBar = findViewById(R.id.includeAppBar)
+        binding.completedLayout.visibility = View.GONE
         toolBar.title = ""
         toolBar.elevation = 5F
         setSupportActionBar(toolBar)
@@ -466,8 +468,14 @@ class TimerActivity : AppCompatActivity() {
                 currentSet++
                 if (numSets > 0){ //Sets is greater than 0
                     startingTimer(initialWorkTime) //Start Workout Timer
-                } else { //Sets is 0
-                    startInterstitialAd()
+                } else { //End of Workout
+                    //Show completed Layout and Interstitial
+                    completed = true
+                    binding.layoutContainer.visibility = View.GONE
+                    binding.completedLayout.visibility = View.VISIBLE
+                    binding.completedLayout.setOnClickListener {
+                        startInterstitialAd()
+                    }
                 }
             }
         }
@@ -532,10 +540,6 @@ class TimerActivity : AppCompatActivity() {
             }
         }
 
-
-
-
-
     }
 
     override fun onPause() {
@@ -562,6 +566,9 @@ class TimerActivity : AppCompatActivity() {
     }
 
     private fun pauseTimer(){
+        if (completed){
+            return
+        }
         binding.pausedLayout.visibility =View.VISIBLE
         binding.skipTimerBtn.visibility = View.GONE
         binding.soundBtn.visibility = View.GONE

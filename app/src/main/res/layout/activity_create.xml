@@ -33,7 +33,7 @@
         android:focusableInTouchMode="false"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        app:adSize="FULL_BANNER"
+        app:adSize="BANNER"
         app:adUnitId="ca-app-pub-2716842126108084/6491212881"
         android:focusable="false"
         app:layout_constraintBottom_toBottomOf="parent"

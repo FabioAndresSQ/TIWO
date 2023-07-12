@@ -417,7 +417,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        app:adSize="FULL_BANNER"
+        app:adSize="BANNER"
         app:adUnitId="ca-app-pub-2716842126108084/9117376224"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -259,8 +259,6 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
             getPresetsBySearch(query)
         }
         binding.searchPreset.clearFocus()
-//        val keyboard = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//        keyboard.hideSoftInputFromWindow(binding.searchPreset.windowToken, 0)
         return true
     }
 
