@@ -8,9 +8,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
+import androidx.core.view.size
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faesfa.tiwo.DataManager
@@ -71,36 +74,57 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
 
         binding.chestPresets.setOnClickListener {
             getPresetsByMuscle("chest")
+            assingButtonColor(it)
         }
         binding.backPresets.setOnClickListener {
             getPresetsByMuscle("back")
+            assingButtonColor(it)
         }
         binding.absPresets.setOnClickListener {
             getPresetsByMuscle("waist")
+            assingButtonColor(it)
         }
         binding.shoulderPresets.setOnClickListener {
             getPresetsByMuscle("shoulders")
+            assingButtonColor(it)
         }
         binding.cardioPresets.setOnClickListener {
             getPresetsByMuscle("cardio")
+            assingButtonColor(it)
         }
         binding.neckPresets.setOnClickListener {
             getPresetsByMuscle("neck")
+            assingButtonColor(it)
         }
         binding.upperArmsPresets.setOnClickListener {
             getPresetsByMuscle("upper arms")
+            assingButtonColor(it)
         }
         binding.lowerArmsPresets.setOnClickListener {
             getPresetsByMuscle("lower arms")
+            assingButtonColor(it)
         }
         binding.upperLegsPresets.setOnClickListener {
             getPresetsByMuscle("upper legs")
+            assingButtonColor(it)
         }
         binding.lowerLegsPresets.setOnClickListener {
             getPresetsByMuscle("lower legs")
+            assingButtonColor(it)
         }
 
         return view
+    }
+
+    private fun assingButtonColor(button: View?){
+        val btns = binding.scrollCategory.touchables
+        for (i in btns){
+            if (button != null && i.id == button.id){
+                i.background = ResourcesCompat.getDrawable(resources, R.drawable.save_btn_shape, null)
+            } else {
+                i.background = ResourcesCompat.getDrawable(resources, R.drawable.preset_menu_btn_shape, null)
+            }
+        }
     }
 
     private fun checkDbDate() {
@@ -239,6 +263,7 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (!query.isNullOrEmpty()){
             getPresetsBySearch(query)
+            assingButtonColor(null)
         }
         binding.searchPreset.clearFocus()
         return true
