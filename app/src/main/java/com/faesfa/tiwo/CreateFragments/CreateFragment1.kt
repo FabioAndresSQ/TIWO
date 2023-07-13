@@ -47,7 +47,7 @@ class CreateFragment1 : Fragment() {
             }
         }
 
-        binding.createNameTxt.setOnFocusChangeListener { view, b -> if (!b) {
+        binding.createNameTxt.setOnFocusChangeListener { _, b -> if (!b) {
             val keyboard = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             keyboard.hideSoftInputFromWindow(binding.createNameTxt.windowToken, 0)}
         }
@@ -65,10 +65,10 @@ class CreateFragment1 : Fragment() {
                     bundle.putSerializable("workout", workout) // Save workout on bundle to pass it to next fragment
                     view.findNavController().navigate(R.id.createFragment2, bundle) //Launch next Fragment with info
                 } else{
-                    Toast.makeText(this.context, "Sets can't be 0", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this.context, getString(R.string.setsCheckErrorToast), Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(this.context, "Name Can't be empty", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, getString(R.string.nameCheckErrorToast), Toast.LENGTH_SHORT).show()
             }
 
         }

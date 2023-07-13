@@ -40,7 +40,6 @@ class MainFragment : Fragment(), WorkoutsAdapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        Log.d("JSON", "Json loaded from FRAGMENT")
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         val view = binding.root //save inflater to view
 
@@ -55,8 +54,6 @@ class MainFragment : Fragment(), WorkoutsAdapter.OnItemClickListener {
         }
 
         workouts = Gson().fromJson(jsonString, Workouts::class.java) //Turn String into Model Obj with Gson
-        Log.d("JSON", "Json loaded from FRAGMENT $workouts")
-        Log.d("START", workouts.workouts.toString())
         if (workouts.workouts.isEmpty()){
             binding.emptyLayoutInfo.visibility = View.VISIBLE
         } else{

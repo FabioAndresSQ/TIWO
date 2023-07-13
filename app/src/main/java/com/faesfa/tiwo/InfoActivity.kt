@@ -90,13 +90,13 @@ class InfoActivity : AppCompatActivity() {
                 val jsonCute = GsonBuilder().setPrettyPrinting().create()
                 val newJson = jsonCute.toJson(workouts) //Create the new Json string with Gson
                 dataManager.saveJsonToFile(this, newJson) //Save Json to file
-                Toast.makeText(this, "Workout Deleted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.workoutDeleteConfirmToast), Toast.LENGTH_SHORT).show()
 
                 val launchHome = Intent(this, MainActivity::class.java)
                 startActivity(launchHome)
             }catch (e: Exception){
                 e.printStackTrace()
-                Toast.makeText(applicationContext, "Error to Delete Workout", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, getString(R.string.workoutDeleteErrorToast), Toast.LENGTH_SHORT).show()
             }
         }
 

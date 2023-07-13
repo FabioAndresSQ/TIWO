@@ -11,10 +11,11 @@
 
     <ImageView
         android:layout_width="100dp"
-        android:layout_height="55dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="4dp"
         android:src="@drawable/tiwo_logo"
         android:scaleType="centerCrop"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:contentDescription="@string/logoDescription"/>
 
 </androidx.appcompat.widget.Toolbar>

@@ -8,23 +8,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faesfa.tiwo.DataManager
-import com.faesfa.tiwo.InfoActivity
 import com.faesfa.tiwo.PresetDetails
 import com.faesfa.tiwo.PresetsAdapter
-import com.faesfa.tiwo.data.model.PresetsModel
 import com.faesfa.tiwo.R
-import com.faesfa.tiwo.TimerActivity
-import com.faesfa.tiwo.data.network.APIService
-import com.faesfa.tiwo.core.RetrofitHelper
 import com.faesfa.tiwo.data.PresetsRepository
 import com.faesfa.tiwo.databinding.FragmentPresetsBinding
 import com.faesfa.tiwo.domain.GetAllPresetsUseCase
@@ -33,12 +25,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import java.io.Serializable
 import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
-import kotlin.math.log
 
 @AndroidEntryPoint
 class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQueryTextListener  {
@@ -72,10 +61,10 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
         checkDbDate()
 
 
-        isLoading.observe(requireActivity(), Observer {
+        isLoading.observe(requireActivity()) {
             binding.loadingBar.isVisible = it
             binding.rvPresets.isVisible = !it
-        })
+        }
 
         binding.searchPreset.setOnQueryTextListener(this)
         startRecyclerView()
@@ -162,7 +151,7 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
             val result = getAllPresetsUseCase(requireContext())
             if (result.isEmpty()){
                 run { CoroutineScope(Dispatchers.Main).launch {
-                    Toast.makeText(context, "Error getting data from Internet", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.errorConnectingToApiToast), Toast.LENGTH_SHORT).show()
                 } }
             }
         }
@@ -179,9 +168,8 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
                     isLoading.postValue(false)
                     presetsList.clear()
                     binding.emptyResultImg.setImageResource(R.drawable.not_found)
-                    binding.emptyResultTxt.text = "Workout not found"
+                    binding.emptyResultTxt.text = getString(R.string.presetNotFoundTxt)
                     binding.presetsEmptyLayout.visibility = View.VISIBLE
-                    showError()
                 } else {
                     binding.rvPresets.smoothScrollToPosition(0)
                     presetsList.clear()
@@ -225,10 +213,9 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
                     Log.d("Search result", "getPresetsBySearch: $apiResponse")
                     isLoading.postValue(false)
                     binding.emptyResultImg.setImageResource(R.drawable.not_found)
-                    binding.emptyResultTxt.text = "Workout not found"
+                    binding.emptyResultTxt.text = getString(R.string.presetNotFoundTxt)
                     binding.presetsEmptyLayout.visibility = View.VISIBLE
                     presetsList.clear()
-                    showError()
                 } else {
                     binding.rvPresets.smoothScrollToPosition(0)
                     presetsList.clear()
@@ -243,15 +230,10 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
 
     }
 
-    private fun showError() {
-        Toast.makeText(requireContext(), "Error while fetching data", Toast.LENGTH_SHORT).show()
-    }
-
     override fun onItemClick(item: Preset, adapterPosition: Int) {
         val launchPresetDetails = Intent(this.context, PresetDetails::class.java)
         launchPresetDetails.putExtra("selected_preset" , item as Serializable) //Save item on Intend
         startActivity(launchPresetDetails)
-        //Toast.makeText(requireContext(), item.toString(), Toast.LENGTH_SHORT).show()
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

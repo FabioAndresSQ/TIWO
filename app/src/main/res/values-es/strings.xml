@@ -133,10 +133,44 @@
     <string name="pauseLayoutDescription">Toca doble para pausar</string>
     <string name="soundBtnDescription">Boton para Activar o Desactivar sonido</string>
     <string name="vibrationBtnDescription">Boton para Activar o Desactivar vibracion</string>
+    <string name="completedWorkoutText">EJERCICIO COMPLETO!!!</string>
+    <string name="continueTxtTimer">Click para continuar…</string>
 
     <!-- Strings Used for Sound names -->
     <string name="upSound">up_es</string>
     <string name="downSound">down_es</string>
     <string name="oneSound">one_es</string>
     <string name="twoSound">two_es</string>
+
+    <!-- Strings Used in presets details screen -->
+    <string name="presetImageDescription">Imajen de ejemplo del ejercicio</string>
+    <string name="categoryLbl">Categoría:</string>
+    <string name="workingModePreset">Modo Trabajo</string>
+
+    <!-- Strings Used in presets screen -->
+    <string name="searchByWorkoutOrCategory">Esta seccion esta disponible solo en ingles de momento. La futura actualizacion implementara español. \n Search for Workout or pick Category</string>
+    <string name="upperArmsCategoryTxt">Brazo Superior</string>
+    <string name="lowerArmsCategoryTxt">Brazo Inferior</string>
+    <string name="upperLegsCategoryTxt">Pierna Superior</string>
+    <string name="lowerLegsCategoryTxt">Pierna Inferior</string>
+    <string name="cardioCategoryTxt">Cardio</string>
+    <string name="categoryNeckTxt">Cuello</string>
+    <string name="targetLbl">Objetivo:</string>
+    <string name="equipmentLbl">Equipamiento:</string>
+    <string name="quickTimerLbl">Ejercicio Rápido</string>
+    <string name="logoDescription">Tiwo workout timer Logo Imagen</string>
+    <string name="presetNotFoundTxt">No se encontro el Ejercicio</string>
+
+    <!-- Strings Used in Toasts -->
+    <string name="repsCheckErrorToast">Numero Repeticiones no pueder ser 0</string>
+    <string name="intervalCheckErrorToast">Tiempo de intervalo no pueder ser 0</string>
+    <string name="restTimeCheckErrorToast">Tiempo Descanso NO puede ser 0:0</string>
+    <string name="setsCheckErrorToast">Numero de Series no pueder ser 0</string>
+    <string name="workTimeCheckErrorToast">Tiempo Trabajo NO puede ser 0:0</string>
+    <string name="workoutDeleteConfirmToast">Ejercicio Eliminado</string>
+    <string name="workoutDeleteErrorToast">Error Eliminando Ejercicio</string>
+    <string name="savedConfirmToast">Guardado Correctamente</string>
+    <string name="errorConnectingToApiToast">Error Conectandose a Internet</string>
+    <string name="nameCheckErrorToast">Nombre esta vacio</string>
+    <string name="categoryCheckErrorToast">Selecciona una Categoría</string>
 </resources>

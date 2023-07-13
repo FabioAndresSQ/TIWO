@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.faesfa.tiwo.databinding.FragmentCreate3Binding
@@ -113,7 +111,7 @@ class CreateFragment3 : Fragment() {
                         image = "Abs"
                         absCategory.circleBackgroundColor = selectedColor}
                     else -> {
-                        Toast.makeText(this.context, "Pick a category", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this.context, getString(R.string.categoryCheckErrorToast), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -126,7 +124,7 @@ class CreateFragment3 : Fragment() {
                 val launchHome = Intent(this.context, MainActivity::class.java)
                 startActivity(launchHome)
             } else {
-                Toast.makeText(this.context, "Pick a category", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, getString(R.string.categoryCheckErrorToast), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -139,7 +137,7 @@ class CreateFragment3 : Fragment() {
                 launchTimer.putExtra("selected_workout" , workout as Serializable)
                 startActivity(launchTimer)
             } else {
-                Toast.makeText(this.context, "Pick a category", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, getString(R.string.categoryCheckErrorToast), Toast.LENGTH_SHORT).show()
             }
         }
         return view //Return the Inflated view

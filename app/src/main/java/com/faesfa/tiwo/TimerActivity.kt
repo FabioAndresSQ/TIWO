@@ -249,7 +249,6 @@ class TimerActivity : AppCompatActivity() {
 
         binding.soundBtn.setOnClickListener {
             if(started && !isPaused) {
-                Log.d("SettingPressed", "Sound Clicked")
                 soundEnabled = !soundEnabled
                 val prefs = getSharedPreferences(getString(R.string.sound_vibration_setting), Context.MODE_PRIVATE).edit()
                 prefs.putBoolean("sound", soundEnabled)
@@ -266,7 +265,6 @@ class TimerActivity : AppCompatActivity() {
 
         binding.vibrationBtn.setOnClickListener {
             if (started && !isPaused) {
-                Log.d("SettingPressed", "Vibration Clicked")
                 vibrationEnabled = !vibrationEnabled
                 val prefs = getSharedPreferences(getString(R.string.sound_vibration_setting), Context.MODE_PRIVATE).edit()
                 prefs.putBoolean("vibration", vibrationEnabled)
@@ -547,6 +545,7 @@ class TimerActivity : AppCompatActivity() {
         super.onPause()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() { //Handle back pressed
         if (started) {
             if (backPressedOnce) {//Double pressed

@@ -1,6 +1,8 @@
 package com.faesfa.tiwo
 
 import android.content.Context
+import android.content.res.Resources
+import android.provider.Settings.Global.getString
 import android.widget.Toast
 import java.io.BufferedReader
 import java.io.File
@@ -33,18 +35,7 @@ class DataManager @Inject constructor(){
         }catch (ex: IOException){
             ex.printStackTrace()
         } finally {
-            Toast.makeText(context, "Saved Correctly", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    fun savePresetsJsonToFile(context: Context?, json: String){
-        try {
-            val writer = FileWriter( File(context?.filesDir , "workoutsPresets.json"))
-            writer.use { it.write(json) }
-        }catch (ex: IOException){
-            ex.printStackTrace()
-        } finally {
-            Toast.makeText(context, "Saved Correctly", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, Resources.getSystem().getString(R.string.savedConfirmToast), Toast.LENGTH_SHORT).show()
         }
     }
 

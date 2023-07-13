@@ -30,13 +30,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
                 android:src="@drawable/searching"
-                android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter"
+                tools:ignore="contentDescription"/>
 
             <TextView
                 android:id="@+id/emptyResultTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Search for Workout or pick Category"
+                android:text="@string/searchByWorkoutOrCategory"
                 android:textAlignment="center"
                 android:layout_marginTop="10dp"/>
 
@@ -81,123 +82,134 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                style="?android:attr/buttonBarStyle">
 
                 <Button
                     android:id="@+id/chestPresets"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="Chest"
-                    android:background="@drawable/save_btn_shape"
+                    android:text="@string/chestCategoryTxt"
+                    android:background="@drawable/preset_menu_btn_shape"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp"
                     android:elevation="2dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_marginBottom="5dp"
+                    style="?android:attr/buttonBarButtonStyle" />
 
                 <Button
                     android:id="@+id/backPresets"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="Back"
-                    android:background="@drawable/save_btn_shape"
+                    android:text="@string/backCategoryTxt"
+                    android:background="@drawable/preset_menu_btn_shape"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp"
                     android:elevation="2dp"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    style="?android:attr/buttonBarButtonStyle" />
 
                 <Button
                     android:id="@+id/upperArmsPresets"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="Upper Arms"
-                    android:background="@drawable/save_btn_shape"
+                    android:text="@string/upperArmsCategoryTxt"
+                    android:background="@drawable/preset_menu_btn_shape"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp"
                     android:elevation="2dp"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    style="?android:attr/buttonBarButtonStyle" />
 
                 <Button
                     android:id="@+id/lowerArmsPresets"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="Lower Arms"
-                    android:background="@drawable/save_btn_shape"
+                    android:text="@string/lowerArmsCategoryTxt"
+                    android:background="@drawable/preset_menu_btn_shape"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp"
                     android:elevation="2dp"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    style="?android:attr/buttonBarButtonStyle" />
 
                 <Button
                     android:id="@+id/upperLegsPresets"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="Upper Legs"
-                    android:background="@drawable/save_btn_shape"
+                    android:text="@string/upperLegsCategoryTxt"
+                    android:background="@drawable/preset_menu_btn_shape"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp"
                     android:elevation="2dp"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    style="?android:attr/buttonBarButtonStyle" />
 
                 <Button
                     android:id="@+id/lowerLegsPresets"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="Lower Legs"
-                    android:background="@drawable/save_btn_shape"
+                    android:text="@string/lowerLegsCategoryTxt"
+                    android:background="@drawable/preset_menu_btn_shape"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp"
                     android:elevation="2dp"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    style="?android:attr/buttonBarButtonStyle" />
 
                 <Button
                     android:id="@+id/absPresets"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="Abs"
-                    android:background="@drawable/save_btn_shape"
+                    android:text="@string/absCategoryTxt"
+                    android:background="@drawable/preset_menu_btn_shape"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp"
                     android:elevation="2dp"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    style="?android:attr/buttonBarButtonStyle" />
 
                 <Button
                     android:id="@+id/shoulderPresets"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="Shoulder"
-                    android:background="@drawable/save_btn_shape"
+                    android:text="@string/shoulderCategoryTxt"
+                    android:background="@drawable/preset_menu_btn_shape"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp"
                     android:elevation="2dp"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    style="?android:attr/buttonBarButtonStyle" />
 
                 <Button
                     android:id="@+id/cardioPresets"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="Cardio"
-                    android:background="@drawable/save_btn_shape"
+                    android:text="@string/cardioCategoryTxt"
+                    android:background="@drawable/preset_menu_btn_shape"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp"
                     android:elevation="2dp"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp"
+                    style="?android:attr/buttonBarButtonStyle" />
 
                 <Button
                     android:id="@+id/neckPresets"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="Neck"
-                    android:background="@drawable/save_btn_shape"
+                    android:text="@string/categoryNeckTxt"
+                    android:background="@drawable/preset_menu_btn_shape"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp"
                     android:elevation="2dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_marginBottom="5dp"
+                    style="?android:attr/buttonBarButtonStyle" />
 
             </LinearLayout>
 

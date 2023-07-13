@@ -1,6 +1,5 @@
 package com.faesfa.tiwo
 
-import android.animation.ObjectAnimator
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,10 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import androidx.core.animation.doOnEnd
 import com.bumptech.glide.Glide
-import com.faesfa.tiwo.data.database.entities.toDatabase
-import com.faesfa.tiwo.data.model.PresetsModel
 import com.faesfa.tiwo.databinding.ActivityPresetDetailsBinding
 import com.faesfa.tiwo.domain.model.Preset
 import com.google.android.gms.ads.AdListener
@@ -177,24 +173,24 @@ class PresetDetails : AppCompatActivity() {
         val restTime = (restMinutes * 60) + restSeconds
         if (binding.presetWorkingMode.isChecked){ //Checks if Working with reps
             if (reps < 1){ //Checks for Number of reps to not be 0
-                Toast.makeText(this, "Reps Can't be 0", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.repsCheckErrorToast), Toast.LENGTH_SHORT).show()
                 return
             }
             if (interval < 1){ //Checks for reps interval to not be 0
-                Toast.makeText(this, "Interval Can't be 0", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.intervalCheckErrorToast), Toast.LENGTH_SHORT).show()
                 return
             }
             if (restTime < 1) { //Checks that Rest is not 0
-                Toast.makeText(this, "Rest Can't be 0", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.restTimeCheckErrorToast), Toast.LENGTH_SHORT).show()
                 return
             }
             if (sets < 1) { //Checks that Sets is not 0
-                Toast.makeText(this, "Sets Time Can't be 0", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.setsCheckErrorToast), Toast.LENGTH_SHORT).show()
                 return
             }
             //Assign values to workout Obj if statements are passed
             workout  = WorkoutsModelClass(
-                preset.name.toString(),
+                preset.name,
                 sets,
                 true,
                 reps,
@@ -204,21 +200,21 @@ class PresetDetails : AppCompatActivity() {
                 category)
 
         } else { //Working with Time
-            if (workTime < 0) { //Checks for work to not be 0
-                Toast.makeText(this, "Work Time Can't be 0", Toast.LENGTH_SHORT).show()
+            if (workTime < 1) { //Checks for work to not be 0
+                Toast.makeText(this, getString(R.string.workTimeCheckErrorToast), Toast.LENGTH_SHORT).show()
                 return
             }
-            if (restTime < 0) { //Checks for rest to not be 0
-                Toast.makeText(this, "Rest Time Can't be 0", Toast.LENGTH_SHORT).show()
+            if (restTime < 1) { //Checks for rest to not be 0
+                Toast.makeText(this, getString(R.string.restTimeCheckErrorToast), Toast.LENGTH_SHORT).show()
                 return
             }
-            if (sets < 0) {
-                Toast.makeText(this, "Sets Time Can't be 0", Toast.LENGTH_SHORT).show()
+            if (sets < 1) {
+                Toast.makeText(this, getString(R.string.setsCheckErrorToast), Toast.LENGTH_SHORT).show()
                 return
             }
             //Assign values to workout Obj if statements are passed
             workout  = WorkoutsModelClass(
-                preset.name.toString(),
+                preset.name,
                 sets,
                 false,
                 0,
@@ -255,34 +251,34 @@ class PresetDetails : AppCompatActivity() {
         when(bodyPart){
             "chest" -> {
                 binding.presetCategory.setImageResource(R.drawable.chest_ic)
-                binding.presetCategoryTxt.text = "Chest"}
+                binding.presetCategoryTxt.text = getString(R.string.chestCategoryTxt)}
             "back" -> {
                 binding.presetCategory.setImageResource(R.drawable.back_ic)
-                binding.presetCategoryTxt.text = "Back"}
+                binding.presetCategoryTxt.text = getString(R.string.backCategoryTxt)}
             "shoulder" -> {
                 binding.presetCategory.setImageResource(R.drawable.shoulder_ic)
-                binding.presetCategoryTxt.text = "Shoulder" }
+                binding.presetCategoryTxt.text = getString(R.string.shoulderCategoryTxt) }
             "neck" -> {
                 binding.presetCategory.setImageResource(R.drawable.shoulder_ic)
-                binding.presetCategoryTxt.text = "Shoulder" }
+                binding.presetCategoryTxt.text = getString(R.string.shoulderCategoryTxt) }
             "waist" -> {
                 binding.presetCategory.setImageResource(R.drawable.abs_ic)
-                binding.presetCategoryTxt.text = "Abs"}
+                binding.presetCategoryTxt.text = getString(R.string.absCategoryTxt)}
             "cardio" -> {
                 binding.presetCategory.setImageResource(R.drawable.abs_ic)
-                binding.presetCategoryTxt.text = "Abs"}
+                binding.presetCategoryTxt.text = getString(R.string.absCategoryTxt)}
             "lower arms" -> {
                 binding.presetCategory.setImageResource(R.drawable.arm_ic)
-                binding.presetCategoryTxt.text = "Arms"}
+                binding.presetCategoryTxt.text = getString(R.string.armsCategoryTxt)}
             "upper arms" -> {
                 binding.presetCategory.setImageResource(R.drawable.arm_ic)
-                binding.presetCategoryTxt.text = "Arms"}
+                binding.presetCategoryTxt.text = getString(R.string.armsCategoryTxt)}
             "lower legs" -> {
                 binding.presetCategory.setImageResource(R.drawable.legs_ic)
-                binding.presetCategoryTxt.text = "Legs"}
+                binding.presetCategoryTxt.text = getString(R.string.legsCategoryTxt)}
             "upper legs" -> {
                 binding.presetCategory.setImageResource(R.drawable.legs_ic)
-                binding.presetCategoryTxt.text = "Legs"}
+                binding.presetCategoryTxt.text = getString(R.string.legsCategoryTxt)}
         }
         category = binding.presetCategoryTxt.text.toString()
     }

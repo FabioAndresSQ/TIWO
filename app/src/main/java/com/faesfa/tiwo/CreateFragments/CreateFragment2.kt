@@ -112,13 +112,13 @@ class CreateFragment2 : Fragment() {
                             bundle.putSerializable("workout", workout)
                             view.findNavController().navigate(R.id.createFragment3, bundle)
                         } else {
-                            Toast.makeText(this.context, "Rest Can't be 0:0", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this.context, getString(R.string.restTimeCheckErrorToast), Toast.LENGTH_SHORT).show()
                         }
                     }else {
-                        Toast.makeText(this.context, "Interval Can't be 0", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this.context, getString(R.string.intervalCheckErrorToast), Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(this.context, "Reps Can't be 0", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this.context, getString(R.string.repsCheckErrorToast), Toast.LENGTH_SHORT).show()
                 }
             } else { //Working with Time
                 if (workTime > 0){ //Checks for work to not be 0
@@ -133,10 +133,10 @@ class CreateFragment2 : Fragment() {
                         bundle.putSerializable("workout", workout)
                         view.findNavController().navigate(R.id.createFragment3, bundle)
                     } else{
-                        Toast.makeText(this.context, "Rest Time Can't be 0:0", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this.context, getString(R.string.restTimeCheckErrorToast), Toast.LENGTH_SHORT).show()
                     }
                 } else{
-                    Toast.makeText(this.context, "Work Time Can't be 0:0", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this.context, getString(R.string.workTimeCheckErrorToast), Toast.LENGTH_SHORT).show()
                 }
             }
         }

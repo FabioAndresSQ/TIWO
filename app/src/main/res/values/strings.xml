@@ -134,10 +134,44 @@
     <string name="pauseLayoutDescription">Double Tap to pause</string>
     <string name="soundBtnDescription">Button to enable or disable sound</string>
     <string name="vibrationBtnDescription">Button to enable or disable vibration</string>
+    <string name="completedWorkoutText">WORKOUT COMPLETED!!!</string>
+    <string name="continueTxtTimer">Click to continue…</string>
 
     <!-- Strings Used for Sound names -->
     <string name="upSound">up</string>
     <string name="downSound">down</string>
     <string name="oneSound">one</string>
     <string name="twoSound">two</string>
+
+    <!-- Strings Used in presets details screen -->
+    <string name="presetImageDescription">Preset workout example image</string>
+    <string name="categoryLbl">Category:</string>
+    <string name="workingModePreset">Working Mode</string>
+
+    <!-- Strings Used in presets screen -->
+    <string name="searchByWorkoutOrCategory">Search for Workout or pick Category</string>
+    <string name="upperArmsCategoryTxt">Upper Arms</string>
+    <string name="lowerArmsCategoryTxt">Lower Arms</string>
+    <string name="upperLegsCategoryTxt">Upper Legs</string>
+    <string name="lowerLegsCategoryTxt">Lower Legs</string>
+    <string name="cardioCategoryTxt">Cardio</string>
+    <string name="categoryNeckTxt">Neck</string>
+    <string name="targetLbl">Target:</string>
+    <string name="equipmentLbl">Equipment:</string>
+    <string name="quickTimerLbl">Quick Timer</string>
+    <string name="logoDescription">Tiwo workout timer Logo Image</string>
+    <string name="presetNotFoundTxt">Workout not found</string>
+
+    <!-- Strings Used in Toasts -->
+    <string name="repsCheckErrorToast">Number of Reps Can\'t be 0</string>
+    <string name="intervalCheckErrorToast">Interval Time Can\'t be 0</string>
+    <string name="restTimeCheckErrorToast">Rest Time Can\'t be 0:0</string>
+    <string name="setsCheckErrorToast">Number of Sets Can\'t be 0</string>
+    <string name="workTimeCheckErrorToast">Work Time Can\'t be 0:0</string>
+    <string name="workoutDeleteConfirmToast">Workout Deleted</string>
+    <string name="workoutDeleteErrorToast">Error Deleting Workout</string>
+    <string name="savedConfirmToast">Saved Correctly</string>
+    <string name="errorConnectingToApiToast">Error Connecting to Internet</string>
+    <string name="nameCheckErrorToast">Name Can\'t be empty</string>
+    <string name="categoryCheckErrorToast">Pick a category</string>
 </resources>

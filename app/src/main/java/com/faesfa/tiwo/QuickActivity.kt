@@ -127,47 +127,49 @@ class QuickActivity : AppCompatActivity() {
             val workTime = (workMinutes * 60) + workSeconds
             val restTime = (restMinutes * 60) + restSeconds
             if (binding.quickWorking.isChecked){ //Working with reps
-                if (reps > 0){ //Checks for Number of reps to not be 0
-                    if (interval > 0){ //Checks for reps interval to not be 0
-                        if (restTime > 0){ //Checks that Rest is not 0
-                            if (sets > 0) {
-                                //Assign values to workout Obj
-                                workout  = WorkoutsModelClass("Quick Timer", sets, true,reps,interval,0,restTime, "")
-                                //Launch Timer Activity with workout
-                                val launchTimer = Intent(this, TimerActivity::class.java)
-                                launchTimer.putExtra("selected_workout" , workout as Serializable) //Add workout Obj to pass it to timer
-                                startActivity(launchTimer)
-                            } else {
-                                Toast.makeText(this, "Sets Time Can't be 0", Toast.LENGTH_SHORT).show()
-                            }
-                        } else {
-                            Toast.makeText(this, "Rest Can't be 0", Toast.LENGTH_SHORT).show()
-                        }
-                    }else {
-                        Toast.makeText(this, "Interval Can't be 0", Toast.LENGTH_SHORT).show()
-                    }
-                } else {
-                    Toast.makeText(this, "Reps Can't be 0", Toast.LENGTH_SHORT).show()
+                if (reps < 1){ //Checks for Number of reps to not be 0
+                    Toast.makeText(this, getString(R.string.repsCheckErrorToast), Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
                 }
+                if (interval < 1){ //Checks for reps interval to not be 0
+                    Toast.makeText(this, getString(R.string.intervalCheckErrorToast), Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                if (restTime < 1){ //Checks that Rest is not 0
+                    Toast.makeText(this, getString(R.string.restTimeCheckErrorToast), Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                if (sets < 1) {
+                    Toast.makeText(this, getString(R.string.setsCheckErrorToast), Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                //Assign values to workout Obj
+                workout  = WorkoutsModelClass("Quick Timer", sets, true,reps,interval,0,restTime, "")
+                //Launch Timer Activity with workout
+                val launchTimer = Intent(this, TimerActivity::class.java)
+                launchTimer.putExtra("selected_workout" , workout as Serializable) //Add workout Obj to pass it to timer
+                startActivity(launchTimer)
+
             } else { //Working with Time
-                if (workTime > 0){ //Checks for work to not be 0
-                    if (restTime > 0){ //Checks for rest to not be 0
-                        if (sets > 0) {
-                            //Assign values to workout Obj
-                            workout  = WorkoutsModelClass("Quick Timer", sets, false,0,0.0,workTime,restTime, "")
-                            //Launch Timer Activity with workout
-                            val launchTimer = Intent(this, TimerActivity::class.java)
-                            launchTimer.putExtra("selected_workout" , workout as Serializable) //Add workout Obj to pass it to timer
-                            startActivity(launchTimer)
-                        } else {
-                            Toast.makeText(this, "Sets Time Can't be 0", Toast.LENGTH_SHORT).show()
-                        }
-                    } else{
-                        Toast.makeText(this, "Rest Time Can't be 0", Toast.LENGTH_SHORT).show()
-                    }
-                } else{
-                    Toast.makeText(this, "Work Time Can't be 0", Toast.LENGTH_SHORT).show()
+
+                if (workTime < 1){ //Checks for work to not be 0
+                    Toast.makeText(this, getString(R.string.workTimeCheckErrorToast), Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
                 }
+                if (restTime < 1){ //Checks for rest to not be 0
+                    Toast.makeText(this, getString(R.string.restTimeCheckErrorToast), Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                if (sets < 1) {
+                    Toast.makeText(this, getString(R.string.setsCheckErrorToast), Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                //Assign values to workout Obj
+                workout  = WorkoutsModelClass("Quick Timer", sets, false,0,0.0,workTime,restTime, "")
+                //Launch Timer Activity with workout
+                val launchTimer = Intent(this, TimerActivity::class.java)
+                launchTimer.putExtra("selected_workout" , workout as Serializable) //Add workout Obj to pass it to timer
+                startActivity(launchTimer)
             }
         }
     }
