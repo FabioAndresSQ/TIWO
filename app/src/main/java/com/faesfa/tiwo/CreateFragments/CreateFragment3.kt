@@ -133,6 +133,7 @@ class CreateFragment3 : Fragment() {
              * And Start Timer Activity passing the workout**/
             if (checkIfImageSelected()){
                 saveWorkout()
+                Toast.makeText(context, getString(R.string.savedConfirmToast), Toast.LENGTH_SHORT).show()
                 val launchTimer = Intent(this.context, TimerActivity::class.java)
                 launchTimer.putExtra("selected_workout" , workout as Serializable)
                 startActivity(launchTimer)

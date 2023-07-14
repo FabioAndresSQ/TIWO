@@ -2,18 +2,20 @@ package com.faesfa.tiwo.HomeFragments
 
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
-import androidx.core.view.size
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faesfa.tiwo.DataManager
@@ -31,6 +33,7 @@ import kotlinx.coroutines.launch
 import java.io.Serializable
 import java.util.Date
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQueryTextListener  {
@@ -146,22 +149,58 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
                 Log.d("DATEMATH", "Difference: days=$days, hours=$hours, minutes=$minutes, seconds=$seconds")
                 if (hours > 12 || days > 0){
                     //Update DataBase from Api
-                    getAllPresetsFromApi()
-                    //Update Database date
-                    val prefs = activity?.getSharedPreferences(getString(R.string.last_db_saved), Context.MODE_PRIVATE)?.edit()
-                    prefs?.putLong("db_date", currentDate)
-                    prefs?.apply()
+                    if (hasInternet(requireContext()) == true) {
+                        getAllPresetsFromApi()
+                        //Update Database date
+                        val prefs = activity?.getSharedPreferences(getString(R.string.last_db_saved), Context.MODE_PRIVATE)?.edit()
+                        prefs?.putLong("db_date", currentDate)
+                        prefs?.apply()
+                    } else {
+                        Toast.makeText(context, getString(R.string.errorConnectingToApiToast), Toast.LENGTH_SHORT).show()
+                    }
+
                 }
             } else {
                 // DataBase is not created so call for api and save current date
                 Log.d("DATEMATH", "Database Not Created: $currentDate")
-                val prefs = activity?.getSharedPreferences(getString(R.string.last_db_saved), Context.MODE_PRIVATE)?.edit()
-                prefs?.putLong("db_date", currentDate)
-                prefs?.apply()
-                //Update DataBase from Api
-                getAllPresetsFromApi()
+                if (hasInternet(requireContext()) == true) {
+                    getAllPresetsFromApi()
+                    //Update Database date
+                    val prefs = activity?.getSharedPreferences(
+                        getString(R.string.last_db_saved),
+                        Context.MODE_PRIVATE
+                    )?.edit()
+                    prefs?.putLong("db_date", currentDate)
+                    prefs?.apply()
+                } else {
+                    Toast.makeText(context, getString(R.string.errorConnectingToApiToast), Toast.LENGTH_SHORT).show()
+                }
             }
         }
+    }
+
+
+    fun hasInternet(context: Context): Boolean? {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        @RequiresApi(Build.VERSION_CODES.M)
+        if (connectivityManager != null) {
+            val capabilities =
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            if (capabilities != null) {
+                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                    return true
+                }
+            }
+        }
+        return false
     }
 
     private fun startRecyclerView() {
@@ -180,6 +219,11 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        checkDbDate()
+    }
     private fun getPresetsByMuscle(muscle: String){
         binding.presetsEmptyLayout.visibility = View.GONE
         CoroutineScope(Dispatchers.IO).launch{
@@ -188,6 +232,11 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
             run { CoroutineScope(Dispatchers.Main).launch {
                 if (apiResponse.isEmpty()){
                     //Error
+                    if (hasInternet(requireContext()) == false){
+                        Toast.makeText(context, getString(R.string.errorConnectingToApiToast), Toast.LENGTH_SHORT).show()
+                    } else {
+                        getAllPresetsFromApi()
+                    }
                     binding.rvPresets.smoothScrollToPosition(0)
                     isLoading.postValue(false)
                     presetsList.clear()
@@ -234,6 +283,9 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
             run { CoroutineScope(Dispatchers.Main).launch {
                 if (apiResponse.isEmpty()){
                     //Error
+                    if (hasInternet(requireContext()) == false){
+                        Toast.makeText(context, getString(R.string.errorConnectingToApiToast), Toast.LENGTH_SHORT).show()
+                    }
                     Log.d("Search result", "getPresetsBySearch: $apiResponse")
                     isLoading.postValue(false)
                     binding.emptyResultImg.setImageResource(R.drawable.not_found)

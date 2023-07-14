@@ -35,7 +35,7 @@ class DataManager @Inject constructor(){
         }catch (ex: IOException){
             ex.printStackTrace()
         } finally {
-            Toast.makeText(context, Resources.getSystem().getString(R.string.savedConfirmToast), Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, Resources.getSystem().getString(R.string.savedConfirmToast), Toast.LENGTH_SHORT).show()
         }
     }
 

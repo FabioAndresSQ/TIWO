@@ -24,7 +24,6 @@ class GetAllPresetsUseCase @Inject constructor(private val repository: PresetsRe
         } catch (e: Exception){
             val result = emptyList<Preset>()
             Log.d("DATEMATH", "Error Connecting to Internet")
-            Toast.makeText(context, "Error Connecting to Internet", Toast.LENGTH_SHORT).show()
             return result
         }
 
