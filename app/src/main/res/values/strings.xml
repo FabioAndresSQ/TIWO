@@ -13,7 +13,7 @@
     <string name="createBtnTxt">NEW WORKOUT</string>
     <string name="quickBtnDescription">Start Quick workout</string>
     <string name="quickBtnTxt">QUICK WORKOUT</string>
-    <string name="mainHomeTitle">Workouts</string>
+    <string name="mainHomeTitle">My Workouts</string>
     <string name="mainPresetsTitle">Presets</string>
     <string name="backToExitApp">Press Back Again to Exit</string>
     <string name="notFoundWorkoutsTxt">No saved workouts found</string>
