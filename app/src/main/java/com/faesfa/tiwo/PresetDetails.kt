@@ -58,6 +58,7 @@ class PresetDetails : AppCompatActivity() {
         //Set Info to display
         binding.presetNameTxt.text = preset.name?.capitalize()
         setPresetImage(preset.gifUrl)
+        
         setPresetCategory(preset.bodyPart)
 
 
@@ -248,39 +249,67 @@ class PresetDetails : AppCompatActivity() {
     private fun setPresetCategory(bodyPart: String?) {
         binding.presetCategory.borderColor = resources.getColor(R.color.AppColor)
         binding.presetCategory.borderWidth = 5
-        when(bodyPart){
+        when(bodyPart) {
             "chest" -> {
                 binding.presetCategory.setImageResource(R.drawable.chest_ic)
-                binding.presetCategoryTxt.text = getString(R.string.chestCategoryTxt)}
+                binding.presetCategoryTxt.text = getString(R.string.chestCategoryTxt)
+                category = "Chest"
+            }
+
             "back" -> {
                 binding.presetCategory.setImageResource(R.drawable.back_ic)
-                binding.presetCategoryTxt.text = getString(R.string.backCategoryTxt)}
+                binding.presetCategoryTxt.text = getString(R.string.backCategoryTxt)
+                category = "Back"
+            }
+
             "shoulder" -> {
                 binding.presetCategory.setImageResource(R.drawable.shoulder_ic)
-                binding.presetCategoryTxt.text = getString(R.string.shoulderCategoryTxt) }
+                binding.presetCategoryTxt.text = getString(R.string.shoulderCategoryTxt)
+                category = "Shoulder"
+            }
+
             "neck" -> {
                 binding.presetCategory.setImageResource(R.drawable.shoulder_ic)
-                binding.presetCategoryTxt.text = getString(R.string.shoulderCategoryTxt) }
+                binding.presetCategoryTxt.text = getString(R.string.shoulderCategoryTxt)
+                category = "Shoulder"
+            }
+
             "waist" -> {
                 binding.presetCategory.setImageResource(R.drawable.abs_ic)
-                binding.presetCategoryTxt.text = getString(R.string.absCategoryTxt)}
+                binding.presetCategoryTxt.text = getString(R.string.absCategoryTxt)
+                category = "Abs"
+            }
+
             "cardio" -> {
                 binding.presetCategory.setImageResource(R.drawable.abs_ic)
-                binding.presetCategoryTxt.text = getString(R.string.absCategoryTxt)}
+                binding.presetCategoryTxt.text = getString(R.string.absCategoryTxt)
+                category = "Abs"
+            }
+
             "lower arms" -> {
                 binding.presetCategory.setImageResource(R.drawable.arm_ic)
-                binding.presetCategoryTxt.text = getString(R.string.armsCategoryTxt)}
+                binding.presetCategoryTxt.text = getString(R.string.armsCategoryTxt)
+                category = "Arms"
+            }
+
             "upper arms" -> {
                 binding.presetCategory.setImageResource(R.drawable.arm_ic)
-                binding.presetCategoryTxt.text = getString(R.string.armsCategoryTxt)}
+                binding.presetCategoryTxt.text = getString(R.string.armsCategoryTxt)
+                category = "Arms"
+            }
+
             "lower legs" -> {
                 binding.presetCategory.setImageResource(R.drawable.legs_ic)
-                binding.presetCategoryTxt.text = getString(R.string.legsCategoryTxt)}
+                binding.presetCategoryTxt.text = getString(R.string.legsCategoryTxt)
+                category = "Legs"
+            }
+
             "upper legs" -> {
                 binding.presetCategory.setImageResource(R.drawable.legs_ic)
-                binding.presetCategoryTxt.text = getString(R.string.legsCategoryTxt)}
+                binding.presetCategoryTxt.text = getString(R.string.legsCategoryTxt)
+                category = "Legs"
+            }
         }
-        category = binding.presetCategoryTxt.text.toString()
     }
 
     private fun changeVisibility(checked: Boolean) {

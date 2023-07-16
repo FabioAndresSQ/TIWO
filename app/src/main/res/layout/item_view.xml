@@ -45,7 +45,10 @@
                 android:text="@string/itemNameField"
                 android:textColor="@color/AppColor"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:maxLength="40"
+                android:ellipsize="end"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

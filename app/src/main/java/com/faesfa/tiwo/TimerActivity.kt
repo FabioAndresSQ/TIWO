@@ -106,6 +106,7 @@ class TimerActivity : AppCompatActivity() {
             initialWorkTime = ((workout.num_reps * workout.reps_time) * 1000 + 1000).toLong() //Set Timer Value
             workFormat = reps.toString() + " " + getString(R.string.workingRepsTimer)
             binding.timerMinTxt.visibility = View.GONE
+            binding.minNumbersLayout.visibility = View.GONE
             binding.minutesTimerLbl.visibility = View.GONE
             binding.secondsTimerLbl.visibility = View.GONE
             binding.timerSecTxt.textSize = 200F
@@ -376,11 +377,11 @@ class TimerActivity : AppCompatActivity() {
         binding.timerCurrentState.text = getString(R.string.timerWorkTxt)
         if (workout.reps){ //Working with Reps, Set Visibility
             countDownInterval = (workout.reps_time * 1000).toLong()
+            binding.minNumbersLayout.visibility = View.GONE
             binding.timerMinTxt.visibility = View.GONE
             binding.minutesTimerLbl.visibility = View.GONE
             binding.secondsTimerLbl.visibility = View.GONE
             binding.repsTimerLbl.visibility = View.VISIBLE
-            binding.timerSecTxt.textSize = 200F
             countDownTimer = object : CountDownTimer(time, countDownInterval){
                 override fun onTick(millisUntilFinished: Long) {
                     countDownInPause = millisUntilFinished
@@ -446,6 +447,7 @@ class TimerActivity : AppCompatActivity() {
         } else{
             binding.timerNextTxt.text = getString(R.string.end)
         }
+        binding.minNumbersLayout.visibility = View.VISIBLE
         binding.timerMinTxt.visibility = View.VISIBLE
         binding.minutesTimerLbl.visibility = View.VISIBLE
         binding.secondsTimerLbl.visibility = View.VISIBLE

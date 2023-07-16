@@ -30,6 +30,34 @@
         app:layout_constraintTop_toBottomOf="@id/includeAppBar">
 
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.6"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineVerticalMiddle"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineHorizontalTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.3"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineHorizontalBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.7"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/timerLayout"
             android:layout_width="match_parent"
@@ -45,17 +73,23 @@
 
         <TextView
             android:id="@+id/timerCurrentState"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="0dp"
+            app:autoSizeMaxTextSize="32sp"
+            app:autoSizeMinTextSize="14sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
             android:fontFamily="@font/digital7"
             android:text="@string/timerWorkTxt"
             android:textAlignment="center"
+            android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="35sp"
             android:textStyle="bold"
+            android:layout_marginTop="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/linearLayout4"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/linearLayout4" />
+            app:layout_constraintStart_toEndOf="@+id/guidelineVertical"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout4" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/soundLayout"
@@ -65,8 +99,7 @@
             app:layout_constraintBottom_toTopOf="@+id/timerCurrentState"
             app:layout_constraintEnd_toEndOf="@+id/timerCurrentState"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/timerCurrentState"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toStartOf="@+id/timerCurrentState">
 
             <ImageView
                 android:id="@+id/soundBtn"
@@ -131,15 +164,16 @@
 
         <LinearLayout
             android:id="@+id/linearLayout4"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="-15dp"
             android:background="@drawable/rounded_corner"
             android:backgroundTint="@color/white"
             android:elevation="3dp"
-            android:gravity="center"
+            android:gravity="center|start"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/timerNumbersLayout"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontalTop"
+            app:layout_constraintEnd_toStartOf="@id/guidelineVerticalMiddle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -157,33 +191,36 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="0dp"
                 android:gravity="start"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/timerNameTxt"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/createWorkoutDetailsDefault"
                     android:textColor="@color/AppColor"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:maxWidth="140dp"/>
+                    android:maxLines="3"
+                    android:maxLength="30"
+                    android:ellipsize="end"/>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:gravity="start">
 
                     <TextView
                         android:id="@+id/textView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp"
                         android:text="@string/setsTimer"
+                        android:layout_weight="1"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         tools:layout_editor_absoluteX="166dp"
@@ -194,6 +231,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/infoNumValueDefault"
+                        android:layout_weight="1"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         tools:layout_editor_absoluteX="201dp"
@@ -203,72 +241,82 @@
 
         </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/timerNumbersLayout"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:minHeight="300dp"
-            app:layout_constraintBottom_toTopOf="@+id/skipTimerBtn"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/guidelineHorizontalBottom"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+            app:layout_constraintTop_toBottomOf="@id/guidelineHorizontalTop">
 
-            <TextView
-                android:id="@+id/timerSecTxt"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/minNumbersLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="70dp"
-                android:fontFamily="@font/digital7_monoitalic"
-                android:text="@string/timerDefaultNumber"
-                android:textColor="@color/white"
-                android:textSize="150sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/timerMinTxt" />
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/secondsTimerLbl"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/timerMinTxt"
+                    android:layout_width="wrap_content"
+                    android:minWidth="150dp"
+                    android:maxWidth="200dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/digital7_monoitalic"
+                    android:text="@string/timerDefaultNumber"
+                    android:textColor="@color/white"
+                    app:autoSizeTextType="uniform"
+                    app:autoSizeMinTextSize="100sp"
+                    app:autoSizeMaxTextSize="200sp"
+                    app:autoSizeStepGranularity="1sp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/minutesTimerLbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="-15dp"
+                    android:rotation="90"
+                    android:text="@string/timerVerticalMinutes"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="-15dp"
-                android:rotation="270"
-                android:text="@string/timerVerticalSeconds"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/timerSecTxt"
-                app:layout_constraintEnd_toStartOf="@+id/timerSecTxt"
-                app:layout_constraintTop_toTopOf="@+id/timerSecTxt" />
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_weight="1">
 
+                <TextView
+                    android:id="@+id/secondsTimerLbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="-15dp"
+                    android:rotation="270"
+                    android:text="@string/timerVerticalSeconds"
+                    android:textColor="@color/white" />
 
-            <TextView
-                android:id="@+id/timerMinTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="60dp"
-                android:fontFamily="@font/digital7_monoitalic"
-                android:text="@string/timerDefaultNumber"
-                android:textColor="@color/white"
-                android:textSize="150sp"
-                app:layout_constraintBottom_toTopOf="@+id/timerSecTxt"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
-
-            <TextView
-                android:id="@+id/minutesTimerLbl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="-15dp"
-                android:rotation="90"
-                android:text="@string/timerVerticalMinutes"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/timerMinTxt"
-                app:layout_constraintStart_toEndOf="@+id/timerMinTxt"
-                app:layout_constraintTop_toTopOf="@+id/timerMinTxt" />
+                <TextView
+                    android:id="@+id/timerSecTxt"
+                    android:layout_width="wrap_content"
+                    android:minWidth="150dp"
+                    android:maxWidth="100dp"
+                    android:layout_height="match_parent"
+                    android:textAlignment="viewEnd"
+                    android:fontFamily="@font/digital7_monoitalic"
+                    android:text="@string/timerDefaultNumber"
+                    android:textColor="@color/white"
+                    app:autoSizeTextType="uniform"
+                    app:autoSizeMinTextSize="100sp"
+                    app:autoSizeMaxTextSize="200sp"
+                    app:autoSizeStepGranularity="1sp"/>
 
             <TextView
                 android:id="@+id/repsTimerLbl"
@@ -278,12 +326,11 @@
                 android:rotation="90"
                 android:text="@string/timerVerticalReps"
                 android:textColor="@color/white"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/timerSecTxt"
-                app:layout_constraintStart_toEndOf="@+id/timerSecTxt"
-                app:layout_constraintTop_toTopOf="@+id/timerSecTxt" />
+                android:visibility="gone" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+        </LinearLayout>
 
 
         <LinearLayout
@@ -306,7 +353,7 @@
             android:paddingBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/timerNumbersLayout">
+            app:layout_constraintTop_toBottomOf="@+id/guidelineHorizontalBottom">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -398,14 +445,19 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:id="@+id/completedTxt"
             android:text="@string/completedWorkoutText"
             android:textColor="@color/greenStart"
             android:textSize="30sp"
+            android:gravity="center"
             app:layout_constraintTop_toTopOf="@id/guideline3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="16sp"
+            app:autoSizeMaxTextSize="30sp"
+            app:autoSizeStepGranularity="1sp"
             android:layout_marginTop="30dp"
             android:fontFamily="@font/digital7"
             android:textStyle="bold"
@@ -465,14 +517,19 @@
         <TextView
             android:id="@+id/startingLbl"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:elevation="6dp"
             android:text="@string/getReady"
             android:textAlignment="center"
             android:textAllCaps="true"
+            android:gravity="center"
             android:textColor="@color/white"
             android:textSize="50sp"
             android:textStyle="italic"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="20sp"
+            app:autoSizeMaxTextSize="50sp"
+            app:autoSizeStepGranularity="1sp"
             app:layout_constraintBottom_toTopOf="@+id/secsToStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -483,14 +540,17 @@
         <TextView
             android:id="@+id/secsToStart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:elevation="6dp"
             android:fontFamily="@font/digital7_monoitalic"
             android:text="@string/timerStartingDefaultValue"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="250sp"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="100sp"
+            app:autoSizeMaxTextSize="250sp"
+            app:autoSizeStepGranularity="1sp"
             android:textStyle="italic"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
