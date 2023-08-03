@@ -7,6 +7,7 @@ data class Workouts(
 ): Serializable
 
 data class WorkoutsModelClass(
+    var presetId: String,
     var name: String,
     var sets: Int,
     var reps: Boolean,

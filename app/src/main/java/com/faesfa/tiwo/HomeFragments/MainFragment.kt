@@ -10,10 +10,12 @@ import android.view.ViewGroup
 import androidx.core.animation.doOnEnd
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.faesfa.tiwo.CreateActivity
 import com.faesfa.tiwo.DataManager
 import com.faesfa.tiwo.InfoActivity
 import com.faesfa.tiwo.QuickActivity
+import com.faesfa.tiwo.R
 import com.faesfa.tiwo.Workouts
 import com.faesfa.tiwo.WorkoutsAdapter
 import com.faesfa.tiwo.WorkoutsModelClass
@@ -81,6 +83,11 @@ class MainFragment : Fragment(), WorkoutsAdapter.OnItemClickListener {
             startActivity(launchCreate)
         }
 
+        binding.createPresetBtn.setOnClickListener{
+            val pager = activity?.findViewById<ViewPager2>(R.id.viewPagerHome)
+            pager?.currentItem = 1
+        }
+
 
         return view
     }
@@ -101,6 +108,7 @@ class MainFragment : Fragment(), WorkoutsAdapter.OnItemClickListener {
         if (!showingOpts) {
             binding.quickBtn.visibility = View.VISIBLE
             binding.createBtn.visibility = View.VISIBLE
+            binding.createPresetBtn.visibility = View.VISIBLE
 
             binding.mainBtn.rotation = 45F
             showingOpts = true
@@ -108,21 +116,27 @@ class MainFragment : Fragment(), WorkoutsAdapter.OnItemClickListener {
                 duration = 500
                 start()
             }
-            val animateBtns = ObjectAnimator.ofFloat(binding.quickBtn, "translationY", -320f).apply {
+            val animateBtns = ObjectAnimator.ofFloat(binding.quickBtn, "translationY", -450f).apply {
                 duration = 300
                 start()
             }
-            ObjectAnimator.ofFloat(binding.createBtn, "translationY", -160f).apply {
+            ObjectAnimator.ofFloat(binding.createBtn, "translationY", -300f).apply {
+                duration = 300
+                start()
+            }
+            ObjectAnimator.ofFloat(binding.createPresetBtn, "translationY", -150f).apply {
                 duration = 300
                 start()
             }
             animateBtns.doOnEnd {
                 binding.quickTxtView.visibility = View.VISIBLE
                 binding.createTxtView.visibility = View.VISIBLE
+                binding.createPresetTxtView.visibility = View.VISIBLE
             }
         } else{
             binding.quickTxtView.visibility = View.GONE
             binding.createTxtView.visibility = View.GONE
+            binding.createPresetTxtView.visibility = View.GONE
             ObjectAnimator.ofFloat(binding.mainBtn, "rotation", 0f).apply {
                 duration = 500
                 start()
@@ -135,9 +149,14 @@ class MainFragment : Fragment(), WorkoutsAdapter.OnItemClickListener {
                 duration = 300
                 start()
             }
+            ObjectAnimator.ofFloat(binding.createPresetBtn, "translationY", 0f).apply {
+                duration = 300
+                start()
+            }
             animateBtns.doOnEnd {
                 binding.quickBtn.visibility = View.GONE
                 binding.createBtn.visibility = View.GONE
+                binding.createPresetBtn.visibility = View.GONE
             }
             showingOpts = false
         }

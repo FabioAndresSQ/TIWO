@@ -1,19 +1,23 @@
 package com.faesfa.tiwo
 
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.*
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.core.animation.doOnEnd
+import androidx.core.content.ContextCompat
 import androidx.core.view.marginStart
+import com.bumptech.glide.Glide
+import com.faesfa.tiwo.data.PresetsRepository
 import com.faesfa.tiwo.databinding.ActivityTimerBinding
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdListener
@@ -24,11 +28,17 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+
 @AndroidEntryPoint
 class TimerActivity : AppCompatActivity() {
     //Initialize everything
     @Inject lateinit var dataManager: DataManager
+    @Inject lateinit var repository : PresetsRepository
 
     private lateinit var binding: ActivityTimerBinding
     private lateinit var workout : WorkoutsModelClass
@@ -65,6 +75,7 @@ class TimerActivity : AppCompatActivity() {
     private lateinit var activity: Activity
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityTimerBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -102,14 +113,13 @@ class TimerActivity : AppCompatActivity() {
         })
 
         // Hiding and showing views according to workout mode and setting values
+        loadPresetImage(this)
+
         if (workout.reps) { //Working with Reps
             initialWorkTime = ((workout.num_reps * workout.reps_time) * 1000 + 1000).toLong() //Set Timer Value
             workFormat = reps.toString() + " " + getString(R.string.workingRepsTimer)
             binding.timerMinTxt.visibility = View.GONE
-            binding.minNumbersLayout.visibility = View.GONE
-            binding.minutesTimerLbl.visibility = View.GONE
-            binding.secondsTimerLbl.visibility = View.GONE
-            binding.timerSecTxt.textSize = 200F
+            binding.dotsTimer.visibility = View.GONE
         } else { //Working with Time
             initialWorkTime = (workout.work_time * 1000 + 1000).toLong() //Set Timer Value
             val workTimeFormat = dataManager.convertTimeTimer(work)
@@ -279,6 +289,32 @@ class TimerActivity : AppCompatActivity() {
         }
     }
 
+    private fun loadPresetImage(context: Context) {
+        if (workout.presetId.isNullOrBlank()){
+            binding.presetLayout.visibility = View.GONE
+        } else{
+            //Set Preset Image
+            CoroutineScope(Dispatchers.IO).launch {
+                val apiResponse = repository.getPresetsById(workout.presetId)
+                Log.d("PRESET_IMAGE", "loadPresetImage: $apiResponse")
+                run { CoroutineScope(Dispatchers.Main).launch {
+                    if (apiResponse.gifUrl.isNotBlank()){
+                        try {
+                            binding.presetImage.visibility = View.VISIBLE
+                            Glide.with(context).asGif().load(apiResponse.gifUrl).into(binding.presetImage)
+                        } catch (e: Exception){
+                            binding.presetImage.visibility = View.GONE
+                            binding.presetLoadingImg.visibility = View.VISIBLE
+                            Toast.makeText(context, "Error connecting to Internet", Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+                } }
+            }
+
+        }
+    }
+
     private fun skipCurrentState(){
         countDownTimer.cancel()
         timerInterval.cancel()
@@ -377,11 +413,9 @@ class TimerActivity : AppCompatActivity() {
         binding.timerCurrentState.text = getString(R.string.timerWorkTxt)
         if (workout.reps){ //Working with Reps, Set Visibility
             countDownInterval = (workout.reps_time * 1000).toLong()
-            binding.minNumbersLayout.visibility = View.GONE
+            //binding.timerNumbersLayout.translationX = -200f
             binding.timerMinTxt.visibility = View.GONE
-            binding.minutesTimerLbl.visibility = View.GONE
-            binding.secondsTimerLbl.visibility = View.GONE
-            binding.repsTimerLbl.visibility = View.VISIBLE
+            binding.dotsTimer.visibility = View.GONE
             countDownTimer = object : CountDownTimer(time, countDownInterval){
                 override fun onTick(millisUntilFinished: Long) {
                     countDownInPause = millisUntilFinished
@@ -394,7 +428,6 @@ class TimerActivity : AppCompatActivity() {
             countDownTimer.start() //Start Reps Timer
         } else{ //Working with Time, Set Visibility
             countDownInterval = 1000
-            binding.repsTimerLbl.visibility = View.GONE
             countDownTimer = object : CountDownTimer(time, countDownInterval){
                 override fun onTick(millisUntilFinished: Long) {
                     countDownInPause = millisUntilFinished
@@ -402,6 +435,10 @@ class TimerActivity : AppCompatActivity() {
                     val timeFormat = dataManager.convertTimeTimer(work)
                     binding.timerMinTxt.text = timeFormat[0]
                     binding.timerSecTxt.text = timeFormat[1]
+                    actionOnInterval(false)
+                    if ((millisUntilFinished/countDownInterval) < 4){
+                        actionOnInterval(true)
+                    }
                 }
                 override fun onFinish() {
                     startRestTimer(initialRestTime) //Start rest time after this is finished
@@ -411,12 +448,14 @@ class TimerActivity : AppCompatActivity() {
             countDownTimer.start() //Start Time Timer
         }
 
-        //Timer Background to do things in between
-        timerInterval = object  : CountDownTimer(time, countDownInterval){
+        //Timer Background to do things in between when working with reps
+        timerInterval = object  : CountDownTimer(time, countDownInterval/2){
             override fun onTick(millisUntilFinished: Long) {
-                actionOnInterval(false)
-                if ((millisUntilFinished/countDownInterval) < 4){
-                    actionOnInterval(true)
+                if (workout.reps){
+                    actionOnInterval(false)
+                    if ((millisUntilFinished/countDownInterval) < 4){
+                        actionOnInterval(true)
+                    }
                 }
             }
             override fun onFinish() {
@@ -428,6 +467,7 @@ class TimerActivity : AppCompatActivity() {
     }
 
     private fun startRestTimer(time : Long){ //Rest Timer
+        binding.timerSecTxt.visibility = View.GONE
         resting = true
         binding.skipTimerBtn.visibility = View.VISIBLE
         binding.soundBtn.visibility = View.VISIBLE
@@ -441,17 +481,14 @@ class TimerActivity : AppCompatActivity() {
         }
         binding.timerSetsTxt.text = (currentSet).toString()
         binding.timerCurrentState.text = getString(R.string.timerRestTxt)
-        binding.timerSecTxt.textSize = 150F
         if (numSets > 1) {
             binding.timerNextTxt.text = workFormat
         } else{
             binding.timerNextTxt.text = getString(R.string.end)
         }
-        binding.minNumbersLayout.visibility = View.VISIBLE
         binding.timerMinTxt.visibility = View.VISIBLE
-        binding.minutesTimerLbl.visibility = View.VISIBLE
-        binding.secondsTimerLbl.visibility = View.VISIBLE
-        binding.repsTimerLbl.visibility = View.GONE
+        binding.timerSecTxt.visibility = View.VISIBLE
+        binding.dotsTimer.visibility = View.VISIBLE
         binding.timerSecTxt.marginStart.plus(60)
         countDownInterval = 1000
         countDownTimer = object : CountDownTimer(time, countDownInterval){
@@ -521,6 +558,7 @@ class TimerActivity : AppCompatActivity() {
                 duration = 400
                 start()
             }
+
             if (vibrationEnabled){
 
                 val phoneVibrator = (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
@@ -557,7 +595,7 @@ class TimerActivity : AppCompatActivity() {
             }
             this.backPressedOnce = true
             Toast.makeText(this, getString(R.string.backToExitTimer), Toast.LENGTH_SHORT).show()
-            Handler(Looper.getMainLooper()).postDelayed({ backPressedOnce = false }, 2000)
+            Handler(Looper.getMainLooper()).postDelayed({ backPressedOnce = false }, 1000)
         }
     }
 

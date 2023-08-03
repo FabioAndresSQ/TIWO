@@ -27,7 +27,7 @@ class CreateFragment1 : Fragment() {
 
         val view = binding.root //save inflater to view
         //Create the workout obj with default values
-        workout = WorkoutsModelClass("default", 0, false,0,0.0,0,0, "")
+        workout = WorkoutsModelClass("", "default", 0, false,0,0.0,0,0, "")
 
         //Set listener to sets add or remove
         binding.createSetsTxt.text = sets.toString()

@@ -64,7 +64,7 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
 
         binding.presetsEmptyLayout.visibility = View.VISIBLE
 
-        checkDbDate()
+        dataManager.checkDbDate(activity, false)
 
 
         isLoading.observe(requireActivity()) {
@@ -130,56 +130,6 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
         }
     }
 
-    private fun checkDbDate() {
-        Log.d("DATEMATH", "Starting Date Check")
-        val sharedPref = activity?.getSharedPreferences(getString(R.string.last_db_saved), Context.MODE_PRIVATE)
-        val currentDate = Date().time
-        val savedDate = sharedPref?.getLong("db_date", 0)
-        Log.d("DATEMATH", "SharedPref = $savedDate")
-        if (savedDate != null) {
-            if (savedDate > 0) {
-                // Verify if current date is 12 hours later
-                val diff: Long = currentDate - savedDate
-                val seconds = diff / 1000
-                val minutes = seconds / 60
-                val hours = minutes / 60
-                val days = hours / 24
-                Log.d("DATEMATH", "Database date found = $savedDate")
-                Log.d("DATEMATH", "current date: $currentDate")
-                Log.d("DATEMATH", "Difference: days=$days, hours=$hours, minutes=$minutes, seconds=$seconds")
-                if (hours > 12 || days > 0){
-                    //Update DataBase from Api
-                    if (hasInternet(requireContext()) == true) {
-                        getAllPresetsFromApi()
-                        //Update Database date
-                        val prefs = activity?.getSharedPreferences(getString(R.string.last_db_saved), Context.MODE_PRIVATE)?.edit()
-                        prefs?.putLong("db_date", currentDate)
-                        prefs?.apply()
-                    } else {
-                        Toast.makeText(context, getString(R.string.errorConnectingToApiToast), Toast.LENGTH_SHORT).show()
-                    }
-
-                }
-            } else {
-                // DataBase is not created so call for api and save current date
-                Log.d("DATEMATH", "Database Not Created: $currentDate")
-                if (hasInternet(requireContext()) == true) {
-                    getAllPresetsFromApi()
-                    //Update Database date
-                    val prefs = activity?.getSharedPreferences(
-                        getString(R.string.last_db_saved),
-                        Context.MODE_PRIVATE
-                    )?.edit()
-                    prefs?.putLong("db_date", currentDate)
-                    prefs?.apply()
-                } else {
-                    Toast.makeText(context, getString(R.string.errorConnectingToApiToast), Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
-
     fun hasInternet(context: Context): Boolean? {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -209,20 +159,9 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
         binding.rvPresets.adapter = adapter
     }
 
-    private fun getAllPresetsFromApi(){
-        CoroutineScope(Dispatchers.IO).launch {
-            val result = getAllPresetsUseCase(requireContext())
-            if (result.isEmpty()){
-                run { CoroutineScope(Dispatchers.Main).launch {
-                    Toast.makeText(context, getString(R.string.errorConnectingToApiToast), Toast.LENGTH_SHORT).show()
-                } }
-            }
-        }
-    }
-
     override fun onResume() {
         super.onResume()
-        checkDbDate()
+        dataManager.checkDbDate(activity, false)
     }
     private fun getPresetsByMuscle(muscle: String){
         binding.presetsEmptyLayout.visibility = View.GONE
@@ -235,7 +174,7 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
                     if (hasInternet(requireContext()) == false){
                         Toast.makeText(context, getString(R.string.errorConnectingToApiToast), Toast.LENGTH_SHORT).show()
                     } else {
-                        getAllPresetsFromApi()
+                        dataManager.checkDbDate(activity, false)
                     }
                     binding.rvPresets.smoothScrollToPosition(0)
                     isLoading.postValue(false)
@@ -252,23 +191,7 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
                     isLoading.postValue(false)
                 }
 
-                /*TRANSLATE RESULT ON FUTURE UPDATE
-                if (apiResponse.isNotEmpty()){
-                    var stringToTranslate = "["
-                    for (i in apiResponse){
-                        stringToTranslate += "{\"val\":[\"${i.name.toString()}\",\n"
-                        stringToTranslate += "\"${i.target.toString()}\",\n"
-                        if (apiResponse.get(apiResponse.lastIndex) == i){
-                            stringToTranslate += "\"${i.equipment.toString()}\"]}"
-                        } else {
-                            stringToTranslate += "\"${i.equipment.toString()}\"]},\n"
-                        }
-                    }
-                    stringToTranslate += "]"
-                    dataManager.savePresetsJsonToFile(requireContext(), stringToTranslate)
-                    println(stringToTranslate)
-                    Log.d("TRANSLATE", stringToTranslate)
-                }*/
+                /*TRANSLATE RESULT ON FUTURE UPDATE*/
             } }
 
         }

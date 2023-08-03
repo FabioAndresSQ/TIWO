@@ -10,9 +10,10 @@
     <!-- Strings Used on Home Screen -->
     <string name="newBtnDescription">New workouts</string>
     <string name="createBtnDescription">Create new workout</string>
-    <string name="createBtnTxt">NEW WORKOUT</string>
+    <string name="createBtnTxt">Create Workout</string>
+    <string name="createPresetBtnTxt">Preset Workout</string>
     <string name="quickBtnDescription">Start Quick workout</string>
-    <string name="quickBtnTxt">QUICK WORKOUT</string>
+    <string name="quickBtnTxt">Quick Workout</string>
     <string name="mainHomeTitle">My Workouts</string>
     <string name="mainPresetsTitle">Presets</string>
     <string name="backToExitApp">Press Back Again to Exit</string>

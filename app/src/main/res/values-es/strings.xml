@@ -9,9 +9,10 @@
     <!-- Strings usadas en el Home Screen -->
     <string name="newBtnDescription">Nuevos ejercicios</string>
     <string name="createBtnDescription">Crear ejercicio nuevo</string>
-    <string name="createBtnTxt">NUEVO EJERCICIO</string>
+    <string name="createBtnTxt">Crear Ejercicio</string>
+    <string name="createPresetBtnTxt">Ejercicio Preestablecido</string>
     <string name="quickBtnDescription">Iniciar ejercicio rápido</string>
-    <string name="quickBtnTxt">EJERCICIO RAPIDO</string>
+    <string name="quickBtnTxt">Ejercicio Rápido</string>
     <string name="mainHomeTitle">Mis Ejercicios</string>
     <string name="mainPresetsTitle">Presets</string>
     <string name="backToExitApp">Presiona atras nuevamente para salir</string>

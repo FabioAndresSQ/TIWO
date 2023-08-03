@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.viewpager2.widget.ViewPager2
 import com.faesfa.tiwo.databinding.ActivityMainBinding
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
@@ -26,6 +27,7 @@ class MainActivity: AppCompatActivity() {
     private  lateinit var binding: ActivityMainBinding
     private var backPressedOnce = false
     private lateinit var toolBar : Toolbar
+    private lateinit var pager : ViewPager2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -55,12 +57,17 @@ class MainActivity: AppCompatActivity() {
     }
 
     override fun onBackPressed() { //Control the back button pressed
-        if (backPressedOnce) {
-            finishAffinity() //Close App
+        pager = binding.viewPagerHome
+        if (pager.currentItem != 0) {
+            pager.currentItem = 0
+        } else {
+            if (backPressedOnce) {
+                finishAffinity() //Close App
+            }
+            this.backPressedOnce = true
+            Toast.makeText(this, getString(R.string.backToExitApp), Toast.LENGTH_SHORT).show()
+            Handler(Looper.getMainLooper()).postDelayed({ backPressedOnce=false },2000)
         }
-        this.backPressedOnce = true
-        Toast.makeText(this, getString(R.string.backToExitApp), Toast.LENGTH_SHORT).show()
-        Handler(Looper.getMainLooper()).postDelayed({ backPressedOnce=false },2000)
     }
 
     private fun startBannerAds(){

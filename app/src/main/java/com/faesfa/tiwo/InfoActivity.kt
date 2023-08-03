@@ -1,6 +1,8 @@
 package com.faesfa.tiwo
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +11,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.gif.GifDrawable
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.faesfa.tiwo.data.PresetsRepository
 import com.faesfa.tiwo.databinding.ActivityInfoBinding
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
@@ -17,16 +26,22 @@ import com.google.android.gms.ads.MobileAds
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.*
 import javax.inject.Inject
 @AndroidEntryPoint
 class InfoActivity : AppCompatActivity() {
     //Initialize everything
     @Inject lateinit var dataManager: DataManager
+    @Inject lateinit var repository : PresetsRepository
 
     private lateinit var binding: ActivityInfoBinding
     private lateinit var workouts: Workouts
     private lateinit var toolBar : Toolbar
+    private lateinit var workout : WorkoutsModelClass
+    private var firstTry = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +53,13 @@ class InfoActivity : AppCompatActivity() {
         toolBar.elevation = 5F
         setSupportActionBar(toolBar)
 
-        val workout : WorkoutsModelClass = intent?.getSerializableExtra("selected_workout") as WorkoutsModelClass //Save workout got from Prev Activity
+        dataManager.checkDbDate(this, false)
+        firstTry = true
+
+        workout = intent?.getSerializableExtra("selected_workout") as WorkoutsModelClass //Save workout got from Prev Activity
         val position = intent?.getSerializableExtra("position") as Int //Save position got from Prev Activity
+
+        checkForPresetID()
 
         //INITIALIZING BANNER ADS AND REQUESTING IT
         startBannerAds()
@@ -56,7 +76,7 @@ class InfoActivity : AppCompatActivity() {
         binding.infoImg.borderColor = this.getColor(R.color.AppColor)
         binding.infoImg.borderWidth = 5
 
-        binding.infoNameTxt.text = workout.name.uppercase()
+        binding.infoNameTxt.text = workout.name.capitalize()
         binding.infoSetsTxt.text = workout.sets.toString()
         if (workout.reps){ //Working with reps, set visibility
             binding.infoReps.visibility = View.VISIBLE
@@ -100,6 +120,86 @@ class InfoActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun checkForPresetID() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val apiResponse = if (workout.presetId.isNullOrBlank()){
+                    repository.getPresetIdByName(workout.name)
+                } else {
+                    repository.getPresetsById(workout.presetId)
+                }
+
+            Log.d("NAME CHECK", "Preset: $apiResponse")
+            run { CoroutineScope(Dispatchers.Main).launch {
+                if (apiResponse == null){
+                    Log.d("NAME CHECK", "Preset not found")
+                    binding.infoLayout.visibility = View.GONE
+                    binding.infoImg.visibility = View.VISIBLE
+                    binding.infoNameTxt.visibility = View.VISIBLE
+                } else {
+                    workout.presetId = apiResponse.id
+                    binding.infoLayout.visibility = View.VISIBLE
+                    binding.infoImg.visibility = View.GONE
+                    binding.infoNameTxt.visibility = View.GONE
+                    binding.presetCategoryTxt.text = when (workout.category) {
+                        "Chest" -> getString(R.string.chestCategoryTxt)
+                        "Back" -> getString(R.string.backCategoryTxt)
+                        "Shoulder" -> getString(R.string.shoulderCategoryTxt)
+                        "Arms" -> getString(R.string.armsCategoryTxt)
+                        "Legs" -> getString(R.string.legsCategoryTxt)
+                        "Abs" -> getString(R.string.absCategoryTxt)
+                        else -> ""
+                    }
+                    when (workout.category){
+                        "Chest" -> {binding.presetCategory.setImageResource(R.drawable.chest_ic)}
+                        "Back" -> {binding.presetCategory.setImageResource(R.drawable.back_ic)}
+                        "Shoulder" -> {binding.presetCategory.setImageResource(R.drawable.shoulder_ic)}
+                        "Arms" -> {binding.presetCategory.setImageResource(R.drawable.arm_ic)}
+                        "Legs" -> {binding.presetCategory.setImageResource(R.drawable.legs_ic)}
+                        "Abs" -> {binding.presetCategory.setImageResource(R.drawable.abs_ic)}
+                    }
+                    binding.presetNameTxt.text = workout.name.capitalize()
+                    try {
+                        Glide.with(this@InfoActivity).asGif()
+                            .load(apiResponse.gifUrl)
+                            .listener(object : RequestListener<GifDrawable> {
+
+                                override fun onLoadFailed(
+                                    e: GlideException?,
+                                    model: Any?,
+                                    target: Target<GifDrawable>?,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    Log.e("NAME CHECK", "onLoadFailed: Error loading Image $e", )
+                                    if (firstTry){
+                                        dataManager.checkDbDate(this@InfoActivity, true)
+                                        checkForPresetID()
+                                    }
+                                    firstTry = false
+                                    return false
+                                }
+
+                                override fun onResourceReady(
+                                    resource: GifDrawable?,
+                                    model: Any?,
+                                    target: Target<GifDrawable>?,
+                                    dataSource: DataSource?,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    Log.e("NAME CHECK", "onResourceReady: Image loaded", )
+                                    return false
+                                }
+
+                            })
+                            .into(binding.presetImg)
+                    } catch (e: Exception){
+                        Log.e("NAME CHECK", "Error loading Image: $e", )
+                    }
+
+                }
+            } }
+        }
     }
 
     private fun startBannerAds(){

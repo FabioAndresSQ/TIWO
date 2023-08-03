@@ -17,6 +17,12 @@ interface PresetsDao {
     @Query("SELECT * FROM all_presets_table WHERE name LIKE '%' || :text || '%'")
     suspend fun getPresetsBySearch(text:String):List<PresetEntity>
 
+    @Query("SELECT * FROM all_presets_table WHERE id=:text")
+    suspend fun getPresetsById(text:String):PresetEntity
+
+    @Query("SELECT * FROM all_presets_table WHERE name=:name")
+    suspend fun getPresetIdByName(name:String): PresetEntity
+
     @Query("SELECT * FROM all_presets_table")
     suspend fun getAllPresets():List<PresetEntity>
 

@@ -1,5 +1,6 @@
 package com.faesfa.tiwo.data
 
+import android.util.Log
 import com.faesfa.tiwo.data.database.dao.PresetsDao
 import com.faesfa.tiwo.data.database.entities.PresetEntity
 import com.faesfa.tiwo.data.model.PresetsModel
@@ -30,6 +31,17 @@ class PresetsRepository @Inject  constructor(
     suspend fun getPresetsBySearchFromDb(query: String):List<Preset>{
         val response = presetsDao.getPresetsBySearch(query)
         return response.map { it.toDomain() }
+    }
+
+    suspend fun getPresetsById(query: String):Preset{
+        val response = presetsDao.getPresetsById(query)
+        return response.toDomain()
+    }
+
+    suspend fun getPresetIdByName(name: String):Preset?{
+        val response = presetsDao.getPresetIdByName(name)
+        Log.d("NAME CHECK", "RepositoryResponse: $response")
+        return if (response != null) {response.toDomain()} else {null}
     }
 
     suspend fun insertAllPresets(presets:List<PresetEntity>){

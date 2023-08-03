@@ -144,7 +144,7 @@ class QuickActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
                 //Assign values to workout Obj
-                workout  = WorkoutsModelClass("Quick Timer", sets, true,reps,interval,0,restTime, "")
+                workout  = WorkoutsModelClass("","Quick Timer", sets, true,reps,interval,0,restTime, "")
                 //Launch Timer Activity with workout
                 val launchTimer = Intent(this, TimerActivity::class.java)
                 launchTimer.putExtra("selected_workout" , workout as Serializable) //Add workout Obj to pass it to timer
@@ -165,7 +165,7 @@ class QuickActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
                 //Assign values to workout Obj
-                workout  = WorkoutsModelClass("Quick Timer", sets, false,0,0.0,workTime,restTime, "")
+                workout  = WorkoutsModelClass("", "Quick Timer", sets, false,0,0.0,workTime,restTime, "")
                 //Launch Timer Activity with workout
                 val launchTimer = Intent(this, TimerActivity::class.java)
                 launchTimer.putExtra("selected_workout" , workout as Serializable) //Add workout Obj to pass it to timer

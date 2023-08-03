@@ -191,6 +191,7 @@ class PresetDetails : AppCompatActivity() {
             }
             //Assign values to workout Obj if statements are passed
             workout  = WorkoutsModelClass(
+                preset.id,
                 preset.name,
                 sets,
                 true,
@@ -215,6 +216,7 @@ class PresetDetails : AppCompatActivity() {
             }
             //Assign values to workout Obj if statements are passed
             workout  = WorkoutsModelClass(
+                preset.id,
                 preset.name,
                 sets,
                 false,
@@ -262,7 +264,7 @@ class PresetDetails : AppCompatActivity() {
                 category = "Back"
             }
 
-            "shoulder" -> {
+            "shoulders" -> {
                 binding.presetCategory.setImageResource(R.drawable.shoulder_ic)
                 binding.presetCategoryTxt.text = getString(R.string.shoulderCategoryTxt)
                 category = "Shoulder"
