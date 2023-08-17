@@ -587,16 +587,19 @@ class TimerActivity : AppCompatActivity() {
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() { //Handle back pressed
-        if (started) {
-            if (backPressedOnce) {//Double pressed
+        if (backPressedOnce) {
+            if (started) {//Double pressed
                 launchHome()
                 countDownTimer.cancel()
                 timerInterval.cancel()
+            } else {
+                launchHome()
+                startDownTimer.cancel()
             }
-            this.backPressedOnce = true
-            Toast.makeText(this, getString(R.string.backToExitTimer), Toast.LENGTH_SHORT).show()
-            Handler(Looper.getMainLooper()).postDelayed({ backPressedOnce = false }, 1000)
         }
+        this.backPressedOnce = true
+        Toast.makeText(this, getString(R.string.backToExitTimer), Toast.LENGTH_SHORT).show()
+        Handler(Looper.getMainLooper()).postDelayed({ backPressedOnce = false }, 1000)
     }
 
     private fun launchHome(){//Launch home screen
@@ -615,13 +618,24 @@ class TimerActivity : AppCompatActivity() {
         if (binding.goPreviousStateBtn.visibility == View.VISIBLE){
             binding.goPreviousStateBtn.visibility = View.GONE
         }
-        countDownTimer.cancel()
-        if (started){timerInterval.cancel()}
+
+        if (started){
+            countDownTimer.cancel()
+            timerInterval.cancel()
+        } else {
+            startDownTimer.cancel()
+        }
         isPaused = true
+        binding.timerLayout.visibility = View.VISIBLE
     }
 
     private fun resumeTimer(){
         binding.pausedLayout.visibility =View.GONE
+        if (!started) {
+            startingTimer(countDownInPause)
+            isPaused = false
+            return
+        }
         if (resting) {
             startRestTimer(countDownInPause)
         } else {
