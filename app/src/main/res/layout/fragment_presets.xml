@@ -12,6 +12,101 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tutorialLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00181818"
+            android:clickable="true"
+            android:elevation="16dp"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/startTutorial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_shape"
+                android:maxWidth="300dp"
+                android:textSize="16sp"
+                android:padding="10dp"
+                android:text="En esta pestaña encontraras mas de 1200 ejercicios preestablecidos para que los ajustes a tu gusto, tus propies series y tiempo de trabajo"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/continueTutorial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="300dp"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:padding="10dp"
+                android:text="Toca para continuar"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/tutorialStepPager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:alpha="0"
+                android:background="@drawable/rounded_shape"
+                android:maxWidth="300dp"
+                android:padding="10dp"
+                android:text="Aqui podras buscar todos los ejercicios que practicas (recuerda que esta funcion esta disponible solo en ingles por el momento)"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/topArrowRight"
+                android:alpha="0"
+                android:src="@drawable/baseline_arrow_drop_up_24"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toTopOf="@+id/tutorialStepPager"
+                app:layout_constraintEnd_toEndOf="@+id/tutorialStepPager"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="-17dp"/>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/topArrowLeft"
+                android:alpha="0"
+                android:src="@drawable/baseline_arrow_drop_up_24"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toTopOf="@+id/tutorialStepPager"
+                app:layout_constraintStart_toStartOf="@+id/tutorialStepPager"
+                android:layout_marginStart="30dp"
+                android:layout_marginBottom="-17dp"/>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/tutorialLayoutBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#AB181818"
+                android:clickable="false"
+                android:elevation="-1dp"
+                android:focusable="false"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

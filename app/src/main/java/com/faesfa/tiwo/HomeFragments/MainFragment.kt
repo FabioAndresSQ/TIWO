@@ -1,6 +1,7 @@
 package com.faesfa.tiwo.HomeFragments
 
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.animation.doOnEnd
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -35,6 +37,8 @@ class MainFragment : Fragment(), WorkoutsAdapter.OnItemClickListener {
     private lateinit var workouts : Workouts
     private lateinit var jsonString : String
     private var showingOpts = true
+    private var tutorialStep = 0
+    private var tutorialCompleted = false
 
 
     override fun onCreateView(
@@ -46,6 +50,142 @@ class MainFragment : Fragment(), WorkoutsAdapter.OnItemClickListener {
         val view = binding.root //save inflater to view
 
         checkIfBtnAreShowing()
+
+//        val sharedPref = activity?.getSharedPreferences(getString(R.string.tutorial_status), Context.MODE_PRIVATE)
+//        if (sharedPref != null) {
+//            tutorialCompleted = sharedPref.getBoolean("tutorial_completed", false)
+//        }
+
+        if (!tutorialCompleted){
+
+            binding.tutorialLayout.visibility = View.VISIBLE
+
+            binding.tutorialLayout.setOnClickListener {
+                tutorialStep++
+                when (tutorialStep){
+                    1 -> {
+                        val tutorialSwitch = ObjectAnimator.ofFloat(binding.startTutorial, "alpha", 0f).apply {
+                            duration = 300
+                            start()
+                        }
+                        tutorialSwitch.doOnEnd {
+                            binding.tutorialStep.visibility = View.VISIBLE
+                            binding.bottomArrow.visibility = View.VISIBLE
+                            ObjectAnimator.ofFloat(binding.tutorialStep, "alpha", 1f).apply {
+                                duration = 300
+                                start()
+                            }
+                            ObjectAnimator.ofFloat(binding.bottomArrow, "alpha", 1f).apply {
+                                duration = 300
+                                start()
+                            }
+                        }
+                        binding.tutorialLayout.elevation = 14F
+                    }
+                    2 -> {
+                        val tutorialSwitch = ObjectAnimator.ofFloat(binding.tutorialStep, "alpha", 0f).apply {
+                            duration = 300
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.bottomArrow, "alpha", 0f).apply {
+                            duration = 300
+                            start()
+                        }
+                        tutorialSwitch.doOnEnd {
+                            binding.tutorialStep.text = "Estas son las opciones que podras usar:\n\n" +
+                                    "EJERCICIO RAPIDO: Podras iniciar un entrenamiento rapido sin necesidad de guardarlo en tus ejercicios\n\n" +
+                                    "CREAR EJERCICIO: Podras crear tu ejercicio personalizado desde cero eligiendo las series y el tiempo o repeticiones que entrenaras\n\n" +
+                                    "EJERCICIO PREESTABLECIDO: Podras acceder a una lista de mas de 1200 ejercicios que podras ajustar con tus propias series y tiempo"
+                            ObjectAnimator.ofFloat(binding.tutorialStep, "translationY", -450f).apply {
+                                duration = 0
+                                start()
+                            }
+                            ObjectAnimator.ofFloat(binding.bottomArrow, "translationY", -450f).apply {
+                                duration = 0
+                                start()
+                            }
+                            ObjectAnimator.ofFloat(binding.tutorialStep, "alpha", 1f).apply {
+                                duration = 300
+                                start()
+                            }
+                            ObjectAnimator.ofFloat(binding.bottomArrow, "alpha", 1f).apply {
+                                duration = 300
+                                start()
+                            }
+                        }
+                        checkIfBtnAreShowing()
+                    }
+                    3 -> {
+                        checkIfBtnAreShowing()
+                        val tutorialSwitch = ObjectAnimator.ofFloat(binding.tutorialStep, "alpha", 0f).apply {
+                            duration = 300
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.bottomArrow, "alpha", 0f).apply {
+                            duration = 300
+                            start()
+                        }
+                        tutorialSwitch.doOnEnd {
+                            ObjectAnimator.ofFloat(binding.tutorialStepPager, "alpha", 1f).apply {
+                                duration = 300
+                                start()
+                            }
+                            ObjectAnimator.ofFloat(binding.topArrowLeft, "alpha", 1f).apply {
+                                duration = 300
+                                start()
+                            }
+                        }
+                    }
+                    4 -> {
+                        val tutorialSwitch = ObjectAnimator.ofFloat(binding.tutorialStepPager, "alpha", 0f).apply {
+                            duration = 300
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.topArrowLeft, "alpha", 0f).apply {
+                            duration = 300
+                            start()
+                        }
+                        tutorialSwitch.doOnEnd {
+                            binding.tutorialStepPager.text = "Aqui vas a encontrar los presets disponibles para crear tus propios ejercicios en base a ellos"
+                            binding.tutorialStepPager.textAlignment = View.TEXT_ALIGNMENT_TEXT_END
+                            ObjectAnimator.ofFloat(binding.tutorialStepPager, "alpha", 1f).apply {
+                                duration = 300
+                                start()
+                            }
+                            ObjectAnimator.ofFloat(binding.topArrowRight, "alpha", 1f).apply {
+                                duration = 300
+                                start()
+                            }
+                        }
+                    }
+                    5 -> {
+                        val tutorialSwitch = ObjectAnimator.ofFloat(binding.tutorialStepPager, "alpha", 0f).apply {
+                            duration = 300
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.topArrowRight, "alpha", 0f).apply {
+                            duration = 300
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.tutorialLayout, "alpha", 0f).apply {
+                            duration = 300
+                            start()
+                        }
+                        tutorialSwitch.doOnEnd {
+                            binding.tutorialLayout.visibility = View.GONE
+                            tutorialCompleted = true
+                            val pager = activity?.findViewById<ViewPager2>(R.id.viewPagerHome)
+                            pager?.currentItem = 1
+
+                        }
+                    }
+                }
+            }
+        } else {
+            binding.tutorialLayout.visibility = View.GONE
+        }
+
+
 
         jsonString = try {
             dataManager.getJsonFromFile(context)!!
@@ -74,18 +214,24 @@ class MainFragment : Fragment(), WorkoutsAdapter.OnItemClickListener {
         }
 
         binding.quickBtn.setOnClickListener {
-            val launchQuick = Intent(this.context, QuickActivity::class.java)
-            startActivity(launchQuick)
+            if (tutorialCompleted) {
+                val launchQuick = Intent(this.context, QuickActivity::class.java)
+                startActivity(launchQuick)
+            }
         }
 
         binding.createBtn.setOnClickListener{
-            val launchCreate = Intent(this.context, CreateActivity::class.java)
-            startActivity(launchCreate)
+            if (tutorialCompleted){
+                val launchCreate = Intent(this.context, CreateActivity::class.java)
+                startActivity(launchCreate)
+            }
         }
 
         binding.createPresetBtn.setOnClickListener{
-            val pager = activity?.findViewById<ViewPager2>(R.id.viewPagerHome)
-            pager?.currentItem = 1
+            if (tutorialCompleted) {
+                val pager = activity?.findViewById<ViewPager2>(R.id.viewPagerHome)
+                pager?.currentItem = 1
+            }
         }
 
 

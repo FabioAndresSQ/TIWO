@@ -1,5 +1,6 @@
 package com.faesfa.tiwo.HomeFragments
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -13,11 +14,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.core.animation.doOnEnd
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.faesfa.tiwo.DataManager
 import com.faesfa.tiwo.PresetDetails
 import com.faesfa.tiwo.PresetsAdapter
@@ -47,6 +50,8 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
     private lateinit var adapter: PresetsAdapter
     private val presetsList = mutableListOf<Preset>()
     private val isLoading = MutableLiveData<Boolean>()
+    private var tutorialStep = 0
+    private var tutorialCompleted = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +79,97 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
 
         binding.searchPreset.setOnQueryTextListener(this)
         startRecyclerView()
+
+        if (!tutorialCompleted){
+
+            binding.tutorialLayout.visibility = View.VISIBLE
+
+            binding.tutorialLayout.setOnClickListener {
+                tutorialStep++
+                when (tutorialStep){
+                    1 -> {
+                        val tutorialSwitch = ObjectAnimator.ofFloat(binding.startTutorial, "alpha", 0f).apply {
+                            duration = 300
+                            start()
+                        }
+                        tutorialSwitch.doOnEnd {
+                            binding.tutorialStepPager.visibility = View.VISIBLE
+                            binding.topArrowLeft.visibility = View.VISIBLE
+                            ObjectAnimator.ofFloat(binding.tutorialStepPager, "alpha", 1f).apply {
+                                duration = 300
+                                start()
+                            }
+                            ObjectAnimator.ofFloat(binding.topArrowLeft, "alpha", 1f).apply {
+                                duration = 300
+                                start()
+                            }
+                            ObjectAnimator.ofFloat(binding.tutorialLayoutBackground, "translationY", 170f).apply {
+                            duration = 300
+                            start()
+                        }
+                        }
+                        binding.tutorialLayout.elevation = 14F
+                    }
+                    2 -> {
+                        val tutorialSwitch = ObjectAnimator.ofFloat(binding.tutorialStepPager, "alpha", 0f).apply {
+                            duration = 300
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.topArrowLeft, "alpha", 0f).apply {
+                            duration = 300
+                            start()
+                        }
+                        tutorialSwitch.doOnEnd {
+                            binding.tutorialStepPager.text = "Aqui puedes buscar por categoria para que de esa forma puedas encontrar los ejercicios que quieres por el grupo muscular"
+                            ObjectAnimator.ofFloat(binding.tutorialStepPager, "translationY", 160f).apply {
+                                duration = 0
+                                start()
+                            }
+                            ObjectAnimator.ofFloat(binding.topArrowLeft, "translationY", 160f).apply {
+                                duration = 0
+                                start()
+                            }
+                            ObjectAnimator.ofFloat(binding.tutorialLayoutBackground, "translationY", 340f).apply {
+                                duration = 300
+                                start()
+                            }
+                            ObjectAnimator.ofFloat(binding.tutorialStepPager, "alpha", 1f).apply {
+                                duration = 300
+                                start()
+                            }
+                            ObjectAnimator.ofFloat(binding.topArrowLeft, "alpha", 1f).apply {
+                                duration = 300
+                                start()
+                            }
+                        }
+                    }
+                    3 -> {
+                        val tutorialSwitch = ObjectAnimator.ofFloat(binding.tutorialStepPager, "alpha", 0f).apply {
+                            duration = 300
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.topArrowRight, "alpha", 0f).apply {
+                            duration = 300
+                            start()
+                        }
+                        tutorialSwitch.doOnEnd {
+                            ObjectAnimator.ofFloat(binding.tutorialLayout, "alpha", 0f).apply {
+                                duration = 300
+                                start()
+                            }
+                            binding.tutorialLayout.visibility = View.GONE
+                            tutorialCompleted = true
+
+                            getPresetsByMuscle("chest")
+                            assingButtonColor(binding.chestPresets)
+
+                        }
+                    }
+                }
+            }
+        } else {
+            binding.tutorialLayout.visibility = View.GONE
+        }
 
         binding.chestPresets.setOnClickListener {
             getPresetsByMuscle("chest")

@@ -1,14 +1,19 @@
 package com.faesfa.tiwo
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.faesfa.tiwo.data.model.PresetsModel
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.gif.GifDrawable
+import com.bumptech.glide.request.RequestListener
 import com.faesfa.tiwo.databinding.PresetsViewBinding
 import com.faesfa.tiwo.domain.model.Preset
-import com.squareup.picasso.Picasso
+
 
 class PresetsAdapter (private val context: Context,
                       val items: List<Preset>,
@@ -30,7 +35,34 @@ class PresetsAdapter (private val context: Context,
         val item = items[position]
 
         //Assign values to each view
-        Picasso.get().load(item.gifUrl).into(holder.binding.presetImage)
+        holder.binding.loadingPresetImage.visibility = View.VISIBLE
+        Glide.with(this.context).asGif()
+            .load(item.gifUrl)
+            .listener(object : RequestListener<GifDrawable?> {
+
+                override fun onResourceReady(
+                    resource: GifDrawable?,
+                    model: Any?,
+                    target: com.bumptech.glide.request.target.Target<GifDrawable?>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    holder.binding.loadingPresetImage.visibility = View.GONE
+                    return false
+                }
+
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: com.bumptech.glide.request.target.Target<GifDrawable?>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    holder.binding.loadingPresetImage.visibility = View.VISIBLE
+                    return false
+                }
+
+            }).into(holder.binding.presetImage)
+
         holder.binding.presetNameTxt.text = item.name?.uppercase()
         holder.binding.muscleTxt.text = item.bodyPart?.capitalize()
         holder.binding.targetTxt.text = item.target?.capitalize()

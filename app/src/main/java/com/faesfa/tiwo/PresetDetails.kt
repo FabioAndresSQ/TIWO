@@ -8,6 +8,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.gif.GifDrawable
+import com.bumptech.glide.request.RequestListener
 import com.faesfa.tiwo.databinding.ActivityPresetDetailsBinding
 import com.faesfa.tiwo.domain.model.Preset
 import com.google.android.gms.ads.AdListener
@@ -241,11 +245,34 @@ class PresetDetails : AppCompatActivity() {
     }
 
     private fun setPresetImage(gifUrl: String?) {
-        try {
-            Glide.with(this).asGif().load(gifUrl).into(binding.presetImg)
-        } catch (error : Exception){
-            Toast.makeText(this, "Error loading Image", Toast.LENGTH_SHORT).show()
-        }
+        binding.loadingPresetImage.visibility = View.VISIBLE
+        Glide.with(this).asGif()
+            .load(gifUrl)
+            .listener(object : RequestListener<GifDrawable?> {
+
+                override fun onResourceReady(
+                    resource: GifDrawable?,
+                    model: Any?,
+                    target: com.bumptech.glide.request.target.Target<GifDrawable?>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    binding.loadingPresetImage.visibility = View.GONE
+                    return false
+                }
+
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: com.bumptech.glide.request.target.Target<GifDrawable?>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    binding.loadingPresetImage.visibility = View.VISIBLE
+                    return false
+                }
+
+            }).into(binding.presetImg)
+
     }
 
     private fun setPresetCategory(bodyPart: String?) {

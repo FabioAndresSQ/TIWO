@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">TIWO</string>
+    <string name="tutorial_status">com.faesfa.tiwo.TUTORIAL_COMPLETED</string>
     <string name="sound_vibration_setting">com.faesfa.tiwo.PREFERENCE_SOUND_VIBRATION</string>
 
     <!-- Strings usadas en General -->

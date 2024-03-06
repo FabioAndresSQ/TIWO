@@ -48,6 +48,12 @@
                     android:layout_marginBottom="10dp"
                     app:cardCornerRadius="15dp"
                     android:elevation="10dp">
+                    <ProgressBar
+                        android:id="@+id/loadingPresetImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"/>
+
                     <ImageView
                         android:id="@+id/presetImg"
                         android:layout_width="160dp"
@@ -55,6 +61,7 @@
                         android:src="@android:drawable/ic_menu_camera"
                         android:layout_weight="0.5"
                         android:contentDescription="@string/presetImageDescription"/>
+
                 </androidx.cardview.widget.CardView>
 
 

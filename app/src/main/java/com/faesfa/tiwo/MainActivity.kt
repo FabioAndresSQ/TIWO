@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -56,12 +57,14 @@ class MainActivity: AppCompatActivity() {
 
     }
 
-    override fun onBackPressed() { //Control the back button pressed
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
         pager = binding.viewPagerHome
         if (pager.currentItem != 0) {
             pager.currentItem = 0
         } else {
             if (backPressedOnce) {
+                super.onBackPressed()
                 finishAffinity() //Close App
             }
             this.backPressedOnce = true
