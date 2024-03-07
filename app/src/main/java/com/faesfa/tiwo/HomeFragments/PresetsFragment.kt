@@ -80,6 +80,12 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
         binding.searchPreset.setOnQueryTextListener(this)
         startRecyclerView()
 
+        val sharedPref = activity?.getSharedPreferences(getString(R.string.preset_tutorial_status), Context.MODE_PRIVATE)
+        if (sharedPref != null) {
+            tutorialCompleted = sharedPref.getBoolean("preset_tutorial_completed", false)
+            Log.i("Saved Preference", "onCreateView PRESET: $tutorialCompleted")
+        }
+
         if (!tutorialCompleted){
 
             binding.tutorialLayout.visibility = View.VISIBLE
@@ -144,6 +150,11 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
                         }
                     }
                     3 -> {
+                        val prefs = activity?.getSharedPreferences(getString(R.string.preset_tutorial_status), Context.MODE_PRIVATE)?.edit()
+                        prefs?.putBoolean("preset_tutorial_completed", true)
+                        prefs?.apply()
+                        tutorialCompleted = true
+
                         val tutorialSwitch = ObjectAnimator.ofFloat(binding.tutorialStepPager, "alpha", 0f).apply {
                             duration = 300
                             start()
@@ -158,7 +169,6 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
                                 start()
                             }
                             binding.tutorialLayout.visibility = View.GONE
-                            tutorialCompleted = true
 
                             getPresetsByMuscle("chest")
                             assingButtonColor(binding.chestPresets)

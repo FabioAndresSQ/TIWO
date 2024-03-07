@@ -80,4 +80,7 @@ dependencies {
     //Room Implementation
     implementation "androidx.room:room-ktx:2.6.1"
     kapt "androidx.room:room-compiler:2.6.1"
+
+    //GDPR SDK
+    implementation("com.google.android.ump:user-messaging-platform:2.2.0")
 }

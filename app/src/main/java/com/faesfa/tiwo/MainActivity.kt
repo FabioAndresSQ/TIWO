@@ -19,8 +19,13 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.nativead.NativeAdOptions.SwipeGestureDirection
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.ump.ConsentForm
+import com.google.android.ump.ConsentInformation
+import com.google.android.ump.ConsentRequestParameters
+import com.google.android.ump.UserMessagingPlatform
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.*
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity: AppCompatActivity() {
@@ -29,6 +34,9 @@ class MainActivity: AppCompatActivity() {
     private var backPressedOnce = false
     private lateinit var toolBar : Toolbar
     private lateinit var pager : ViewPager2
+    private lateinit var consentInformation: ConsentInformation
+    private var isMobileAdsInitializeCalled = AtomicBoolean(false)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -43,8 +51,32 @@ class MainActivity: AppCompatActivity() {
         toolBar.elevation = 5F
         setSupportActionBar(toolBar)
 
+        //CHECK FOR GDPR CONSENT
+        val params = ConsentRequestParameters.Builder().build()
+
+        consentInformation = UserMessagingPlatform.getConsentInformation(this)
+        consentInformation.requestConsentInfoUpdate(this, params,
+            ConsentInformation.OnConsentInfoUpdateSuccessListener {
+            UserMessagingPlatform.loadAndShowConsentFormIfRequired(this@MainActivity,
+                ConsentForm.OnConsentFormDismissedListener {
+                    loadAndShowError ->
+                    //Consent gathering failed
+                    if (loadAndShowError != null) {
+                        Log.w("GDPR Consent Error", String.format("%s: %s",
+                            loadAndShowError.errorCode, loadAndShowError.message))
+                    }
+                    if (consentInformation.canRequestAds()) {
+                        startBannerAds()
+                    }
+                })
+        }, ConsentInformation.OnConsentInfoUpdateFailureListener {
+            requestConsentError ->
+            // Consent gathering failed
+                Log.w("GDPR Error", String.format("%s: %s",requestConsentError.errorCode,requestConsentError.message))
+            })
+
         //INITIALIZING BANNER ADS AND REQUESTING IT
-        startBannerAds()
+
 
         binding.viewPagerHome.adapter = HomeAdapter(this)
         TabLayoutMediator(binding.tabLayoutMenu,binding.viewPagerHome){tab, index ->
@@ -75,6 +107,10 @@ class MainActivity: AppCompatActivity() {
 
     private fun startBannerAds(){
         //INITIALIZING BANNER ADS AND REQUESTING IT
+        if (isMobileAdsInitializeCalled.getAndSet(true)) {
+            return
+        }
+
         MobileAds.initialize(this)
         val adRequest = AdRequest.Builder().build()
         binding.adViewHome.loadAd(adRequest)

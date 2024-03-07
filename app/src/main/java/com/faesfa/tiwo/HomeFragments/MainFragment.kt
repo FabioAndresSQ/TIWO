@@ -51,10 +51,11 @@ class MainFragment : Fragment(), WorkoutsAdapter.OnItemClickListener {
 
         checkIfBtnAreShowing()
 
-//        val sharedPref = activity?.getSharedPreferences(getString(R.string.tutorial_status), Context.MODE_PRIVATE)
-//        if (sharedPref != null) {
-//            tutorialCompleted = sharedPref.getBoolean("tutorial_completed", false)
-//        }
+        val sharedPref = activity?.getSharedPreferences(getString(R.string.main_tutorial_status), Context.MODE_PRIVATE)
+        if (sharedPref != null) {
+            tutorialCompleted = sharedPref.getBoolean("main_tutorial_completed", false)
+            Log.i("Saved Preference", "onCreateView: $tutorialCompleted")
+        }
 
         if (!tutorialCompleted){
 
@@ -159,6 +160,12 @@ class MainFragment : Fragment(), WorkoutsAdapter.OnItemClickListener {
                         }
                     }
                     5 -> {
+
+                        val prefs = activity?.getSharedPreferences(getString(R.string.main_tutorial_status), Context.MODE_PRIVATE)?.edit()
+                        prefs?.putBoolean("main_tutorial_completed", true)
+                        prefs?.apply()
+                        tutorialCompleted = true
+
                         val tutorialSwitch = ObjectAnimator.ofFloat(binding.tutorialStepPager, "alpha", 0f).apply {
                             duration = 300
                             start()
@@ -173,7 +180,6 @@ class MainFragment : Fragment(), WorkoutsAdapter.OnItemClickListener {
                         }
                         tutorialSwitch.doOnEnd {
                             binding.tutorialLayout.visibility = View.GONE
-                            tutorialCompleted = true
                             val pager = activity?.findViewById<ViewPager2>(R.id.viewPagerHome)
                             pager?.currentItem = 1
 
