@@ -12,7 +12,7 @@ import javax.inject.Inject
 class GetAllPresetsUseCase @Inject constructor(private val repository: PresetsRepository){
     suspend operator fun invoke (context: Context): List<Preset>{
         try {
-            val presets = repository.getPresetsFromApi("exercises/")
+            val presets = repository.getPresetsFromApi("exercises?limit=1500")
             return if (presets.isNotEmpty()){
                 repository.clearPresetsTable()
                 repository.insertAllPresets(presets.map { it.toDatabase() })

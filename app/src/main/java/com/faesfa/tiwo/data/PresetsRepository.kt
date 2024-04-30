@@ -16,6 +16,7 @@ class PresetsRepository @Inject  constructor(
 
     suspend fun getPresetsFromApi(query:String):List<Preset>{
         val response = api.searchPresets(query)
+        Log.d("API RESPONSE", "getPresetsFromApi: $response")
         return response.map { it.toDomain() }
     }
 

@@ -6,9 +6,12 @@
     android:layout_height="match_parent"
     android:background="@color/AppColor"
     android:clickable="false"
-    android:elevation="0dp"
+    android:elevation="1dp"
     android:keepScreenOn="true"
+    android:id="@+id/layoutMainColor"
     tools:context=".TimerActivity">
+
+
 
     <include
         android:id="@+id/includeAppBar"
@@ -17,6 +20,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/backgroundColorView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue"
+        android:alpha="0"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutContainer"

@@ -10,6 +10,7 @@ import android.os.*
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
@@ -428,6 +429,7 @@ class TimerActivity : AppCompatActivity() {
             countDownTimer.start() //Start Reps Timer
         } else{ //Working with Time, Set Visibility
             countDownInterval = 1000
+            var lastTime = 4.0
             countDownTimer = object : CountDownTimer(time, countDownInterval){
                 override fun onTick(millisUntilFinished: Long) {
                     countDownInPause = millisUntilFinished
@@ -435,9 +437,10 @@ class TimerActivity : AppCompatActivity() {
                     val timeFormat = dataManager.convertTimeTimer(work)
                     binding.timerMinTxt.text = timeFormat[0]
                     binding.timerSecTxt.text = timeFormat[1]
-                    actionOnInterval(false)
+                    actionOnInterval(false,4.0)
                     if ((millisUntilFinished/countDownInterval) < 4){
-                        actionOnInterval(true)
+                        lastTime-=1.0
+                        actionOnInterval(true, lastTime)
                     }
                 }
                 override fun onFinish() {
@@ -449,12 +452,15 @@ class TimerActivity : AppCompatActivity() {
         }
 
         //Timer Background to do things in between when working with reps
+        var lastReps = 4.0
         timerInterval = object  : CountDownTimer(time, countDownInterval/2){
             override fun onTick(millisUntilFinished: Long) {
                 if (workout.reps){
-                    actionOnInterval(false)
                     if ((millisUntilFinished/countDownInterval) < 4){
-                        actionOnInterval(true)
+                        lastReps-=0.5
+                        actionOnInterval(true, lastReps)
+                    } else{
+                        actionOnInterval(false, 4.0)
                     }
                 }
             }
@@ -520,10 +526,14 @@ class TimerActivity : AppCompatActivity() {
     }
 
 
-    private fun actionOnInterval(isFinishing : Boolean){ //actions to do during workout
+    private fun actionOnInterval(isFinishing : Boolean, lastReps: Double){ //actions to do during workout
     //Create sound player for interval Ticks
         val resID = resources.getIdentifier("tick", "raw", packageName)
+        val endingSound1 = resources.getIdentifier("ending_sound1", "raw", packageName)
+        val endingSound2 = resources.getIdentifier("ending_sound2", "raw", packageName)
+        Log.i("INTERVAL NUMBER", "actionOnInterval: $lastReps")
 
+        //ANIMATE BACKGROUND ############################################################################################
         if (!isFinishing){
             if (vibrationEnabled){
                 val phoneVibrator = (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
@@ -542,42 +552,291 @@ class TimerActivity : AppCompatActivity() {
                 mediaPlayer.start()
             }
         } else {
-            ObjectAnimator.ofFloat(binding.timerSecTxt,"scaleX",1.1f, 1f).apply {
-                duration = 400
-                start()
-            }
-            ObjectAnimator.ofFloat(binding.timerSecTxt,"scaleY",1.1f, 1f).apply {
-                duration = 400
-                start()
-            }
-            ObjectAnimator.ofFloat(binding.timerMinTxt,"scaleX",1.1f, 1f).apply {
-                duration = 400
-                start()
-            }
-            ObjectAnimator.ofFloat(binding.timerMinTxt,"scaleY",1.1f, 1f).apply {
-                duration = 400
-                start()
-            }
-
-            if (vibrationEnabled){
+            if (vibrationEnabled) {
 
                 val phoneVibrator = (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
                 vibratorDur = (vibratorDur * 1.333).toLong()
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    phoneVibrator.vibrate(VibrationEffect.createOneShot(vibratorDur,
-                        VibrationEffect.DEFAULT_AMPLITUDE))
-                }
-                else {
+                    phoneVibrator.vibrate(
+                        VibrationEffect.createOneShot(
+                            vibratorDur,
+                            VibrationEffect.DEFAULT_AMPLITUDE
+                        )
+                    )
+                } else {
                     phoneVibrator.vibrate(vibratorDur)
                 }
             }
-            if (soundEnabled){
-                mediaPlayer.reset()
-                mediaPlayer = MediaPlayer.create(this, resID)
-                mediaPlayer.start()
+            if (workout.reps) {
+                when (lastReps) {
+                    3.5 -> {
+                        if (soundEnabled) {
+                            Log.i("TIMER COUNT", "sound 3.0: $lastReps")
+                            mediaPlayer.reset()
+                            mediaPlayer = MediaPlayer.create(this, endingSound1)
+                            mediaPlayer.start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerSecTxt, "scaleX", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerSecTxt, "scaleY", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerMinTxt, "scaleX", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerMinTxt, "scaleY", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        //Animate background color
+                        binding.backgroundColorView.setBackgroundColor(resources.getColor(R.color.blue))
+                        val changeColorAnimation = ObjectAnimator.ofFloat(binding.backgroundColorView,"alpha",1f).apply {
+                            duration = 250
+                            start()
+                        }
+                        changeColorAnimation.doOnEnd {
+                            ObjectAnimator.ofFloat(binding.backgroundColorView,"alpha",0f).apply {
+                                duration = 250
+                                start()
+                            }
+                        }
+                    }
+
+                    2.5 -> {
+                        if (soundEnabled) {
+                            Log.i("TIMER COUNT", "sound 3.0: $lastReps")
+                            mediaPlayer.reset()
+                            mediaPlayer = MediaPlayer.create(this, endingSound1)
+                            mediaPlayer.start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerSecTxt, "scaleX", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerSecTxt, "scaleY", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerMinTxt, "scaleX", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerMinTxt, "scaleY", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        //Animate background color
+                        val changeColorAnimation = ObjectAnimator.ofFloat(binding.backgroundColorView,"alpha",1f).apply {
+                            duration = countDownInterval/2
+                            start()
+                        }
+                        changeColorAnimation.doOnEnd {
+                            ObjectAnimator.ofFloat(binding.backgroundColorView,"alpha",0f).apply {
+                                duration = countDownInterval/2
+                                start()
+                            }
+                        }
+                    }
+
+                    1.5 -> {
+                        if (soundEnabled) {
+                            Log.i("TIMER COUNT", "sound 2.0: $lastReps")
+                            mediaPlayer.reset()
+                            mediaPlayer = MediaPlayer.create(this, endingSound1)
+                            mediaPlayer.start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerSecTxt, "scaleX", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerSecTxt, "scaleY", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerMinTxt, "scaleX", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerMinTxt, "scaleY", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        //Animate background color
+                        val changeColorAnimation = ObjectAnimator.ofFloat(binding.backgroundColorView,"alpha",1f).apply {
+                            duration = countDownInterval/2
+                            start()
+                        }
+                        changeColorAnimation.doOnEnd {
+                            ObjectAnimator.ofFloat(binding.backgroundColorView,"alpha",0f).apply {
+                                duration = countDownInterval/2
+                                start()
+                            }
+                        }
+                    }
+
+                    0.5 -> {
+                        if (soundEnabled) {
+                            Log.i("TIMER COUNT", "sound 1.0: $lastReps")
+                            mediaPlayer.reset()
+                            mediaPlayer = MediaPlayer.create(this, endingSound2)
+                            mediaPlayer.start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerSecTxt, "scaleX", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerSecTxt, "scaleY", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerMinTxt, "scaleX", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerMinTxt, "scaleY", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        //Animate background color
+                        binding.backgroundColorView.setBackgroundColor(resources.getColor(R.color.green))
+                        val changeColorAnimation = ObjectAnimator.ofFloat(binding.backgroundColorView,"alpha",1f).apply {
+                            duration = countDownInterval/2
+                            start()
+                        }
+                        changeColorAnimation.doOnEnd {
+                            ObjectAnimator.ofFloat(binding.backgroundColorView,"alpha",0f).apply {
+                                duration = countDownInterval/2
+                                start()
+                            }
+                        }
+                    }
+
+                    else -> {
+                        if (soundEnabled) {
+                            Log.i("TIMER COUNT", "actionOnInterval: $lastReps")
+                            mediaPlayer.reset()
+                            mediaPlayer = MediaPlayer.create(this, resID)
+                            mediaPlayer.start()
+                        }
+                    }
+                }
+            } else{
+                when (lastReps) {
+                    3.0 -> {
+                        if (soundEnabled) {
+                            Log.i("TIMER COUNT", "sound 3.0: $lastReps")
+                            mediaPlayer.reset()
+                            mediaPlayer = MediaPlayer.create(this, endingSound1)
+                            mediaPlayer.start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerSecTxt, "scaleX", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerSecTxt, "scaleY", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerMinTxt, "scaleX", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerMinTxt, "scaleY", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                    }
+
+                    2.0 -> {
+                        if (soundEnabled) {
+                            Log.i("TIMER COUNT", "sound 3.0: $lastReps")
+                            mediaPlayer.reset()
+                            mediaPlayer = MediaPlayer.create(this, endingSound1)
+                            mediaPlayer.start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerSecTxt, "scaleX", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerSecTxt, "scaleY", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerMinTxt, "scaleX", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerMinTxt, "scaleY", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                    }
+
+                    1.0 -> {
+                        if (soundEnabled) {
+                            Log.i("TIMER COUNT", "sound 2.0: $lastReps")
+                            mediaPlayer.reset()
+                            mediaPlayer = MediaPlayer.create(this, endingSound1)
+                            mediaPlayer.start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerSecTxt, "scaleX", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerSecTxt, "scaleY", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerMinTxt, "scaleX", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerMinTxt, "scaleY", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                    }
+
+                    0.0 -> {
+                        if (soundEnabled) {
+                            Log.i("TIMER COUNT", "sound 1.0: $lastReps")
+                            mediaPlayer.reset()
+                            mediaPlayer = MediaPlayer.create(this, endingSound2)
+                            mediaPlayer.start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerSecTxt, "scaleX", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerSecTxt, "scaleY", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerMinTxt, "scaleX", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                        ObjectAnimator.ofFloat(binding.timerMinTxt, "scaleY", 1.1f, 1f).apply {
+                            duration = 200
+                            start()
+                        }
+                    }
+
+                    else -> {
+                        if (soundEnabled) {
+                            Log.i("TIMER COUNT", "actionOnInterval: $lastReps")
+                            mediaPlayer.reset()
+                            mediaPlayer = MediaPlayer.create(this, resID)
+                            mediaPlayer.start()
+                        }
+                    }
+                }
             }
         }
-
     }
 
     override fun onPause() {
