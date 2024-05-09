@@ -47,6 +47,12 @@
                     android:layout_marginBottom="10dp"
                     app:cardCornerRadius="15dp"
                     android:elevation="10dp">
+                    <ProgressBar
+                        android:id="@+id/imgload"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:visibility="visible"/>
                     <ImageView
                         android:id="@+id/presetImg"
                         android:layout_width="160dp"

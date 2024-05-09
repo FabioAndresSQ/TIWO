@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.faesfa.tiwo"
-        minSdk 22
+        minSdk 24
         targetSdk 34
         versionCode 5
         versionName "2.1.1"
@@ -83,4 +83,7 @@ dependencies {
 
     //GDPR SDK
     implementation("com.google.android.ump:user-messaging-platform:2.2.0")
+
+    //Lottie Api
+    implementation "com.airbnb.android:lottie:6.4.0"
 }

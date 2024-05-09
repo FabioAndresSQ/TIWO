@@ -39,6 +39,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/includeAppBar">
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animatedArrow"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            app:lottie_rawRes="@raw/animated_arrow1"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guidelineVertical"
+            app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontalBottom"
+            app:layout_constraintTop_toTopOf="@id/guidelineHorizontalTop" />
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_marginBottom="32dp"
+            android:elevation="2dp"
+            android:visibility="gone"
+            android:src="@drawable/arrow_guide"
+            app:layout_constraintBottom_toBottomOf="@id/guidelineHorizontalBottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/white" />
+
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineVertical"

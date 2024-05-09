@@ -47,6 +47,7 @@ class InfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.imgload.visibility = View.VISIBLE
 
         toolBar = findViewById(R.id.includeAppBar)
         toolBar.title = ""
@@ -188,6 +189,7 @@ class InfoActivity : AppCompatActivity() {
                                     isFirstResource: Boolean
                                 ): Boolean {
                                     Log.e("NAME CHECK", "onResourceReady: Image loaded", )
+                                    binding.imgload.visibility = View.GONE
                                     return false
                                 }
 
