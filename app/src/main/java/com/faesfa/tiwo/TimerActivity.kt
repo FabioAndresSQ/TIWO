@@ -101,19 +101,9 @@ class TimerActivity : AppCompatActivity() {
         rest = workout.rest_time
         numSets = workout.sets
 
+        //Load and Start Ads
         startBannerAds()
-        val adRequestInterstitial = AdRequest.Builder().build()
-        InterstitialAd.load(this,"ca-app-pub-2716842126108084/3865049547", adRequestInterstitial, object : InterstitialAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) {
-                Log.d("AD INTERSTITIAL", adError.toString())
-                finalInterstitialAd = null
-            }
-
-            override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                Log.d("AD INTERSTITIAL", "Ad was loaded.")
-                finalInterstitialAd = interstitialAd
-            }
-        })
+        loadInterstitialAd()
 
         // Hiding and showing views according to workout mode and setting values
         loadPresetImage(this)
@@ -329,7 +319,12 @@ class TimerActivity : AppCompatActivity() {
             if (numSets > 0){
                 startingTimer(initialWorkTime)
             } else {//Sets is 0
-                launchHome()
+                completed = true
+                binding.layoutContainer.visibility = View.GONE
+                binding.completedLayout.visibility = View.VISIBLE
+                binding.completedLayout.setOnClickListener {
+                    startInterstitialAd()
+                }
             }
         } else {
             //Pass to resting time
@@ -729,11 +724,13 @@ class TimerActivity : AppCompatActivity() {
     override fun onBackPressed() { //Handle back pressed
         if (backPressedOnce) {
             if (started) {//Double pressed
-                launchHome()
+                startInterstitialAd()
+                //launchHome()
                 countDownTimer.cancel()
                 timerInterval.cancel()
             } else {
-                launchHome()
+                startInterstitialAd()
+                //launchHome()
                 startDownTimer.cancel()
             }
         }
@@ -821,6 +818,21 @@ class TimerActivity : AppCompatActivity() {
                 super.onAdOpened()
             }
         }
+    }
+
+    private fun loadInterstitialAd(){
+        val adRequestInterstitial = AdRequest.Builder().build()
+        InterstitialAd.load(this,"ca-app-pub-2716842126108084/3865049547", adRequestInterstitial, object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                Log.d("AD INTERSTITIAL", adError.toString())
+                finalInterstitialAd = null
+            }
+
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                Log.d("AD INTERSTITIAL", "Ad was loaded.")
+                finalInterstitialAd = interstitialAd
+            }
+        })
     }
 
     private fun startInterstitialAd(){

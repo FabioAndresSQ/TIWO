@@ -1,5 +1,6 @@
 package com.faesfa.tiwo
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,10 +15,14 @@ import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.faesfa.tiwo.databinding.ActivityPresetDetailsBinding
 import com.faesfa.tiwo.domain.model.Preset
+import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,6 +48,9 @@ class PresetDetails : AppCompatActivity() {
     private var restSeconds = 0
     private var category = ""
     private lateinit var toolBar : Toolbar
+    private var startingInterstitialAd : InterstitialAd? = null
+    private lateinit var activity: Activity
+    private lateinit var workout : WorkoutsModelClass
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +65,10 @@ class PresetDetails : AppCompatActivity() {
         //Receive preset selected
         preset = intent.getSerializableExtra("selected_preset") as Preset
 
+        //INITIALIZING BANNER ADS AND REQUESTING IT
+        activity = this
         startBannerAds()
+        loadInterstitialAd()
 
         //Set Info to display
         binding.presetNameTxt.text = preset.name?.capitalize()
@@ -173,7 +184,6 @@ class PresetDetails : AppCompatActivity() {
     }
 
     private fun savePresetAsWorkout(btn : View) {
-        val workout : WorkoutsModelClass
         val workTime = (workMinutes * 60) + workSeconds
         val restTime = (restMinutes * 60) + restSeconds
         if (binding.presetWorkingMode.isChecked){ //Checks if Working with reps
@@ -233,14 +243,9 @@ class PresetDetails : AppCompatActivity() {
 
         //Save and Launch Timer or Home Activity
         saveWorkout(workout)
-        if (btn.id == binding.saveStartNewPresetBtn.id){
-            val launchTimer = Intent(this, TimerActivity::class.java)
-            launchTimer.putExtra("selected_workout" , workout as Serializable) //Add workout Obj to pass it to timer
-            startActivity(launchTimer)
-        } else {
-            val launchHome = Intent(this, MainActivity::class.java)
-            startActivity(launchHome)
-        }
+
+        startInterstitialAd(btn)
+
 
     }
 
@@ -397,5 +402,87 @@ class PresetDetails : AppCompatActivity() {
                 super.onAdOpened()
             }
         }
+    }
+
+    private fun loadInterstitialAd(){
+        val adRequestInterstitial = AdRequest.Builder().build()
+        InterstitialAd.load(this,"ca-app-pub-2716842126108084/7532551560", adRequestInterstitial, object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                Log.d("AD INTERSTITIAL", adError.toString())
+                startingInterstitialAd = null
+            }
+
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                Log.d("AD INTERSTITIAL", "Ad was loaded.")
+                startingInterstitialAd = interstitialAd
+            }
+        })
+    }
+
+    private fun startInterstitialAd(btn: View){
+        if (startingInterstitialAd != null) {
+            Log.d("Interstitial", "startInterstitial is not null = $startingInterstitialAd")
+            startingInterstitialAd?.show(activity)
+        } else {
+            Log.d("TAG", "The interstitial ad wasn't ready yet.")
+            //Start either timer or home screen
+            if (btn.id == binding.saveStartNewPresetBtn.id){
+                launchTimer()
+            } else {
+                launchHome()
+            }
+        }
+        startingInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+            override fun onAdClicked() {
+                // Called when a click is recorded for an ad.
+                Log.d("AD INTERSTITIAL", "Ad was clicked.")
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+                // Called when ad is dismissed.
+                Log.d("AD INTERSTITIAL", "Ad dismissed fullscreen content.")
+                startingInterstitialAd = null
+                //Start either timer or home screen
+                if (btn.id == binding.saveStartNewPresetBtn.id){
+                    launchTimer()
+                } else {
+                    launchHome()
+                }
+            }
+
+            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                // Called when ad fails to show.
+                Log.e("AD INTERSTITIAL", "Ad failed to show fullscreen content.")
+                startingInterstitialAd = null
+                //Start either timer or home screen
+                if (btn.id == binding.saveStartNewPresetBtn.id){
+                    launchTimer()
+                } else {
+                    launchHome()
+                }
+                super.onAdFailedToShowFullScreenContent(p0)
+            }
+
+            override fun onAdImpression() {
+                // Called when an impression is recorded for an ad.
+                Log.d("AD INTERSTITIAL", "Ad recorded an impression.")
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                // Called when ad is shown.
+                Log.d("AD INTERSTITIAL", "Ad showed fullscreen content.")
+            }
+        }
+    }
+
+    private fun launchTimer(){
+        val launchTimer = Intent(this, TimerActivity::class.java)
+        launchTimer.putExtra("selected_workout" , workout as Serializable) //Add workout Obj to pass it to timer
+        startActivity(launchTimer)
+    }
+
+    private fun launchHome(){
+        val launchHome = Intent(this, MainActivity::class.java)
+        startActivity(launchHome)
     }
 }

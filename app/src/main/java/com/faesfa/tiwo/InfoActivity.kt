@@ -19,10 +19,14 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.faesfa.tiwo.data.PresetsRepository
 import com.faesfa.tiwo.databinding.ActivityInfoBinding
+import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,13 +61,13 @@ class InfoActivity : AppCompatActivity() {
         dataManager.checkDbDate(this, false)
         firstTry = true
 
+        //INITIALIZING BANNER ADS AND REQUESTING IT
+        startBannerAds()
+
         workout = intent?.getSerializableExtra("selected_workout") as WorkoutsModelClass //Save workout got from Prev Activity
         val position = intent?.getSerializableExtra("position") as Int //Save position got from Prev Activity
 
         checkForPresetID()
-
-        //INITIALIZING BANNER ADS AND REQUESTING IT
-        startBannerAds()
 
         when (workout.category){
             "Chest" -> {binding.infoImg.setImageResource(R.drawable.chest_ic)}
@@ -98,9 +102,7 @@ class InfoActivity : AppCompatActivity() {
 
         //Set listeners for Start and delete Btn
         binding.infoStartBtn.setOnClickListener {
-            val launchTimer = Intent(this, TimerActivity::class.java)
-            launchTimer.putExtra("selected_workout" , workout as Serializable) //Add workout Obj to pass it to timer
-            startActivity(launchTimer)
+            launchTimer()
         }
 
         binding.infoDeleteBtn.setOnClickListener {
@@ -241,6 +243,12 @@ class InfoActivity : AppCompatActivity() {
                 super.onAdOpened()
             }
         }
+    }
+
+    private fun launchTimer(){
+        val launchTimer = Intent(this, TimerActivity::class.java)
+        launchTimer.putExtra("selected_workout" , workout as Serializable) //Add workout Obj to pass it to timer
+        startActivity(launchTimer)
     }
 
 }
