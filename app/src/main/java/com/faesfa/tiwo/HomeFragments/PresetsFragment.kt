@@ -278,8 +278,10 @@ class PresetsFragment : Fragment() , PresetsAdapter.OnPresetClickListener, OnQue
                 if (apiResponse.isEmpty()){
                     //Error
                     if (hasInternet(requireContext()) == false){
+                        Log.d("Search result", "getPresetsByMuscle internet permission: ${hasInternet(requireContext()).toString()}")
                         Toast.makeText(context, getString(R.string.errorConnectingToApiToast), Toast.LENGTH_SHORT).show()
                     } else {
+                        Log.i("Search result", "getPresetsByMuscle ${hasInternet(requireContext()).toString()}: $apiResponse")
                         dataManager.checkDbDate(activity, false)
                     }
                     binding.rvPresets.smoothScrollToPosition(0)

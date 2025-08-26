@@ -100,6 +100,7 @@ class DataManager @Inject constructor(){
                 prefs?.apply()
             } else {
                 Toast.makeText(activity, activity.resources.getString(R.string.errorConnectingToApiToast), Toast.LENGTH_SHORT).show()
+                Log.d("DATEMATH", "No Internet Connection")
             }
             return
         }
@@ -124,6 +125,7 @@ class DataManager @Inject constructor(){
                         prefs?.apply()
                     } else {
                         Toast.makeText(activity, activity.resources.getString(R.string.errorConnectingToApiToast), Toast.LENGTH_SHORT).show()
+                        Log.d("DATEMATH", "No Internet Connection")
                     }
 
                 }

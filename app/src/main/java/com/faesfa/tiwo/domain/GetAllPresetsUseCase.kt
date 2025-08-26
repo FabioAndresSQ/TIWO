@@ -12,18 +12,19 @@ import javax.inject.Inject
 class GetAllPresetsUseCase @Inject constructor(private val repository: PresetsRepository){
     suspend operator fun invoke (context: Context): List<Preset>{
         try {
-            val presets = repository.getPresetsFromApi("exercises?limit=1500")
+            val presets = repository.getPresetsFromApi("exercises")
             return if (presets.isNotEmpty()){
                 repository.clearPresetsTable()
                 repository.insertAllPresets(presets.map { it.toDatabase() })
+                Log.d("GetAllPresetsUseCase", "Presets Inserted Successfully: ${presets.size}")
                 presets
             } else {
-                Log.d("DATEMATH", "Error: EMPTY LIST RETURNED")
+                Log.d("GetAllPresetsUseCase", "Error: EMPTY LIST RETURNED")
                 return repository.getAllPresetsFromDb()
             }
         } catch (e: Exception){
             val result = emptyList<Preset>()
-            Log.d("DATEMATH", "Error Connecting to Internet")
+            Log.d("GetAllPresetsUseCase", "Error Connecting to Internet: ${e.message}")
             return result
         }
 
