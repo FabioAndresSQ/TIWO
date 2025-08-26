@@ -13,6 +13,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.faesfa.tiwo.databinding.ActivityPresetDetailsBinding
 import com.faesfa.tiwo.domain.model.Preset
 import com.google.android.gms.ads.AdError
@@ -255,24 +256,24 @@ class PresetDetails : AppCompatActivity() {
             .load(gifUrl)
             .listener(object : RequestListener<GifDrawable?> {
 
-                override fun onResourceReady(
-                    resource: GifDrawable?,
-                    model: Any?,
-                    target: com.bumptech.glide.request.target.Target<GifDrawable?>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    binding.loadingPresetImage.visibility = View.GONE
-                    return false
-                }
-
                 override fun onLoadFailed(
                     e: GlideException?,
                     model: Any?,
-                    target: com.bumptech.glide.request.target.Target<GifDrawable?>?,
+                    target: Target<GifDrawable?>,
                     isFirstResource: Boolean
                 ): Boolean {
                     binding.loadingPresetImage.visibility = View.VISIBLE
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: GifDrawable,
+                    model: Any,
+                    target: Target<GifDrawable?>?,
+                    dataSource: DataSource,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    binding.loadingPresetImage.visibility = View.GONE
                     return false
                 }
 

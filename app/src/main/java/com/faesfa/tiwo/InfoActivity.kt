@@ -171,7 +171,7 @@ class InfoActivity : AppCompatActivity() {
                                 override fun onLoadFailed(
                                     e: GlideException?,
                                     model: Any?,
-                                    target: Target<GifDrawable>?,
+                                    target: Target<GifDrawable?>,
                                     isFirstResource: Boolean
                                 ): Boolean {
                                     Log.e("NAME CHECK", "onLoadFailed: Error loading Image $e", )
@@ -184,10 +184,10 @@ class InfoActivity : AppCompatActivity() {
                                 }
 
                                 override fun onResourceReady(
-                                    resource: GifDrawable?,
-                                    model: Any?,
-                                    target: Target<GifDrawable>?,
-                                    dataSource: DataSource?,
+                                    resource: GifDrawable,
+                                    model: Any,
+                                    target: Target<GifDrawable?>?,
+                                    dataSource: DataSource,
                                     isFirstResource: Boolean
                                 ): Boolean {
                                     Log.e("NAME CHECK", "onResourceReady: Image loaded", )
